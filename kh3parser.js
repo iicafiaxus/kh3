@@ -255,12 +255,25 @@ kh3.parse = function(text){
 						o.char = "";
 						break;
 					case ">":
-						operands = commandtext.substring(1).split(":");
-						o.command = "indent";
-						o.value = (isNumeric(operands[0])? +operands[0]: 1);
-						o.value2 = (isNumeric(operands[1])? +operands[1]: 0);
-						o.value3 = (isNumeric(operands[2])? +operands[2]: 0);
-						o.char = "";
+						if(commandtext.length > 1 && commandtext.charAt(1) == "="){
+							operands = commandtext.substring(2).split(":");
+							o.command = "setindent";
+							o.value = operands[0];
+							o.char = "";
+						}
+						else{
+							operands = commandtext.substring(1).split(":");
+							o.command = "indent";
+							/*
+							o.value = (isNumeric(operands[0])? +operands[0]: 1);
+							o.value2 = (isNumeric(operands[1])? +operands[1]: 0);
+							o.value3 = (isNumeric(operands[2])? +operands[2]: 0);
+							*/
+							o.value = operands[0];
+							o.value2 = operands[1];
+							o.value3 = operands[2];
+							o.char = "";
+						}
 						break;
 					case "$":
 						operand = commandtext.substring(1);

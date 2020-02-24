@@ -13,13 +13,14 @@ kh3ui.loadScript("kh3uiconfig.js");
 // ------------------------------
 // プレビュー画面を描画する
 // ------------------------------
-kh3ui.redraw = function(){
+kh3ui.redraw = function(canSaveText = 1){
 	//kh3ui.readConfig();
 	window.setTimeout(function(){
+		console.log(this.canSaveText);
 		var divTarget = document.getElementById(kh3.setting.isVertical? "allV": "allH");
 		var textAll = document.getElementById("areaSource").value;
-		kh3.render(divTarget, textAll);
-	}, 10);
+		kh3.render(divTarget, textAll, this.canSaveText);
+	}.bind({canSaveText: canSaveText}), 10);
 }
 
 // ------------------------------
@@ -92,8 +93,8 @@ kh3ui.showPreview = function(){
 	kh3ui.scale = 1.0;
 	kh3ui.setScaling();
 	kh3ui.clearPages();
-	window.setTimeout(kh3ui.resizePreview, 20);
 	window.setTimeout(kh3ui.redraw, 30);
+	window.setTimeout(kh3ui.resizePreview, 10);
 	
 	kh3ui.redrawTitle();
 	
@@ -454,7 +455,7 @@ kh3ui.resizePreview = function(){
 	kh3ui.setScaling();
 
 	// 描画の更新を予約
-	window.setTimeout(kh3ui.redraw, 10);
+	window.setTimeout(function(){kh3ui.redraw(0);}, 10);
 	
 }
 
@@ -528,9 +529,6 @@ kh3ui.print = function(){
 	kh3.setting.hasInfiniteColumns = false;
 	let savedInfiniteLines = kh3.setting.hasInfiniteLines;
 	kh3.setting.hasInfiniteLines = false;
-	console.log(kh3.setting);
-	console.log(kh3.setting.hasInfiniteColumns);
-	console.log(kh3.setting.hasInfiniteLines);
 	kh3.afterRenderWorks.push(window.print);
 	kh3.afterRenderWorks.push(function(){
 		kh3ui.scale = 1.0;
@@ -544,9 +542,6 @@ kh3ui.print = function(){
 	}.bind({savedTitle: savedTitle, saveInfiniteColumns: savedInfiniteColumns, 
 			savedInfiniteLines: savedInfiniteLines}));
 	
-		console.log(kh3.setting);
-		console.log(kh3.setting.hasInfiniteColumns);
-		console.log(kh3.setting.hasInfiniteLines);
 		window.setTimeout(kh3ui.redraw, 30);
 }
 

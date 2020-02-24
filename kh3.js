@@ -50,10 +50,22 @@ kh3._render = {
 kh3.afterRenderWorks = [];
 
 // 全体の組版
-kh3.render = function(divTarget, textAll){
+kh3.render = function(divTarget, textAll, canSaveText){
+
+	/*
+	// テキストの相違を検出
+	var diffPoint = 0;
+	while(diffPoint < textAll.length && diffPoint < this._render.oldText.length &&
+			textAll.charAt(diffPoint) == this._render.oldText.charAt(diffPoint)) diffPoint += 1;
 	
+	// 更新が必要な最初のテキスト行番号
+	var diffLineNo = textAll.substring(0, diffPoint).split("\n").length - 1;
+	*/
+	// 本当はdiffLineNo以降のみの更新にするのだがまだ作成中なので殺してる
+	diffLineNo = 0;
+
 	// 既存のページを削除
-	this.clearPages(divTarget);
+	this.clearPages(divTarget, diffLineNo);
 	
 	// 進行中の組版があれば中止
 	if(this._render.timer){
@@ -61,8 +73,14 @@ kh3.render = function(divTarget, textAll){
 		this._render.timer = void 0;
 	}
 	
+	// 旧テキストを退避
+	if(canSaveText) this._render.oldText = textAll;
+
+	//console.log(diffPoint, diffLineNo);
+
 	// テキストを読み込み
-	this._render.textLines =  textAll.split("\n");
+	this._render.textLines =  textAll.split("\n").slice(diffLineNo);
+	this._render.textLineOffset = diffLineNo;
 	this._render.index = 0;
 	
 	// 起動
@@ -105,22 +123,38 @@ kh3.rendermain = function(){
 	this._render.rubytestspan.textContent = "は";
 	this._render.rubyunit = this._render.rubytestspan.getBoundingClientRect()[this.setting.isVertical? "height": "width"];
 	
-	// 段落の組版を起動
+	// 行送り位置
 	this._render.top = 0;
+
+	// 囲み罫の状態
 	this._render.isRuling = 0;
 	this._render.isRuled = 0;
+
+	// 名前づけられたインデント位置
+	this._render.indentmap = {};
+
+	// 段落の組版を起動
 	this._render.timer = window.setTimeout(this.parrender.bind(this), 10);
 	
 };
 
 // 用紙の作成
-kh3.clearPages = function(divTarget){
+kh3.clearPages = function(divTarget, lineNo){
 	
 	// 縦書き・横書きの設定を反映
 	this.setPosition = (this.setting.isVertical? this.setPositionVertical: this.setPositionHorizontal);
 	
 	// 誌面のクリアと作成
-	if(this._render.divTarget) this._render.divTarget.innerHTML = "";
+	if(this._render.divTarget){
+		/*
+		作成中:部分削除をしたい
+		for(var face of this._render.divTarget.childNodes){
+			this.clearLines(face, lineNo);
+			if(face.childNodes.length == 0) this.removeChild(face);
+		}
+		*/
+		this._render.divTarget.innerHTML = "";
+	}
 	this._render.divTarget = divTarget;
 	this._render.divTarget.innerHTML = "";
 	this.newpage();
@@ -158,6 +192,8 @@ kh3.parrender = function(){
 	var leftindent = 0, rightindent = 0;
 	var isCentered = 0;
 	
+	var waitingIndentName = "";
+
 	// 囲み内の場合はインデントを調整
 	if(this._render.isRuled){
 		left += this.setting.zw;
@@ -191,9 +227,19 @@ kh3.parrender = function(){
 		}
 		if(unit.command == "indent"){
 			if(line.units.length > 0) continue;
+			if(! isNumeric(unit.value) && unit.value in this._render.indentmap)
+					unit.value = this._render.indentmap[unit.value];
+			if(! isNumeric(unit.value2) && unit.value2 in this._render.indentmap)
+					unit.value2 = this._render.indentmap[unit.value2];
+			if(! isNumeric(unit.value3) && unit.value3 in this._render.indentmap)
+					unit.value3 = this._render.indentmap[unit.value3];
 			left = leftindent + +unit.value * this.setting.zw;
 			if(isNumeric(unit.value2)) leftindent += +unit.value2 * this.setting.zw;
 			if(isNumeric(unit.value3)) rightindent += +unit.value3 * this.setting.zw;
+			continue;
+		}
+		if(unit.command == "setindent"){
+			waitingIndentName = unit.value;
 			continue;
 		}
 		if(unit.command == "ruled"){
@@ -288,7 +334,7 @@ kh3.parrender = function(){
 			}
 			
 			// 行頭行末
-			line.units[isp - 1].isTerminal = 1;
+			if(isp > 0) line.units[isp - 1].isTerminal = 1;
 			line.units[isp].isInitial = 1;
 			
 			// 改行直後のユニットを憶えておく(改行後の復帰位置の処理用)
@@ -335,8 +381,16 @@ kh3.parrender = function(){
 		if(left > 0 && unit.margin) left += unit.margin;
 		unit.left = this._render.left + left;
 		unit.top = (this.setting.isVertical? this._render.top + (this.setting.zh - unit.height) / 2: this._render.top);
-		left += unit.width;
 		
+		// インデント位置を記憶
+		if(waitingIndentName){
+			this._render.indentmap[waitingIndentName] = 
+					(left - leftindent) / this.setting.zw;
+			waitingIndentName = ""
+		}
+
+		// 次のユニットへ
+		left += unit.width;
 		lastunit = unit;
 		
 	}
@@ -383,6 +437,10 @@ kh3.parrender = function(){
 	
 	// 後処理
 	if(++this._render.index < this._render.textLines.length){
+		
+		// スクロール位置の復元(ここでやるべきではない気もするが…)
+		window.scroll(this.scrollX, this.scrollY);
+		
 		// まだ残っている段落があるので組版を起動しておく
 		// ※途中経過を見せるために一旦処理を返している
 		kh3._render.timer = window.setTimeout(this.parrender.bind(this), 0);
@@ -395,9 +453,6 @@ kh3.parrender = function(){
 		
 		// テスト用(採寸用)のspanを削除
 		this._render.testspan.parentNode.removeChild(this._render.testspan);
-		
-		// スクロール位置の復元(ここでやるべきではない気もするが…)
-		window.scroll(this.scrollX, this.scrollY);
 		
 		// 組版終了後にやる処理があればそれをやる
 		for(f of this.afterRenderWorks) f();
