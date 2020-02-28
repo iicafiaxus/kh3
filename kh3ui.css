@@ -10,6 +10,9 @@
 /*		page-break-inside: never;*/
 /*		page-break-after: always;*/
 	}
+	#src{ display: none; }
+	#main{ display: block; }
+	#console{ display: none; }
 }
 #mode{
 	position: fixed;
@@ -160,6 +163,23 @@ input.shortnumber{
 	}
 	div.paper{
 		margin: 4mm auto;
+	}
+	div.paper{
+		counter-increment: paper;
+	}
+	div.paper::after{
+		content: counter(paper);
+		width: 2em;
+		height: 2em;
+		line-height: 2em;
+		float: left; 
+		text-align: center;
+		position: relative;
+		left: -2.4em;
+		top: 0.2em;
+		color: #ccc;
+		background: #999;
+		border-radius: 1em;
 	}
 	footer{
 		height: 10mm;
