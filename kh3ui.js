@@ -56,6 +56,11 @@ kh3ui.init = function(){
 	kh3ui.file.load(name);
 	
 	kh3ui.showFile();
+
+	// ローカル実行の場合ローカルの旨を表示
+	if(! window.location.href.match(/^http/)){
+		if(! document.title.match(/\[LOCAL\]/)) document.title = "[LOCAL] " + document.title;
+	}
 }
 
 kh3ui.restoreText = function(){
