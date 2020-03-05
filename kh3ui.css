@@ -174,11 +174,13 @@ input.shortnumber{
 		line-height: 2em;
 		float: left; 
 		text-align: center;
+		writing-mode: horizontal-tb;
 		position: relative;
 		left: -2.4em;
 		top: 0.2em;
-		color: #ccc;
-		background: #999;
+		color: #999;
+		background: transparent;
+		border: 1px #ccc solid;
 		border-radius: 1em;
 	}
 	footer{

@@ -441,7 +441,11 @@ kh3ui.resizePreview = function(){
 	if(! divs.length) return;
 	var pw = divs[0].getBoundingClientRect().width;
 	//var ph = divs[0].getBoundingClientRect().height;
-	var ph = pw * kh3.setting.paperHeight / kh3.setting.paperWidth;
+	var ratio = kh3.setting.isVertical?
+		(kh3.setting.paperWidth / kh3.setting.paperHeight):
+		(kh3.setting.paperHeight / kh3.setting.paperWidth);
+	var ph = pw * ratio;
+	console.log("pw:", pw, "ph:", ph, "ratio:", ratio);
 	
 	kh3ui.redrawTitle();
 	
