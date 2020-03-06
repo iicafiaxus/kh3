@@ -99,6 +99,10 @@ kh3.preprocess = function(text){
 	// アポストロフィの扱い（仮）
 		text = text.replace(/([^A-Za-z])'([A-Za-z])/g, "$1’$2");
 		text = text.replace(/([^A-Za-z])'([^A-Za-z])/g, "$1′$2");
+
+	// ! で始まるコマンドを簡略表記
+		text = text.replace(/(^|[ \r\n])!([^!\s]?[^!\s]?)([ \r\n]|$)/g, "$1{!$2}$3");
+		text = text.replace(/(^|[ \r\n])!([^!\s]?[^!\s]?)([ \r\n]|$)/g, "$1{!$2}$3");
 	
 	// 合字
 		text = text.replace(/ffi/g, "ﬃ");
