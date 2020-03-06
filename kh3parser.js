@@ -327,7 +327,7 @@ kh3.parse = function(text){
 		o.pos = pos;
 		if(isInWord){
 			isInWord = 0;
-			o.firstchar = "|";
+			o.firstchar = ""; // "|"
 			o.isAttached = 1;
 //			if(res.length) res[res.length - 1].lastchar = "|";
 		}

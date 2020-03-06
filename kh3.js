@@ -285,13 +285,13 @@ kh3.parrender = function(){
 			else font = "main";
 //			if(unit.zwsp && lastunit) lastunit.lastchar = "|";
 //			if(unit.zwsp && unit.prev) unit.prev.lastchar = "|";
-			if(unit.zwsp && unit.prev) unit.firstchar = "|";
+			if(unit.zwsp && unit.prev) unit.firstchar = ""; // "|"
 			continue;
 		}
 		if(unit.command == "pos"){
 			if(unit.value != "") pos = unit.value;
 			else pos = "";
-			if(unit.zwsp && unit.prev) unit.firstchar = "|";
+			if(unit.zwsp && unit.prev) unit.firstchar = ""; // "|"
 			continue;
 		}
 		
@@ -854,7 +854,7 @@ kh3.parse = function(text){
 		o.pos = pos;
 		if(isInWord){
 			isInWord = 0;
-			o.firstchar = "|";
+			o.firstchar = ""; // "|"
 			o.isAttached = 1;
 //			if(res.length) res[res.length - 1].lastchar = "|";
 		}
