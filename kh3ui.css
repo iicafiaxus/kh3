@@ -169,15 +169,16 @@ input.shortnumber{
 	}
 	div.paper::after{
 		content: counter(paper);
+		font-size: 50%;
 		width: 2em;
 		height: 2em;
 		line-height: 2em;
 		float: left; 
 		text-align: center;
 		writing-mode: horizontal-tb;
-		position: relative;
-		left: -2.4em;
-		top: 0.2em;
+		position: absolute;
+		right: 0.8em;
+		top: 0.4em;
 		color: #999;
 		background: transparent;
 		border: 1px #ccc solid;
