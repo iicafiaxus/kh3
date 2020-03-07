@@ -165,6 +165,10 @@
 				<span class=title></span>
 			</p>
 			<p>
+				<label>
+				<input type=checkbox onchange="var main = document.getElementById('main'); if(this.checked) main.className += ' flex'; else main.className = main.className.replace(' flex', '');">
+				FLEX(暫定)
+				</label>
 				<button id=btnRedraw onclick="kh3.clearMemoWidth(), kh3ui.showPreview()">再描画</button>
 				<button id=btnShowConfig onclick="kh3ui.showConfig()">ページ設定...</button>
 				<button id=btnPrint onclick="kh3ui.print()">印刷...</button>
