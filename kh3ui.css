@@ -287,7 +287,7 @@ input.shortnumber{
 	}
 	#file input[type=checkbox]:checked + span{
 		border-color: #004b88;
-		background-color: #aad;
+		background-color: #acd;
 	}
 	#file input[type=checkbox] + span:hover,
 	#file input[type=checkbox]:hover + span{
@@ -295,7 +295,7 @@ input.shortnumber{
 	}
 	#file input[type=checkbox]:checked + span:hover,
 	#file input[type=checkbox]:checked:hover + span{
-		background-color: #ddf;
+		background-color: #cef;
 	}
 	#file span.incipit{
 		padding: 0 0.5em;
