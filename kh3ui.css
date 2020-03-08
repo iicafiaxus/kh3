@@ -7,8 +7,8 @@
 	}
 	div.paper{
 		margin: 0mm;
-/*		page-break-inside: never;*/
-/*		page-break-after: always;*/
+		page-break-inside: avoid;
+		page-break-after: always;
 	}
 	#src{ display: none; }
 	#main{ display: block; }
