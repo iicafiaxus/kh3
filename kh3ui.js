@@ -10,6 +10,8 @@ kh3ui.loadScript = function(name){
 kh3ui.loadScript("kh3uifile.js");
 kh3ui.loadScript("kh3uiconfig.js");
 
+kh3ui.viewSetting = {};
+
 // ------------------------------
 // プレビュー画面を描画する
 // ------------------------------
@@ -449,6 +451,9 @@ kh3ui.resizePreview = function(){
 	
 	kh3ui.redrawTitle();
 	
+	// 全幅の場合は高さは無視
+	if(kh3ui.viewSetting.fullwidth) h = ph * 10;
+
 	// はみ出さないようにする
 	if(pw < 1 || ph < 1) return;
 	if(pw < w * 0.8 && ph < h * 0.8){

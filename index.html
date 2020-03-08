@@ -167,8 +167,12 @@
 			</p>
 			<p>
 				<label>
+				<input type=checkbox onchange="kh3ui.viewSetting.fullwidth=!!this.checked, kh3ui.resizePreview(), kh3ui.redraw()">
+				全幅
+				</label>
+				<label>
 				<input type=checkbox onchange="var main = document.getElementById('main'); if(this.checked) main.className += ' flex'; else main.className = main.className.replace(' flex', '');">
-				FLEX(暫定)
+				FLEX
 				</label>
 				<button id=btnRedraw onclick="kh3.clearMemoWidth(), kh3ui.showPreview()">再描画</button>
 				<button id=btnShowConfig onclick="kh3ui.showConfig()">ページ設定...</button>
