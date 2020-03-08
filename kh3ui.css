@@ -120,7 +120,7 @@ input.shortnumber{
 		position: fixed;
 		top: 0;
 		left: 0;
-		background: #56a;
+		background: #004b88;
 		color: #fff;
 	}
 	header > *{
@@ -213,7 +213,7 @@ input.shortnumber{
 		position: fixed;
 		top: 0;
 		left: 0;
-		background: #56a;
+		background: #004b88;
 		color: #fff;
 	}
 	header > *{
@@ -286,7 +286,7 @@ input.shortnumber{
 		cursor: pointer;
 	}
 	#file input[type=checkbox]:checked + span{
-		border-color: #56a;
+		border-color: #004b88;
 		background-color: #aad;
 	}
 	#file input[type=checkbox] + span:hover,
