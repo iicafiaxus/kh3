@@ -265,6 +265,17 @@ input.shortnumber{
 	.menu button[disabled]{
 		opacity: 0.6;
 	}
+	button:enabled{
+		background-color: #fff;
+	}
+	button:disabled{
+		background-color: #999;
+		color: #fff;
+		cursor: default;
+	}
+	button:enabled:hover{
+		background-color: #fe6;
+	}
 	#file ul{
 		width: auto;
 		margin-left: auto;
@@ -277,25 +288,27 @@ input.shortnumber{
 		width: 1em;
 		height: 1em;
 	}
+	button,
 	#file input[type=checkbox] + span{
 		line-height: 220%;
 		padding: 0.2em 0.8em;
 		border: 2px solid transparent;
 		border-radius: 2px;
-		background-color: #aaa;
+		background-color: #fff;
+		color: #000;
 		cursor: pointer;
 	}
 	#file input[type=checkbox]:checked + span{
 		border-color: #004b88;
-		background-color: #acd;
+		background-color: #cef;
 	}
 	#file input[type=checkbox] + span:hover,
 	#file input[type=checkbox]:hover + span{
-		background-color: #ddd;
+		background-color: #fe6;
 	}
 	#file input[type=checkbox]:checked + span:hover,
 	#file input[type=checkbox]:checked:hover + span{
-		background-color: #cef;
+		background-color: #fe6;
 	}
 	#file span.incipit{
 		padding: 0 0.5em;
