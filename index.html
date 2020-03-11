@@ -47,7 +47,7 @@
 					<label>横<input type=number class=shortnumber id=txtPaperWidth value=210 size=5>mm</label>
 					<label>縦<input type=number class=shortnumber id=txtPaperHeight value=297 size=5>mm</label>
 						<button onclick="kh3ui.showPaperSizePanel(); return false;">プリセット...</button>
-						<label><input type=checkbox id=chkInfinite>自動延長</label>
+						<label><input type=checkbox id=chkInfinite><span>縦サイズを自動で延長</span></label>
 					</fieldset>
 				
 				<fieldset>
@@ -64,6 +64,11 @@
 				</fieldset>
 				
 				<fieldset>
+					<legend>書字方向</legend>
+					<label><input type=checkbox id=chkIsVertical checked><span>書字方向は縦書き</span></label>
+				</fieldset>
+
+				<fieldset>
 					<legend>余白</legend>
 					<label>天<input type=number class=shortnumber id=txtMarginTop value=20 size=5>mm</label>
 					<br>
@@ -71,46 +76,38 @@
 					<label>右<input type=number class=shortnumber id=txtMarginRight value=20 size=5>mm</label>
 					<br>
 					<label>地<input type=number class=shortnumber id=txtMarginBottom value=20 size=5>mm</label>
+					<br>
+					<label><input type=checkbox id=chkIsMirroredWhenEven disabled><span>偶数ページでは余白の左右を読み替える</span></label>
+					<br>
+					<label><input type=checkbox id=chkIsMirroredWhenVertical disabled><span>縦書きの場合は余白の左右を読み替える</span></label>
+					<br>
+					<label>天地が字送り/行送りの整数倍でない場合
+						<br>　　
+						<select id=selTopMarginMethod>
+						<option value=balance class=unimp>版面の天地中央を絶対として天地の余白を調整する</option>
+						<option selected value=top>天の余白を絶対として地の余白を調整する</option>
+						<option value=bottom class=unimp>地の余白を絶対として天の余白を調整する</option>
+						<option value=justify class=unimp>天地の余白を絶対として字送り/行送りで調整する</option>
+					</select></label>
+					<br>
+					<label>左右が字送り/行送りの整数倍でない場合
+						<br>　　
+						<select id=selSideMarginMethod>
+						<option selected value=center>版面の左右中央を絶対として左右の余白を調整する</option>
+						<option value=left class=unimp>右の余白を絶対として左の余白を調整する</option>
+						<option value=right class=unimp>左の余白を絶対として右の余白を調整する</option>
+						<option value=justify class=unimp>左右の余白を絶対として字送り/行送りで調整する</option>
+					</select></label>
 				</fieldset>
 				
-				<fieldset>
-					<legend>書字方向</legend>
-					<label><input type=checkbox id=chkIsVertical checked>縦書き</label>
-				</fieldset>
-				
-				<fieldset>
-					<legend>段落</legend>
-					<label><input type=checkbox id=chkParIndent checked>字下げ</label>
-				</fieldset>
 				
 				<fieldset>
 					<legend>自動修正</legend>
-					<label><input type=checkbox id=chkCorrectPunct>カンマ・読点</label>
+					<label><input type=checkbox id=chkParIndent checked><span>段落に字下げを挿入</span></label>
+					<br>
+					<label><input type=checkbox id=chkCorrectPunct><span>カンマ・読点を書字方向に従って修正</span></label>
 				</fieldset>
 				
-				<fieldset>
-					<legend>余白の調整（整数倍）</legend>
-					<label>天地の端数<select id=selTopMarginMethod>
-						<option value=balance class=unimp>天地中央揃え</option>
-						<option selected value=top>天に寄せる</option>
-						<option value=bottom class=unimp>地に寄せる</option>
-						<option value=justify class=unimp>均等割り</option>
-					</select></label>
-					<br>
-					<label>左右の端数<select id=selSideMarginMethod>
-						<option selected value=center>左右中央揃え</option>
-						<option value=left class=unimp>左に寄せる</option>
-						<option value=right class=unimp>右に寄せる</option>
-						<option value=justify class=unimp>均等割り</option>
-					</select></label>
-				</fieldset>
-				
-				<fieldset>
-					<legend>左右の余白の入れ替え</legend>
-					<label><input type=checkbox id=chkIsMirroredWhenEven disabled>偶数ページ</label>
-					<br>
-					<label><input type=checkbox id=chkIsMirroredWhenVertical disabled>縦書きの場合</label>
-				</fieldset>
 				
 				<fieldset>
 					<legend>フォント</legend>

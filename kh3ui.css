@@ -267,6 +267,7 @@ input.shortnumber{
 	.menu button[disabled]{
 		opacity: 0.6;
 	}
+	input[type=checkbox] + span,
 	button:enabled{
 		background-color: #fff;
 		border: 1px solid #004b88;
@@ -274,6 +275,11 @@ input.shortnumber{
 	button:disabled{
 		background-color: #999;
 		color: #fff;
+		cursor: default;
+	}
+	input[type=checkbox]:disabled + span{
+		background-color: #fff;
+		color: #999;
 		cursor: default;
 	}
 	button:enabled:hover{
@@ -287,28 +293,49 @@ input.shortnumber{
 	#file ul li{
 		list-style: none;
 	}
+	input[type=checkbox],
 	#file input[type=checkbox]{
 		width: 1em;
 		height: 1em;
 	}
 	button,
+	select,
+	input[type=number],
+	input[type=checkbox] + span,
 	#file input[type=checkbox] + span{
 		line-height: 220%;
 		padding: 0.2em 0.8em;
-		border: 2px solid transparent;
 		border-radius: 2px;
 		background-color: #fff;
 		color: #000;
 		cursor: pointer;
 	}
+	input[type=number]{
+		padding: 0.4em 0 0.4em 0.6em;
+		border: 2px solid #ccc;
+	}
+	select{
+		height: 220%;
+	}
+	input[type=checkbox] + span{
+		border: 2px solid #ccc;
+	}
+	#file input[type=checkbox] + span{
+		border: 2px solid transparent;
+	}
+	input[type=checkbox]:checked + span,
 	#file input[type=checkbox]:checked + span{
 		border-color: #004b88;
 		background-color: #cef;
 	}
+	input[type=checkbox]:enabled + span:hover,
+	input[type=checkbox]:enabled:hover + span,
 	#file input[type=checkbox] + span:hover,
 	#file input[type=checkbox]:hover + span{
 		background-color: #fe6;
 	}
+	input[type=checkbox]:enabled:checked + span:hover,
+	input[type=checkbox]:enabled:checked:hover + span,
 	#file input[type=checkbox]:checked + span:hover,
 	#file input[type=checkbox]:checked:hover + span{
 		background-color: #fe6;
