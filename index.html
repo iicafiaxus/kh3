@@ -84,19 +84,19 @@
 					<label>天地が字送り/行送りの整数倍でない場合
 						<br>　　
 						<select id=selTopMarginMethod>
-						<option value=balance class=unimp>版面の天地中央を絶対として天地の余白を調整する</option>
-						<option selected value=top>天の余白を絶対として地の余白を調整する</option>
-						<option value=bottom class=unimp>地の余白を絶対として天の余白を調整する</option>
-						<option value=justify class=unimp>天地の余白を絶対として字送り/行送りで調整する</option>
+						<option value=balance class=unimp>天地で均等に調整する</option>
+						<option selected value=top>天を優先し、地で調整する</option>
+						<option value=bottom class=unimp>地を優先し、天で調整する</option>
+						<option value=justify class=unimp>字送り/行送りで調整する</option>
 					</select></label>
 					<br>
 					<label>左右が字送り/行送りの整数倍でない場合
 						<br>　　
 						<select id=selSideMarginMethod>
-						<option selected value=center>版面の左右中央を絶対として左右の余白を調整する</option>
-						<option value=left class=unimp>右の余白を絶対として左の余白を調整する</option>
-						<option value=right class=unimp>左の余白を絶対として右の余白を調整する</option>
-						<option value=justify class=unimp>左右の余白を絶対として字送り/行送りで調整する</option>
+						<option selected value=center>左右で均等に調整する</option>
+						<option value=left class=unimp>右を優先し、左で調整する</option>
+						<option value=right class=unimp>左を優先し、右で調整する</option>
+						<option value=justify class=unimp>字送り/行送りで調整する</option>
 					</select></label>
 				</fieldset>
 				
