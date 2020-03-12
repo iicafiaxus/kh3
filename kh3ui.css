@@ -275,6 +275,7 @@ input.shortnumber{
 	button:disabled{
 		background-color: #999;
 		color: #fff;
+		border: 1px solid #ccc;
 		cursor: default;
 	}
 	input[type=checkbox]:disabled + span{
@@ -282,6 +283,10 @@ input.shortnumber{
 		color: #999;
 		cursor: default;
 	}
+	input[type=number]:hover,
+	input[type=number]:focus,
+	#console input[type=text]:hover,
+	#console input[type=text]:focus,
 	button:enabled:hover{
 		background-color: #fe6;
 	}
@@ -301,6 +306,7 @@ input.shortnumber{
 	button,
 	select,
 	input[type=number],
+	#console input[type=text],
 	input[type=checkbox] + span,
 	#file input[type=checkbox] + span{
 		line-height: 220%;
@@ -310,6 +316,7 @@ input.shortnumber{
 		color: #000;
 		cursor: pointer;
 	}
+	#console input[type=text],
 	input[type=number]{
 		padding: 0.4em 0 0.4em 0.6em;
 		border: 2px solid #ccc;
