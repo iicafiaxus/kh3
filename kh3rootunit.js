@@ -33,9 +33,9 @@ kh3.Rootunit.prototype.add = function(unit){
 	this.units.push(unit);
 }
 
+kh3.Rootunit.prototype.barspacing = kh3.setting.zh / 4;
+
 kh3.Rootunit.prototype.setSubpositions = function(){
-
-
 	// 位置を反映
 	let rootpadding = kh3.setting.zw / 8;
 	this.innerwidth = 0;
@@ -55,8 +55,8 @@ kh3.Rootunit.prototype.setSubpositions = function(){
 	}
 	this.innerwidth += rootpadding;
 	this.width = this.rootmark.width + this.innerwidth + rootpadding * 2;
-	this.height = this.innerheight + kh3.setting.zh / 4;
-	this.middle = this.innermiddle + kh3.setting.zh / 4;
+	this.height = this.innerheight + this.barspacing;
+	this.middle = this.innermiddle + this.barspacing;
 
 //	for(unit of this.units) if(unit.setSubpositions) unit.setSubpositions();
 	
@@ -76,9 +76,6 @@ kh3.Rootunit.prototype.setPosition = function(){
 		this.innermiddle = Math.max(this.innermiddle, u.middle);
 		u.setPosition();
 	}
-	// this.top = this.innertop - kh3.setting.zh / 8;
-//	this.top = this.top + kh3.setting.zh / 2 - this.innermiddle - kh3.setting.zh / 8;
-//	this.middle = this.innermiddle + kh3.setting.zh / 8;
 	
 	// 根号を配置
 	var rootscale = (this.height / kh3.setting.zh);
@@ -91,7 +88,7 @@ kh3.Rootunit.prototype.setPosition = function(){
 		this.rootmark.span.style.transformOrigin = "right top";
 	}
 	this.rootmark.left += this.left;
-	this.rootmark.top = this.top + kh3.setting.zh / 2 - this.innermiddle - kh3.setting.zh / 8;
+	this.rootmark.top = this.top + kh3.setting.zh / 2 - this.innermiddle - this.barspacing;
 	this.rootmark.offset = 0.0;
 	this.rootmark.setPosition();
 	
@@ -108,7 +105,7 @@ kh3.Rootunit.prototype.setPosition = function(){
 	this.rule.width = kh3.setting.zw;
 	this.rule.height = kh3.setting.zh;
 	this.rule.left = this.left + this.rootmark.width - kh3.setting.zw / 4;
-	this.rule.top = this.top - this.innermiddle - kh3.setting.zh / 8;
+	this.rule.top = this.top - this.innermiddle - this.barspacing;
 	this.rule.height = kh3.setting.zh;
 	this.rule.setPosition();
 }
