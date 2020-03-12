@@ -42,6 +42,8 @@ kh3.Fractor.prototype.add = function(unit){
 	else this.lowerunits.push(unit);
 }
 
+kh3.Fractor.prototype.barspacing = kh3.setting.zh / 4;
+
 kh3.Fractor.prototype.setSubpositions = function(){
 // 位置を反映
 	let fracpadding = kh3.setting.zw / 8;
@@ -69,8 +71,8 @@ kh3.Fractor.prototype.setSubpositions = function(){
 	}
 	this.lowerwidth += fracpadding;
 	this.width = Math.max(this.upperwidth, this.lowerwidth) + fracpadding * 2;
-	this.middle = this.upperheight + kh3.setting.zh / 8;
-	this.height = this.upperheight + this.lowerheight + kh3.setting.zh / 4;
+	this.middle = this.upperheight + this.barspacing; //kh3.setting.zh / 8;
+	this.height = this.upperheight + this.lowerheight + this.barspacing * 2; //kh3.setting.zh / 4;
 }
 
 kh3.Fractor.prototype.setPosition = function(){
@@ -79,11 +81,11 @@ kh3.Fractor.prototype.setPosition = function(){
 	
 	for(u of this.upperunits){
 		u.left += (this.width - this.upperwidth) / 2;
-		u.top -= this.upperheight / 2 + kh3.setting.zh / 8;
+		u.top -= this.upperheight / 2 + this.barspacing; //kh3.setting.zh / 8;
 	}
 	for(u of this.lowerunits){
 		u.left += (this.width - this.lowerwidth) / 2;
-		u.top += kh3.setting.zh / 8 + this.lowerheight / 2;
+		u.top += this.barspacing + /*kh3.setting.zh / 8 + */this.lowerheight / 2;
 	}
 
 	for(u of this.upperunits){
