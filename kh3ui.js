@@ -503,9 +503,11 @@ kh3ui.redrawTitle = function(){
 		
 		// 2行になってしまわないように詰める
 		var tempTitle = kh3ui.title;
-		while(o.getBoundingClientRect().bottom != bottom){
+		var cnt = 0; // 無限ループ防止
+		while(cnt < 1000 && o.getBoundingClientRect().bottom != bottom){
 			tempTitle = tempTitle.slice(0, -1);
 			o.textContent = tempTitle + "...";
+			cnt += 1;
 		}
 	}
 }
