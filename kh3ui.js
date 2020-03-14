@@ -411,14 +411,21 @@ kh3ui.resizeEditor = function(){
 	var pTitle = document.getElementById("pTitle");
 	var txtTitle = pTitle.getElementsByTagName("input")[0];
 	txtTitle.style.margin = "0";
-	txtTitle.style.left = "10px";
 	txtTitle.style.top = (header.clientHeight + 2) + 'px';
+	// txtTitle.style.height = "auto";
+	/*
+	txtTitle.style.left = "10px";
 	txtTitle.style.width = (document.body.clientWidth - 20)+ 'px';
 	txtTitle.style.width = ((document.body.clientWidth - 20) - 
 			(txtTitle.getBoundingClientRect().width - 
 			(document.body.clientWidth - 20))) + "px";
-	txtTitle.style.height = "auto";
+	*/
+	txtTitle.style.left = "0px";
+	txtTitle.style.width = "100%";
+	txtTitle.style.boxSizing = "border-box";
+
 	var areaSource = document.getElementById('areaSource');
+	/*
 	areaSource.style.width = (document.body.clientWidth - 20)+ 'px';
 	areaSource.style.height =
 		(document.body.clientHeight - header.clientHeight - txtTitle.clientHeight - 
@@ -426,6 +433,12 @@ kh3ui.resizeEditor = function(){
 	areaSource.style.left = "10px";
 	areaSource.style.top = 
 		(header.clientHeight + txtTitle.clientHeight + 4) + 'px';
+	*/
+	areaSource.style.top = (header.clientHeight + txtTitle.clientHeight) + "px";
+	areaSource.style.height = (document.body.clientHeight - header.clientHeight - txtTitle.clientHeight) + "px";
+	areaSource.style.left = "0px";
+	areaSource.style.width = "100%";
+	areaSource.style.boxSizing = "border-box";
 }
 
 // ------------------------------

@@ -210,7 +210,7 @@ input.shortnumber{
 		min-height: 5%;
 		margin: 0;
 		padding: 0 2%;
-		display: flex;
+/*		display: flex;*/
 		justify-content: space-between;
 		position: fixed;
 		top: 0;
@@ -220,6 +220,12 @@ input.shortnumber{
 	}
 	header > *{
 		align-self: center;
+	}
+	header > *:nth-child(1){
+		float: left;
+	}
+	header > *:nth-child(2){
+		float: right;
 	}
 	header + *{
 		margin-top: 4em;
@@ -283,8 +289,8 @@ input.shortnumber{
 		color: #999;
 		cursor: default;
 	}
-	input[type=number]:hover,
-	input[type=number]:focus,
+	#console input[type=number]:hover,
+	#console input[type=number]:focus,
 	#console input[type=text]:hover,
 	#console input[type=text]:focus,
 	button:enabled:hover{
@@ -305,7 +311,7 @@ input.shortnumber{
 	}
 	button,
 	select,
-	input[type=number],
+	#console input[type=number],
 	#console input[type=text],
 	input[type=checkbox] + span,
 	#file input[type=checkbox] + span{
@@ -316,7 +322,8 @@ input.shortnumber{
 		color: #000;
 		cursor: pointer;
 	}
-	#console input[type=text],
+	textarea,
+	input[type=text],
 	input[type=number]{
 		padding: 0.4em 0 0.4em 0.6em;
 		border: 2px solid #ccc;
