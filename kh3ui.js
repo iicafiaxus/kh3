@@ -18,7 +18,6 @@ kh3ui.viewSetting = {};
 kh3ui.redraw = function(canSaveText = 1){
 	//kh3ui.readConfig();
 	window.setTimeout(function(){
-		console.log(this.canSaveText);
 		var divTarget = document.getElementById(kh3.setting.isVertical? "allV": "allH");
 		var textAll = document.getElementById("areaSource").value;
 		kh3.render(divTarget, textAll, this.canSaveText);
@@ -252,7 +251,6 @@ kh3ui.fileOpen = function(){
 kh3ui.fileNew = function(){
 	var newTitle = window.prompt("作成する文書の名前", "");
 	if(newTitle === null) return;
-	console.log(newTitle);
 	
 	kh3ui.fileNew2(newTitle);
 }
@@ -328,7 +326,6 @@ kh3ui.fileImport2 = function(file){
 				else isInPreamble = 0, textAll += line + "\n";
 			}
 			else textAll += line + "\n";
-			console.log("->" + textAll);
 		}
 		kh3ui.fileNew2(title);
 		kh3ui.file.write(textAll, "textAll");
@@ -354,10 +351,8 @@ kh3ui.fileExport = function(){
 	}
 	text += "\n";
 	text += kh3ui.file.read("textAll");
-	console.log(text);
 	
 	var data = "data:text/plain;base64," + utoa(text);
-	console.log(data);
 	
 	var a = document.createElement("a");
 	a.href = data;
@@ -408,32 +403,16 @@ kh3ui.redrawCounter = function(){
 // ------------------------------
 kh3ui.resizeEditor = function(){
 	var header = document.getElementById("srcheader");
+
 	var pTitle = document.getElementById("pTitle");
 	var txtTitle = pTitle.getElementsByTagName("input")[0];
 	txtTitle.style.margin = "0";
-	txtTitle.style.top = (header.clientHeight + 2) + 'px';
-	// txtTitle.style.height = "auto";
-	/*
-	txtTitle.style.left = "10px";
-	txtTitle.style.width = (document.body.clientWidth - 20)+ 'px';
-	txtTitle.style.width = ((document.body.clientWidth - 20) - 
-			(txtTitle.getBoundingClientRect().width - 
-			(document.body.clientWidth - 20))) + "px";
-	*/
+	txtTitle.style.top = (header.clientHeight) + 'px';
 	txtTitle.style.left = "0px";
 	txtTitle.style.width = "100%";
 	txtTitle.style.boxSizing = "border-box";
 
 	var areaSource = document.getElementById('areaSource');
-	/*
-	areaSource.style.width = (document.body.clientWidth - 20)+ 'px';
-	areaSource.style.height =
-		(document.body.clientHeight - header.clientHeight - txtTitle.clientHeight - 
-		6)+ 'px';
-	areaSource.style.left = "10px";
-	areaSource.style.top = 
-		(header.clientHeight + txtTitle.clientHeight + 4) + 'px';
-	*/
 	areaSource.style.top = (header.clientHeight + txtTitle.clientHeight) + "px";
 	areaSource.style.height = (document.body.clientHeight - header.clientHeight - txtTitle.clientHeight) + "px";
 	areaSource.style.left = "0px";
@@ -460,7 +439,6 @@ kh3ui.resizePreview = function(){
 		(kh3.setting.paperWidth / kh3.setting.paperHeight):
 		(kh3.setting.paperHeight / kh3.setting.paperWidth);
 	var ph = pw * ratio;
-	console.log("pw:", pw, "ph:", ph, "ratio:", ratio);
 	
 	kh3ui.redrawTitle();
 	
