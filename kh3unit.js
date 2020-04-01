@@ -1,5 +1,6 @@
 kh3.loadScript("kh3fractor.js");
 kh3.loadScript("kh3rootunit.js");
+kh3.loadScript("kh3parens.js");
 
 kh3.Unit = function(text){
 	this.char = text;
@@ -66,7 +67,10 @@ kh3.Unit.prototype.makeDom = function(){
 		// 採寸
 		this.width = kh3.getWidth(this.char, kh3._render.unit, kh3.setting.zw, this.font + this.pos);
 		this.height = kh3.setting.zh;
-		this.offset = (this.pos == "sup"? -0.4: this.pos == "sub"? 0.25: 0.0); // とりあえず
+		this.offset = 0.0;
+		if(this.pos == "sup") this.offset = -0.4;
+		if(this.pos == "sub") this.offset = 0.25;
+		 // とりあえず
 		
 		// heightが1zhではない場合に上下のはみ出し量を見るため
 		this.middle = kh3.setting.zh / 2;

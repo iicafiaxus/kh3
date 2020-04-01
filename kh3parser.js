@@ -162,7 +162,7 @@ kh3.parse = function(text){
 							}
 						}
 						else switch (operands[0]){
-							case"fraction":
+							case "fraction":
 							case "frac":
 							case "f":
 								o.command = "fraction";
@@ -179,10 +179,36 @@ kh3.parse = function(text){
 								else res.push(o.unit);
 								metastack.push(o);
 								break;
-							case"root":
+							case "root":
 							case "rt":
 								o.command = "root";
 								o.unit = new kh3.Rootunit();
+								o.close = function(){
+									this.unit.close(), this.isClosed = 1;
+								}.bind(o);
+								o.add = function(unit){
+									this.unit.add(unit);
+								}.bind(o);
+								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
+								else res.push(o.unit);
+								metastack.push(o);
+								break;
+							case "(+":
+								o.command = "parens";
+								o.unit = new kh3.Parens("{", "}");
+								o.close = function(){
+									this.unit.close(), this.isClosed = 1;
+								}.bind(o);
+								o.add = function(unit){
+									this.unit.add(unit);
+								}.bind(o);
+								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
+								else res.push(o.unit);
+								metastack.push(o);
+								break;
+							case "(":
+								o.command = "parens";
+								o.unit = new kh3.Parens();
 								o.close = function(){
 									this.unit.close(), this.isClosed = 1;
 								}.bind(o);
