@@ -183,12 +183,8 @@ kh3.parse = function(text){
 							case "rt":
 								o.command = "root";
 								o.unit = new kh3.Rootunit();
-								o.close = function(){
-									this.unit.close(), this.isClosed = 1;
-								}.bind(o);
-								o.add = function(unit){
-									this.unit.add(unit);
-								}.bind(o);
+								o.close = function(){ this.unit.close(), this.isClosed = 1; }.bind(o);
+								o.add = function(unit){ this.unit.add(unit); }.bind(o);
 								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
 								else res.push(o.unit);
 								metastack.push(o);
@@ -196,12 +192,8 @@ kh3.parse = function(text){
 							case "(+":
 								o.command = "parens";
 								o.unit = new kh3.Parens("{", "}");
-								o.close = function(){
-									this.unit.close(), this.isClosed = 1;
-								}.bind(o);
-								o.add = function(unit){
-									this.unit.add(unit);
-								}.bind(o);
+								o.close = function(){ this.unit.close(), this.isClosed = 1; }.bind(o);
+								o.add = function(unit){ this.unit.add(unit); }.bind(o);
 								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
 								else res.push(o.unit);
 								metastack.push(o);
@@ -209,16 +201,13 @@ kh3.parse = function(text){
 							case "(":
 								o.command = "parens";
 								o.unit = new kh3.Parens();
-								o.close = function(){
-									this.unit.close(), this.isClosed = 1;
-								}.bind(o);
-								o.add = function(unit){
-									this.unit.add(unit);
-								}.bind(o);
+								o.close = function(){ this.unit.close(), this.isClosed = 1; }.bind(o);
+								o.add = function(unit){ this.unit.add(unit); }.bind(o);
 								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
 								else res.push(o.unit);
 								metastack.push(o);
 								break;
+								// copied codes. to be refined.
 							default:
 								console.log("Unknown metacommand " + commandtext);
 								break;
