@@ -44,6 +44,7 @@ kh3ui.init = function(){
 	kh3ui.hidePaperSizePanel();
 	window.addEventListener("resize", kh3ui.resizeEditor);
 	window.addEventListener("resize", kh3ui.resizePreview);
+	window.addEventListener("keydown", kh3ui.handleKeys);
 	
 	// 初期化の内容
 	kh3ui.file.loaders.push(kh3ui.restoreText);
@@ -90,6 +91,7 @@ kh3ui.restoreTitle = function(){
 // ------------------------------
 kh3ui.showPreview = function(){
 	if(kh3ui.hide) kh3ui.hide();
+	kh3ui.mode = "preview";
 	
 	document.getElementById("btnShowEditor").style.display = "inline";
 	document.getElementById("btnShowConfig").style.display = "inline";
@@ -116,6 +118,7 @@ kh3ui.showPreview = function(){
 // ------------------------------
 kh3ui.showEditor = function(){
 	if(kh3ui.hide) kh3ui.hide();
+	kh3ui.mode = "editor";
 	
 	document.getElementById("screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #src{ display: block } }";
@@ -132,6 +135,7 @@ kh3ui.showEditor = function(){
 // ------------------------------
 kh3ui.showConfig = function(){
 	if(kh3ui.hide) kh3ui.hide();
+	kh3ui.mode = "config";
 	
 	document.getElementById("screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #console{ display: block } }";
@@ -148,6 +152,7 @@ kh3ui.showConfig = function(){
 // ------------------------------
 kh3ui.showFile = function(){
 	if(kh3ui.hide) kh3ui.hide();
+	kh3ui.mode = "file";
 	
 	document.getElementById("screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #file{ display: block } }";
@@ -425,6 +430,7 @@ kh3ui.resizeEditor = function(){
 // ------------------------------
 kh3ui.resizePreview = function(){
 	
+	
 	// 表示領域の大きさ
 	var w = document.body.clientWidth - 20;
 	var h = document.body.clientHeight - document.getElementById("mode").clientHeight - 8;
@@ -557,4 +563,21 @@ kh3ui.print = function(){
 // ------------------------------
 kh3ui.showPics = function(){
 	alert("未実装です。");
+}
+
+
+// ------------------------------
+// キー操作
+// ------------------------------
+kh3ui.handleKeys = function(ev){
+	if(ev.code == "KeyP" && ev.ctrlKey){
+		if(kh3ui.mode == "editor") kh3ui.showPreview(), ev.preventDefault();
+		else if(kh3ui.mode == "preview") kh3ui.print(), ev.preventDefault();
+		else ev.preventDefault();
+	}
+	else if(ev.code == "Escape"){
+		if(kh3ui.mode == "preview") kh3ui.showEditor(), ev.preventDefault();
+		else if(kh3ui.mode == "config") kh3ui.showEditor(), ev.preventDefault();
+		else if(kh3ui.mode == "editor") kh3ui.showFile(), ev.preventDefault();
+	}
 }
