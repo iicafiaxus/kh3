@@ -70,19 +70,17 @@ kh3.Parens.prototype.setPosition = function(){
 	
 	this.setSubpositions();
 
-	var parenscale = Math.max(1.0, this.height / kh3.setting.zh - 0.5);
-	var parenwidthscale = Math.min(1.4, parenscale);
+	// カッコの拡大率
+	var parenscale = Math.max(1.0, this.height / kh3.setting.zh - 0.4);
+	var parenwidthscale = Math.max(1.0, Math.min(1.4, parenscale * 0.6));
 
-	//parenscale = 1.0;
+	// カッコの位置調整 (フォントに依存するのだが仮で)
+	var parenoffset = (parenscale - 1) * kh3.setting.zh * 0.1;
 
 	// 中身を配置
-	this.innertop = this.top;
-	this.innermiddle = kh3.setting.zh / 2;
 	for(u of this.units){
 		u.left += this.left + this.leftmark.width * (parenwidthscale - 1);
-		u.top += this.top;
-		this.innertop = Math.min(this.innertop, u.top);
-		this.innermiddle = Math.max(this.innermiddle, u.middle);
+		u.top += this.top - (this.innerheight / 2 - this.innermiddle);
 		u.setPosition();
 	}
 	
@@ -100,11 +98,11 @@ kh3.Parens.prototype.setPosition = function(){
 		this.rightmark.span.style.transformOrigin = "left center";
 	}
 	this.leftmark.left += this.left;
-	this.leftmark.top = this.top;
+	this.leftmark.top = this.top - parenoffset;
 	this.leftmark.offset = 0.0;
 	this.leftmark.setPosition();
 	this.rightmark.left += this.left;
-	this.rightmark.top = this.top;
+	this.rightmark.top = this.top - parenoffset;
 	this.rightmark.offset = 0.0;
 	this.rightmark.setPosition();
 	
