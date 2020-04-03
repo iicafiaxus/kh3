@@ -578,6 +578,5 @@ kh3ui.handleKeys = function(ev){
 	else if(ev.code == "Escape"){
 		if(kh3ui.mode == "preview") kh3ui.showEditor(), ev.preventDefault();
 		else if(kh3ui.mode == "config") kh3ui.showEditor(), ev.preventDefault();
-		else if(kh3ui.mode == "editor") kh3ui.showFile(), ev.preventDefault();
 	}
 }
