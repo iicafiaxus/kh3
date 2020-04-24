@@ -55,10 +55,14 @@ kh3.preprocess = function(text){
 	
 	
 	// 下付き・上付き
-	text = text.replace(/_([0-9]+|[A-Za-zα-ωΑ-Ω]+)/g, " {:pos:sub:zwsp}$1{:pos:}");
-	text = text.replace(/\^([0-9]+|[A-Za-zα-ωΑ-Ω]+)/g, " {:pos:sup:zwsp}$1{:pos:}");
-	text = text.replace(/_(.)/g, " {:pos:sub:zwsp}$1{:pos:}");
-	text = text.replace(/\^(.)/g, " {:pos:sup:zwsp}$1{:pos:}");
+	text = text.replace(/_([0-9]+|[A-Za-zα-ωΑ-Ω]+) /g, " {:pos:sub:zwsp}$1{:pos:}");
+	text = text.replace(/_([0-9]+|[A-Za-zα-ωΑ-Ω]+)/g, " {:pos:sub:zwsp}$1{:pos::zwsp}");
+	text = text.replace(/\^([0-9]+|[A-Za-zα-ωΑ-Ω]+) /g, " {:pos:sup:zwsp}$1{:pos:}");
+	text = text.replace(/\^([0-9]+|[A-Za-zα-ωΑ-Ω]+)/g, " {:pos:sup:zwsp}$1{:pos::zwsp}");
+	text = text.replace(/_(.) /g, " {:pos:sub:zwsp}$1{:pos:}");
+	text = text.replace(/_(.)/g, " {:pos:sub:zwsp}$1{:pos::zwsp}");
+	text = text.replace(/\^(.) /g, " {:pos:sup:zwsp}$1{:pos:}");
+	text = text.replace(/\^(.)/g, " {:pos:sup:zwsp}$1{:pos::zwsp}");
 	
 	// ボールド
 	text = text.replace(/\*([^\n\*]*)\*([\-\.,\/])/g, "{:font:bold}$1{:font:zwsp}$2");
