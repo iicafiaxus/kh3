@@ -41,7 +41,7 @@ kh3.font.italic = {
 	weight: 400,
 	style: "italic",
 	magnitude: 1.1,
-	offset: 0.05,
+	offset: 0.15,
 }
 
 kh3.font.italiccaps = {
