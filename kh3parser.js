@@ -39,13 +39,13 @@ kh3.preprocess = function(text){
 	text = text.replace(/\^\/([A-Za-zα-ωΑ-Ω]+)/g, "{:pos:sup:zwsp}{:font:italic}$1{:font:}{:pos::zwsp}");
 	
 	// イタリック
-	text = text.replace(/([0-9A-Za-zα-ωΑ-Ω\+−])\/([A-Za-zα-ωΑ-Ω]+) /g, "$1{:font:italic:zwsp}$2{:font:} ");
-	text = text.replace(/([0-9A-Za-zα-ωΑ-Ω\+−])\/([A-Za-zα-ωΑ-Ω]+)([\-\.,\/])/g, "$1{:font:italic:zwsp}$2{:font::zwsp}$3");
+	text = text.replace(/([0-9A-Za-zα-ωΑ-Ω\)\+−])\/([A-Za-zα-ωΑ-Ω]+) /g, "$1{:font:italic:zwsp}$2{:font:} ");
+	text = text.replace(/([0-9A-Za-zα-ωΑ-Ω\)\+−])\/([A-Za-zα-ωΑ-Ω]+)([\(\-\.,\/])/g, "$1{:font:italic:zwsp}$2{:font::zwsp}$3");
 	text = text.replace(/ \/([A-Za-zα-ωΑ-Ω]+) /g, " {:font:italic}$1{:font:}");
-	text = text.replace(/ \/([A-Za-zα-ωΑ-Ω]+)([\-\.,\/])/g, " {:font:italic}$1{:font::zwsp}$2");
-	text = text.replace(/([0-9A-Za-zα-ωΑ-Ω\+−])\/([A-Za-zα-ωΑ-Ω]+)([\-\.,\/])/g, " $1{:font:italic:zwsp}$2{:font::zwsp}$3");
-	text = text.replace(/([0-9A-Za-zα-ωΑ-Ω\+−])\/([A-Za-zα-ωΑ-Ω]+)/g, "$1{:font:italic:zwsp}$2{:font:}");
-	text = text.replace(/\/([A-Za-zα-ωΑ-Ω]+)([\-\.,\/])/g, " {:font:italic}$1{:font::zwsp}$2");
+	text = text.replace(/ \/([A-Za-zα-ωΑ-Ω]+)([\(\-\.,\/])/g, " {:font:italic}$1{:font::zwsp}$2");
+	text = text.replace(/([0-9A-Za-zα-ωΑ-Ω\)\+−])\/([A-Za-zα-ωΑ-Ω]+)([\(\-\.,\/])/g, " $1{:font:italic:zwsp}$2{:font::zwsp}$3");
+	text = text.replace(/([0-9A-Za-zα-ωΑ-Ω\)\+−])\/([A-Za-zα-ωΑ-Ω]+)/g, "$1{:font:italic:zwsp}$2{:font:}");
+	text = text.replace(/\/([A-Za-zα-ωΑ-Ω]+)([\(\-\.,\/])/g, " {:font:italic}$1{:font::zwsp}$2");
 	text = text.replace(/\/([A-Za-zα-ωΑ-Ω]+)/g, "{:font:italic}$1{:font:}");
 	
 	text = text.replace(/\{:font:italic\}([A-ZΑ-Ω])/g, "{:font:italiccaps}$1");
@@ -309,7 +309,7 @@ kh3.parse = function(text){
 			}
 		}
 		else{
-			var rxIsEuropean = /[0-9A-Za-z\-\)',\.\+−]/;
+			var rxIsEuropean = /[0-9A-Za-z\-\(\)',\.\+−]/;
 			try{
 				var tmp = new RegExp("\p{scx=Han}", "u");
 				rxIsEuropean = new RegExp("[^\p{scx=Han}\p{scx=Hira}\p{scx=Kana}\s]", "u");
