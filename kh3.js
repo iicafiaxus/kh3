@@ -385,7 +385,8 @@ kh3.parrender = function(){
 		// 位置を反映
 		if(left > 0 && unit.margin) left += unit.margin;
 		unit.left = this._render.left + left;
-		unit.top = (this.setting.isVertical? this._render.top + (this.setting.zh - unit.height) / 2: this._render.top);
+		//unit.top = (this.setting.isVertical? this._render.top + (this.setting.zh - unit.height) / 2: this._render.top);
+		unit.top = this._render.top;
 		
 		// インデント位置を記憶
 		if(waitingIndentName){

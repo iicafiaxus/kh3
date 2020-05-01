@@ -47,7 +47,8 @@ kh3.Rootunit.prototype.setSubpositions = function(){
 	for(unit of this.units){
 		if(lastunit) left += lastunit.marginTo(unit);
 		unit.left = left;
-		unit.top = (kh3.setting.isVertical? (kh3.setting.zh - unit.height) / 2: 0);
+		//unit.top = (kh3.setting.isVertical? (kh3.setting.zh - unit.height) / 2: 0);
+		unit.top = 0;
 		this.innerwidth = (left += unit.width) - this.rootmark.width;
 		this.innerheight = Math.max(this.innerheight, unit.height);
 		this.innermiddle = Math.max(this.innermiddle, unit.middle);
@@ -80,7 +81,7 @@ kh3.Rootunit.prototype.setPosition = function(){
 	// 根号を配置
 	var rootscale = (this.height / kh3.setting.zh);
 	if(kh3.setting.isVertical){
-		this.rootmark.span.style.transform = "scale(, " + rootscale + ",1.0)";
+		this.rootmark.span.style.transform = "scale(" + rootscale + ",1.0)";
 		this.rootmark.span.style.transformOrigin = "right bottom";
 	}
 	else{

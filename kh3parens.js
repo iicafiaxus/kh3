@@ -46,7 +46,8 @@ kh3.Parens.prototype.setSubpositions = function(){
 	for(unit of this.units){
 		if(lastunit) left += lastunit.marginTo(unit);
 		unit.left = left;
-		unit.top = (kh3.setting.isVertical? (kh3.setting.zh - unit.height) / 2: 0);
+		//unit.top = (kh3.setting.isVertical? (kh3.setting.zh - unit.height) / 2: 0);
+		unit.top = 0;
 		this.innerwidth = (left += unit.width) - this.leftmark.width;
 		this.innerheight = Math.max(this.innerheight, unit.height);
 		this.innermiddle = Math.max(this.innermiddle, unit.middle);
@@ -86,9 +87,9 @@ kh3.Parens.prototype.setPosition = function(){
 	
 	// カッコを配置
 	if(kh3.setting.isVertical){
-		this.leftmark.span.style.transform = "scale(, " + parenscale + "," + parenwidthscale + ")";
+		this.leftmark.span.style.transform = "scale(" + parenscale + "," + parenwidthscale + ")";
 		this.leftmark.span.style.transformOrigin = "center top";
-		this.rightmark.span.style.transform = "scale(, " + parenscale + "," + parenwidthscale + ")";
+		this.rightmark.span.style.transform = "scale(" + parenscale + "," + parenwidthscale + ")";
 		this.rightmark.span.style.transformOrigin = "center top";
 	}
 	else{
