@@ -191,6 +191,7 @@ kh3.parrender = function(){
 	var left = this.setting.parIndent * this.setting.zw;
 	var leftindent = 0, rightindent = 0;
 	var isCentered = 0;
+	var isRighted = 0;
 	
 	var waitingIndentName = "";
 
@@ -263,8 +264,12 @@ kh3.parrender = function(){
 		}
 		if(unit.command == "center"){
 			if(line.units.length > 0) continue;
-			left = 0;
 			isCentered = true;
+			continue;
+		}
+		if(unit.command == "right"){
+			if(line.units.length > 0) continue;
+			isRighted = true;
 			continue;
 		}
 		if(unit.command == "meta"){
@@ -396,9 +401,14 @@ kh3.parrender = function(){
 	}
 	
 	// センタリング
-	if(isCentered){
-		var excess = (this.setting.lineWidth - left) / 2;
-		if(excess > 0) for(unit of units) unit.left += excess;
+	if(isCentered && line.units.length){
+		var excess = (this.setting.lineWidth - rightindent - left - line.units[0].left + leftindent) / 2;
+		if(excess > 0) for(unit of line.units) unit.left += excess;
+	}
+	// 末尾寄せ
+	if(isRighted){
+		var excess = this.setting.lineWidth - rightindent - left;
+		if(excess > 0) for(unit of line.units) unit.left += excess;
 	}
 	
 	// spanを配置

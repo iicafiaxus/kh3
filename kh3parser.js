@@ -249,6 +249,9 @@ kh3.parse = function(text){
 							case "center":
 								o.command = "center", o.char = "";
 								break;
+							case "right":
+								o.command = "right", o.char = "";
+								break;
 							case "rot":
 							case "rotate":
 							case "rotated":
