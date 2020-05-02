@@ -79,8 +79,10 @@ kh3.Unit.prototype.makeDom = function(){
 kh3.Unit.prototype.rotate = function(){
 	// これは makeDom よりも後で呼ばれる
 	this.isRotated = true;
-	this.height = this.width;
-	this.width = kh3.setting.zw;
+	var h = this.height, w = this.width;
+	this.height = w;
+	this.width = Math.max(h, kh3.setting.zw);
+	this.offset += (kh3.setting.zh - this.height) / 2 / this.height; // 分母が this.height なのはおかしい気もするが今はこういう仕様
 	this.lastchar = "", this.firstchar = ""; 
 	this.span.className += " rotated";
 	// 本当はこれではないがアキの処理ができていないのでとりあえず
