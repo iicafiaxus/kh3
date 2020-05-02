@@ -312,7 +312,7 @@ kh3.parrender = function(){
 		
 		// コマンド処理(その2)
 		if(unit.command == "rotate"
-			|| unit.isAlphanumeric && unit.width < this.setting.lineHeight && !(unit.prev && unit.prev.isAlphanumeric) && !(unit.next && unit.next.isAlphanumeric)
+			|| unit.canRotate && unit.isAlphanumeric && unit.width < this.setting.lineHeight && !(unit.prev && unit.prev.isAlphanumeric) && !(unit.next && unit.next.isAlphanumeric)
 			){
 			if(kh3.setting.isVertical){
 				unit.rotate();

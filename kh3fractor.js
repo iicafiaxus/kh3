@@ -1,6 +1,7 @@
 
 kh3.Fractor = function(){
-	kh3.Unit.call(this, "0");
+	kh3.Unit.call(this, "|");
+	this.canRotate = 0;
 	this.upperunits = [];
 	this.lowerunits = [];
 	this.turn = 1; // 1=upper 2=lower

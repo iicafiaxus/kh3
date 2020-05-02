@@ -2,6 +2,7 @@
 // ※そのうちfractorと統合して中間のプロトタイプを置きたい
 kh3.Rootunit = function(){
 	kh3.Unit.call(this, "√");
+	this.canRotate = 0;
 	this.units = [];
 	this.rootmark = new kh3.Unit("√");
 }

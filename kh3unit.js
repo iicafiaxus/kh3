@@ -7,7 +7,9 @@ kh3.Unit = function(text){
 	this.ruby = "";
 	this.lastchar = (text && text.length)? text.charAt(text.length - 1): "";
 	this.firstchar = (text && text.length)? text.charAt(0): "";
+	this.isAlphanumeric = !!text.match(/^[!-~\+−]+$/);
 	this.isRotated = 0;
+	this.canRotate = 1;
 	
 	this.command = "";
 	this.font = "";
