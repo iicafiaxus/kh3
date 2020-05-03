@@ -7,7 +7,7 @@ kh3.Unit = function(text){
 	this.ruby = "";
 	this.lastchar = (text && text.length)? text.charAt(text.length - 1): "";
 	this.firstchar = (text && text.length)? text.charAt(0): "";
-	this.isAlphanumeric = !!text.match(/^[!-~\+−]+$/);
+	this.isAlphanumeric = !!text.match(/^[!-~α-ωΑ-Ω\+−]+$/);
 	this.isRotated = 0;
 	this.canRotate = 1;
 	
@@ -26,7 +26,7 @@ kh3.Unit.prototype.makeDom = function(){
 	
 	// フォントの調整　場違いな気もするがとりあえず…
 	if(this.font == "main" || this.font == ""){
-		if(this.char.match(/^[!-~]+$/)){
+		if(this.char.match(/^[!-~α-ωΑ-Ω]+$/)){
 			if(this.char.match(/[0-9]+/)){
 				this.font = "numeric";
 			}
@@ -72,7 +72,8 @@ kh3.Unit.prototype.makeDom = function(){
 		this.offset = 0.0;
 		if(this.pos == "sup") this.offset = -0.4;
 		if(this.pos == "sub") this.offset = 0.25;
-		 // とりあえず
+		if(kh3.setting.isVertical && this.isAlphanumeric) this.offset = -0.05;
+		 // フォント依存だとは思うがとりあえず
 		
 		// heightが1zhではない場合に上下のはみ出し量を見るため
 		this.middle = kh3.setting.zh / 2;

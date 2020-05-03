@@ -358,7 +358,7 @@ kh3.parse = function(text){
 //			if(res.length) res[res.length - 1].lastchar = "|";
 		}
 		
-		o.isAlphanumeric = !!o.char.match(/^[!-~\+−]+$/);
+		o.isAlphanumeric = !!o.char.match(/^[!-~α-ωΑ-Ω\+−]+$/);
 		
 		if(metastack.length) metastack[metastack.length - 1].add(o);
 		else res.push(o);
