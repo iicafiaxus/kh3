@@ -72,7 +72,7 @@ kh3.Unit.prototype.makeDom = function(){
 		this.offset = 0.0;
 		if(this.pos == "sup") this.offset = -0.4;
 		if(this.pos == "sub") this.offset = 0.25;
-		if(kh3.setting.isVertical && this.isAlphanumeric) this.offset = -0.05;
+		if(kh3.setting.isVertical && this.isAlphanumeric) this.offset += -0.05;
 		 // フォント依存だとは思うがとりあえず
 		
 		// heightが1zhではない場合に上下のはみ出し量を見るため
