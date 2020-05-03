@@ -549,12 +549,13 @@ kh3.newline = function(units = []){
 		return;
 	}
 			
-	// 自由行送りの場合、前行との間隔を調整
+	// 自由行送りの場合の行間隔を調整
 	// （ここでは強制的に自由行送りにしている）
 	var heightOver = 0;
 	for(unit of units){
 		heightOver = Math.max(heightOver, unit.middle - this.setting.zh / 2);
 	}
+	if(heightOver < (this.setting.lineHeight - this.setting.zh) / 2) heightOver = 0;
 	if(heightOver > 0){
 		for(unit of units) unit.top += heightOver, unit.setPosition();
 		this._render.top += heightOver;
@@ -565,7 +566,7 @@ kh3.newline = function(units = []){
 	for(unit of units){
 		heightUnder = Math.max(heightUnder, (unit.height - unit.middle) - this.setting.zh / 2);
 	}
-	
+	if(heightUnder < (this.setting.lineHeight - this.setting.zh) / 2) heightUnder = 0;
 
 	// 囲みの内部である場合は罫を引く
 	if(this._render.isRuling) this._render.isRuling = 0, this._render.isRuled = 1;

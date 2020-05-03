@@ -85,6 +85,7 @@ kh3.Unit.prototype.rotate = function(){
 	this.height = w;
 	this.width = Math.max(h, kh3.setting.zw);
 	this.offset += (kh3.setting.zh - this.height) / 2 / this.height; // 分母が this.height なのはおかしい気もするが今はこういう仕様
+	this.middle = this.height / 2;
 	this.lastchar = "", this.firstchar = ""; 
 	this.span.className += " rotated";
 	// 本当はこれではないがアキの処理ができていないのでとりあえず
