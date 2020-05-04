@@ -233,10 +233,12 @@ kh3.parrender = function(){
 		
 		// コマンドの処理
 		if(unit.command == "page"){
+			this.newline();
 			this.newpage();
 			continue;
 		}
 		if(unit.command == "column"){
+			this.newline();
 			this.newcolumn();
 			continue;
 		}
