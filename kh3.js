@@ -205,6 +205,9 @@ kh3.parrender = function(){
 	// テキストを読み込んで単語に切り分け
 	var text = this.preprocess(this._render.textLines[this._render.index] );
 	var units = this.parse(text);
+
+	var insertedUnitStack = [];
+	var prevUnit = void 0, nextUnit = void 0;
 	
 	var font = "main";
 	var pos = "";
@@ -212,10 +215,21 @@ kh3.parrender = function(){
 	// 単語間のアキなどを計算(TODO)
 	
 	// 単語の組版
-	for(var i = 0; i < units.length; i ++){
-		var unit = units[i];
-		unit.prev = units[i - 1]; // may be void 0
-		unit.next = units[i + 1]; // may be void 0
+	for(var i = 0; i < units.length || insertedUnitStack.length; ){
+		var unit;
+		if(insertedUnitStack.length){
+			unit = insertedUnitStack.pop();
+			unit.prev = prevUnit; // may be void 0
+			unit.next = (x => x[x.length - 1])(insertedUnitStack) || units[i]; // may be void 0
+			prevUnit = unit;
+		}
+		else{
+			unit = units[i];
+			unit.prev = prevUnit; // may be void 0
+			unit.next = units[i + 1]; // may be void 0
+			prevUnit = unit;
+			i ++;
+		}
 		
 		// コマンドの処理
 		if(unit.command == "page"){
@@ -312,10 +326,28 @@ kh3.parrender = function(){
 		
 		// コマンド処理(その2)
 		if(unit.command == "rotate"
-			|| unit.canRotate && unit.isAlphanumeric && unit.width < this.setting.lineHeight && !(unit.prev && unit.prev.isAlphanumeric) && !(unit.next && unit.next.isAlphanumeric)
+			|| unit.forceRotate 
+			|| unit.canRotate && unit.isAlphanumeric && !(unit.prev && unit.prev.isAlphanumeric) && !(unit.next && unit.next.isAlphanumeric)
 			){
 			if(kh3.setting.isVertical){
-				unit.rotate();
+				if(unit.forceRotate || unit.width < this.setting.lineHeight){
+					unit.rotate();
+				}
+				else if(unit.canRotateVertical){
+					for(var irot = unit.char.length - 1; irot >= 0; irot --){
+						var verticalUnit = new kh3.Unit(unit.char.charAt(irot));
+						verticalUnit.forceRotate = 1;
+						verticalUnit.isAlphaNumeric = 0;
+						insertedUnitStack.push(verticalUnit);
+					}
+
+					// この Unit は捨てる
+					if(unit.span) unit.span.parentNode.removeChild(unit.span);
+					prevUnit = unit.prev;
+					//left -= unit.width + unit.margin;
+					continue;
+
+				}
 			}
 		}
 		
@@ -351,8 +383,11 @@ kh3.parrender = function(){
 				if(u.span) u.span.parentNode.removeChild(u.span);
 				left -= u.width + u.margin;
 			}
-			i -= (line.units.length - isp);
-			line.units = line.units.slice(0, isp);
+			while(line.units.length > isp){
+				var unitToNextLine = line.units.pop();
+				insertedUnitStack.push(unitToNextLine);
+			}
+			prevUnit = line.units[line.units.length - 1];
 			
 			// 改行位置が句読点などだった場合の調整
 			left += line.units[line.units.length - 1].marginTo(linesep);
@@ -411,9 +446,6 @@ kh3.parrender = function(){
 		var excess = this.setting.lineWidth - rightindent - left;
 		if(excess > 0) for(unit of line.units) unit.left += excess;
 	}
-	
-	// spanを配置
-	for(unit of units) unit.setPosition();
 	
 	
 	// 段落末で改行する
@@ -549,6 +581,9 @@ kh3.newline = function(units = []){
 		return;
 	}
 			
+	// span を配置
+	for(unit of units) unit.setPosition();
+
 	// 自由行送りの場合の行間隔を調整
 	// （ここでは強制的に自由行送りにしている）
 	var heightOver = 0;

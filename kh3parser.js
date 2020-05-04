@@ -346,8 +346,10 @@ kh3.parse = function(text){
 		
 		if(o.isMetacommand) continue;
 		
-		o.firstchar = o.char.length > 0? o.char.charAt(0): "";
-		o.lastchar =  o.char.length > 0? o.char.charAt(o.char.length - 1): "";
+		o.recalc(); // o.char を直接いじりまくっているので調整
+
+//		o.firstchar = o.char.length > 0? o.char.charAt(0): "";
+//		o.lastchar =  o.char.length > 0? o.char.charAt(o.char.length - 1): "";
 		
 		o.font = font;
 		o.pos = pos;
@@ -358,7 +360,7 @@ kh3.parse = function(text){
 //			if(res.length) res[res.length - 1].lastchar = "|";
 		}
 		
-		o.isAlphanumeric = !!o.char.match(/^[!-~α-ωΑ-Ω\+−]+$/);
+//		o.isAlphanumeric = !!o.char.match(/^[!-~α-ωΑ-Ω\+−]+$/);
 		
 		if(metastack.length) metastack[metastack.length - 1].add(o);
 		else res.push(o);

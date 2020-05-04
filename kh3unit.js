@@ -3,13 +3,12 @@ kh3.loadScript("kh3rootunit.js");
 kh3.loadScript("kh3parens.js");
 
 kh3.Unit = function(text){
-	this.char = text;
+	this.char = text; // parser ではこの後で直接 this.char を書き換えてくるので注意
 	this.ruby = "";
-	this.lastchar = (text && text.length)? text.charAt(text.length - 1): "";
-	this.firstchar = (text && text.length)? text.charAt(0): "";
-	this.isAlphanumeric = !!text.match(/^[!-~α-ωΑ-Ω\+−]+$/);
 	this.isRotated = 0;
 	this.canRotate = 1;
+	this.forceRotate = 0;
+	this.recalc();
 	
 	this.command = "";
 	this.font = "";
@@ -20,6 +19,21 @@ kh3.Unit = function(text){
 	this.span = void 0;
 	this.rubyspan = void 0;
 };
+
+kh3.Unit.prototype.recalc = function(){
+	if(this.char && this.char.length){
+		this.lastchar = this.char.charAt(this.char.length - 1);
+		this.firstchar = this.char.charAt(0);
+		this.isAlphanumeric = !!this.char.match(/^[!-~α-ωΑ-Ω\+−]+$/);
+		this.canRotateVertical = ! /[a-zα-ω][a-zα-ω]/g.test(this.char);
+	}
+	else{
+		this.lastchar = "";
+		this.firstchar = "";
+		this.isAlphanumeric = 0;
+		this.canRotateVertical = 0;
+	}
+}
 
 // DOM作成
 kh3.Unit.prototype.makeDom = function(){
