@@ -330,18 +330,18 @@ kh3.parrender = function(){
 			|| unit.canRotate && unit.isAlphanumeric && !(unit.prev && unit.prev.isAlphanumeric) && !(unit.next && unit.next.isAlphanumeric)
 			){
 			if(kh3.setting.isVertical){
-				if(unit.forceRotate || unit.width < this.setting.lineHeight){
+				if(unit.forceRotate || unit.width < this.setting.lineHeight){ // 縦中横
 					unit.rotate();
 				}
-				else if(unit.canRotateVertical){
+				else if(unit.canRotateVertical){ // 縦中縦
+					// 1 文字ずつの Unit に分解する
 					for(var irot = unit.char.length - 1; irot >= 0; irot --){
 						var verticalUnit = new kh3.Unit(unit.char.charAt(irot));
 						verticalUnit.forceRotate = 1;
 						verticalUnit.isAlphaNumeric = 0;
 						insertedUnitStack.push(verticalUnit);
 					}
-
-					// この Unit は捨てる
+					// 処理中の Unit は捨てる
 					if(unit.span) unit.span.parentNode.removeChild(unit.span);
 					prevUnit = unit.prev;
 					continue;
@@ -369,27 +369,28 @@ kh3.parrender = function(){
 				if(line.units[isp - 1].canBreakBetween(line.units[isp])) break;
 			}
 			
-			// 行頭行末
-			if(isp > 0) line.units[isp - 1].isTerminal = 1;
-			line.units[isp].isInitial = 1;
-			
-			// 改行直後のユニットを憶えておく(改行後の復帰位置の処理用)
-			var nextlinestartunit = line.units[isp];
+			// 改行直前直後のユニット
+			var unitbefore = line.units[isp - 1];
+			var unitafter = line.units[isp];
+			prevUnit = unitbefore;
+
+			// 行頭行末を設定
+			if(unitbefore) unitbefore.isTerminal = 1;
+			unitafter.isInitial = 1;
 			
 			// 改行することになった位置以降を次行に送る
-			for(var isp2 = isp; isp2 < line.units.length - 1; isp2 ++){
-				var u = line.units[isp2];
+			while(line.units.length > isp){
+				var u = line.units.pop();
 				if(u.span) u.span.parentNode.removeChild(u.span);
 				left -= u.width + u.margin;
+				insertedUnitStack.push(u);
 			}
-			while(line.units.length > isp){
-				var unitToNextLine = line.units.pop();
-				insertedUnitStack.push(unitToNextLine);
-			}
-			prevUnit = line.units[line.units.length - 1];
 			
+			// 減じすぎているので調整
+			left += unit.width + unit.margin;
+
 			// 改行位置が句読点などだった場合の調整
-			left += line.units[line.units.length - 1].marginTo(linesep);
+			left += unitbefore.marginTo(linesep);
 			
 			// 追い出しに伴う均等割り
 			var sepcount = 0;
@@ -405,7 +406,7 @@ kh3.parrender = function(){
 			}
 
 			// 復帰と改行
-			left = leftindent + linesep.marginTo(nextlinestartunit);
+			left = leftindent + linesep.marginTo(unitafter);
 			this.newline(line.units);
 			
 			// 行内容のリセット
