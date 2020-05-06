@@ -304,15 +304,13 @@ kh3.parrender = function(){
 		if(unit.command == "font"){
 			if(unit.value != "") font = unit.value;
 			else font = "main";
-//			if(unit.zwsp && lastunit) lastunit.lastchar = "|";
-//			if(unit.zwsp && unit.prev) unit.prev.lastchar = "|";
-			if(unit.zwsp && unit.prev) unit.firstchar = ""; // "|"
+			if(unit.zwsp && unit.prev) unit.firstchar = "";
 			continue;
 		}
 		if(unit.command == "pos"){
 			if(unit.value != "") pos = unit.value;
 			else pos = "";
-			if(unit.zwsp && unit.prev) unit.firstchar = ""; // "|"
+			if(unit.zwsp && unit.prev) unit.firstchar = "";
 			continue;
 		}
 		
@@ -346,7 +344,6 @@ kh3.parrender = function(){
 					// この Unit は捨てる
 					if(unit.span) unit.span.parentNode.removeChild(unit.span);
 					prevUnit = unit.prev;
-					//left -= unit.width + unit.margin;
 					continue;
 
 				}
@@ -422,7 +419,6 @@ kh3.parrender = function(){
 		// 位置を反映
 		if(left > 0 && unit.margin) left += unit.margin;
 		unit.left = this._render.left + left;
-		//unit.top = (this.setting.isVertical? this._render.top + (this.setting.zh - unit.height) / 2: this._render.top);
 		unit.top = this._render.top;
 		
 		// インデント位置を記憶
