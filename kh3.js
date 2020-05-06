@@ -175,7 +175,9 @@ kh3.parrender = function(){
 	this._render.parTarget = document.createElement("p");
 	this._render.divFace.appendChild(this._render.parTarget);
 	
+	// 処理中の行およびタブ
 	var line = { units: [] };
+	var tab = { units: [] };
 	
 	// ダミーユニット
 	var blank = new kh3.Unit("");
@@ -243,13 +245,22 @@ kh3.parrender = function(){
 			continue;
 		}
 		if(unit.command == "indent"){
-			if(line.units.length > 0) continue;
 			if(! isNumeric(unit.value) && unit.value in this._render.indentmap)
 					unit.value = this._render.indentmap[unit.value];
 			if(! isNumeric(unit.value2) && unit.value2 in this._render.indentmap)
 					unit.value2 = this._render.indentmap[unit.value2];
 			if(! isNumeric(unit.value3) && unit.value3 in this._render.indentmap)
 					unit.value3 = this._render.indentmap[unit.value3];
+
+			if(line.units.length > 0){
+				if(! isCentered && ! isRighted){
+					if(left >= +unit.value * this.setting.zw) this.newline(line.units);
+					tab.units = [];
+					lastunit = blank;
+				}
+				else continue;
+			}
+
 			left = leftindent + +unit.value * this.setting.zw;
 			if(isNumeric(unit.value2)) leftindent += +unit.value2 * this.setting.zw;
 			if(isNumeric(unit.value3)) rightindent += +unit.value3 * this.setting.zw;
@@ -357,21 +368,22 @@ kh3.parrender = function(){
 		// 前のunitからのアキ
 		unit.margin = lastunit.marginTo(unit);
 		
-		// 行への追加
+		// 行への追加、タブへの追加
 		line.units.push(unit);
+		tab.units.push(unit);
 		
 		// 改行の必要がある場合...
-		if(left + unit.margin + unit.width + line.units[line.units.length - 1].marginTo(linesep) + rightindent > this.setting.lineWidth){
+		if(left + unit.margin + unit.width + unit.marginTo(linesep) + rightindent > this.setting.lineWidth){
 			
 			// 直近で改行可能な位置を探す(＝追い出し処理)
 			var isp;
-			for(isp = line.units.length - 1; isp >= 2; isp --){
-				if(line.units[isp - 1].canBreakBetween(line.units[isp])) break;
+			for(isp = tab.units.length - 1; isp >= 2; isp --){
+				if(tab.units[isp - 1].canBreakBetween(tab.units[isp])) break;
 			}
 			
 			// 改行直前直後のユニット
-			var unitbefore = line.units[isp - 1];
-			var unitafter = line.units[isp];
+			var unitbefore = tab.units[isp - 1];
+			var unitafter = tab.units[isp];
 			prevUnit = unitbefore;
 
 			// 行頭行末を設定
@@ -379,8 +391,9 @@ kh3.parrender = function(){
 			unitafter.isInitial = 1;
 			
 			// 改行することになった位置以降を次行に送る
-			while(line.units.length > isp){
-				var u = line.units.pop();
+			while(tab.units.length > isp){
+				var u = tab.units.pop();
+				line.units.pop();
 				if(u.span) u.span.parentNode.removeChild(u.span);
 				left -= u.width + u.margin;
 				insertedUnitStack.push(u);
@@ -394,24 +407,25 @@ kh3.parrender = function(){
 			
 			// 追い出しに伴う均等割り
 			var sepcount = 0;
-			for(isp = 0; isp < line.units.length; isp ++){
-				if(isp > 0) sepcount += line.units[isp - 1].sepTo(line.units[isp]);
+			for(isp = 0; isp < tab.units.length; isp ++){
+				if(isp > 0) sepcount += tab.units[isp - 1].sepTo(tab.units[isp]);
 			}
 			if(sepcount == 0) sepcount = 1;
 			var k = (this.setting.lineWidth - left - rightindent) / sepcount;
 			var ksum = 0;
-			for(isp = 0; isp < line.units.length; isp ++){
-				if(isp > 0) ksum += k * line.units[isp - 1].sepTo(line.units[isp]);
-				line.units[isp].left += ksum;
+			for(isp = 0; isp < tab.units.length; isp ++){
+				if(isp > 0) ksum += k * tab.units[isp - 1].sepTo(tab.units[isp]);
+				tab.units[isp].left += ksum;
 			}
 
 			// 復帰と改行
 			left = leftindent + linesep.marginTo(unitafter);
 			this.newline(line.units);
 			
-			// 行内容のリセット
+			// 行内容・タブ内容のリセット
 			line.units = [];
 			line.prevHeightUnder = line.heightUnder;
+			tab.units = [];
 			
 			// このときはDOMを作成しない(iを戻したので)
 			continue;
