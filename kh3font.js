@@ -36,8 +36,8 @@ kh3.font.main = {
 kh3.font.roman = kh3.font.numeric = kh3.font.main;
 
 kh3.font.italic = {
-	url: "https://fonts.googleapis.com/css?family=Old+Standard+TT:400i",
-	name: "Old standard TT",
+	url: "https://fonts.googleapis.com/css?family=Old+Standard+TT:400i https://fonts.googleapis.com/css2?family=Alegreya:ital@1&display=swap",
+	name: "Old Standard TT" + '", "' + "Alegreya",
 	weight: 400,
 	style: "italic",
 	magnitude: 1.1,
