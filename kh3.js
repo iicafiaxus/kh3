@@ -254,7 +254,7 @@ kh3.parrender = function(){
 
 			if(line.units.length > 0){
 				if(! isCentered && ! isRighted){
-					if(left >= +unit.value * this.setting.zw) this.newline(line.units);
+					if(left >= leftindent + +unit.value * this.setting.zw) this.newline(line.units);
 					tab.units = [];
 					lastunit = blank;
 				}
@@ -367,6 +367,7 @@ kh3.parrender = function(){
 		
 		// 前のunitからのアキ
 		unit.margin = lastunit.marginTo(unit);
+		unit.sepratio = lastunit.sepTo(unit);
 		
 		// 行への追加、タブへの追加
 		line.units.push(unit);
@@ -403,19 +404,17 @@ kh3.parrender = function(){
 			left += unit.width + unit.margin;
 
 			// 改行位置が句読点などだった場合の調整
-			left += unitbefore.marginTo(linesep);
+			if(unitbefore) left += unitbefore.marginTo(linesep);
 			
 			// 追い出しに伴う均等割り
 			var sepcount = 0;
-			for(isp = 0; isp < tab.units.length; isp ++){
-				if(isp > 0) sepcount += tab.units[isp - 1].sepTo(tab.units[isp]);
-			}
+			for(u of tab.units) sepcount += u.sepratio;
 			if(sepcount == 0) sepcount = 1;
 			var k = (this.setting.lineWidth - left - rightindent) / sepcount;
 			var ksum = 0;
-			for(isp = 0; isp < tab.units.length; isp ++){
-				if(isp > 0) ksum += k * tab.units[isp - 1].sepTo(tab.units[isp]);
-				tab.units[isp].left += ksum;
+			for(u of tab.units){
+				ksum += k * u.sepratio;
+				u.left += ksum;
 			}
 
 			// 復帰と改行
@@ -438,9 +437,8 @@ kh3.parrender = function(){
 		
 		// インデント位置を記憶
 		if(waitingIndentName){
-			this._render.indentmap[waitingIndentName] = 
-					(left - leftindent) / this.setting.zw;
-			waitingIndentName = ""
+			this._render.indentmap[waitingIndentName] = (left - leftindent) / this.setting.zw;
+			waitingIndentName = "";
 		}
 
 		// 次のユニットへ
