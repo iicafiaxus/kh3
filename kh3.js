@@ -390,7 +390,7 @@ kh3.parrender = function(){
 			// 行頭行末を設定
 			if(unitbefore) unitbefore.isTerminal = 1;
 			unitafter.isInitial = 1;
-			
+
 			// 改行することになった位置以降を次行に送る
 			while(tab.units.length > isp){
 				var u = tab.units.pop();
@@ -420,6 +420,7 @@ kh3.parrender = function(){
 			// 復帰と改行
 			left = leftindent + linesep.marginTo(unitafter);
 			this.newline(line.units);
+			lastunit = linesep;
 			
 			// 行内容・タブ内容のリセット
 			line.units = [];
