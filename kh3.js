@@ -368,7 +368,7 @@ kh3.parrender = function(){
 		// 前のunitからのアキ
 		unit.margin = lastunit.marginTo(unit);
 		unit.sepratio = lastunit.sepTo(unit);
-		
+
 		// 行への追加、タブへの追加
 		line.units.push(unit);
 		tab.units.push(unit);
@@ -551,7 +551,8 @@ kh3.getWidth = function(text, unit, zw, prefix){
 			else this._memoWidth[key] = width - 2 * this.getWidth("---", unit, zw, prefix)
 		}
 		else{
-			this._memoWidth[key] = text.length * zw;
+			var f = (/sub|sup/.test(prefix)? 0.7: 1.0); // とりあえず…
+			this._memoWidth[key] = text.length * zw * f;
 		}
 		span.className = span.className.replace(" " + prefix, "");
 	}

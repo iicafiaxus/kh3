@@ -14,12 +14,22 @@ kh3.font.roman = {
 }
 
 // Neuton
+/*
 kh3.font.numeric = {
 	url: "https://fonts.googleapis.com/css?family=IBM+Plex+Serif:400",
 	name: "IBM Plex Serif",
 	weight: 400,
 	style: "normal",
 	magnitude: 1.0,
+	offset: 0.05,
+}
+*/
+kh3.font.numeric = {
+	url: "https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap",
+	name: "Crimson Text",
+	weight: 400,
+	style: "normal",
+	magnitude: 1.1,
 	offset: 0.05,
 }
 
@@ -140,6 +150,16 @@ kh3.font.reset = function(size){
 		
 		s += "span." + name + ".sub, span." + name + ".sup{";
 		s += "\t" + "font-size: " + (size * 0.7 * font.magnitude) + "mm;";
+		s += "}";
+		
+		s += "#allH ." + name + ".sub, #allH ." + name + ".sup{";
+		s += "\t" + "padding-top: " + (size * 0.7 * font.offset) + "mm;";
+		s += "}";
+		s += "#allV ." + name + ".sub:not(.rotated), #allV ." + name + ".sup:not(.rotated){";
+		s += "\t" + "padding-right: " + (size * 0.7 * font.offset / 2) + "mm;";
+		s += "}";
+		s += "#allV ." + name + ".sub.rotated, #allV ." + name + ".sup.rotated{";
+		s += "\t" + "padding-top: " + (size * 0.7 * font.offset / 2) + "mm;";
 		s += "}";
 		
 		style.innerHTML = s;

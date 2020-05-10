@@ -33,6 +33,9 @@ kh3.Rootunit.prototype.close = function(){
 kh3.Rootunit.prototype.add = function(unit){
 	this.units.push(unit);
 }
+kh3.Rootunit.prototype.remove = function(){
+	return this.units.pop();
+}
 
 kh3.Rootunit.prototype.barspacing = kh3.setting.zh / 4;
 

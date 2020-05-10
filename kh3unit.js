@@ -1,6 +1,7 @@
 kh3.loadScript("kh3fractor.js");
 kh3.loadScript("kh3rootunit.js");
 kh3.loadScript("kh3parens.js");
+kh3.loadScript("kh3indexed.js");
 
 kh3.Unit = function(text){
 	this.char = text; // parser ではこの後で直接 this.char を書き換えてくるので注意
@@ -81,11 +82,11 @@ kh3.Unit.prototype.makeDom = function(){
 	}
 	
 		// 採寸
-		this.width = kh3.getWidth(this.char, kh3._render.unit, kh3.setting.zw, this.font + this.pos);
+		this.width = kh3.getWidth(this.char, kh3._render.unit, kh3.setting.zw, this.font + " " + this.pos);
 		this.height = kh3.setting.zh;
 		this.offset = 0.0;
 		if(this.pos == "sup") this.offset = -0.4;
-		if(this.pos == "sub") this.offset = 0.25;
+		if(this.pos == "sub") this.offset = 0.4;
 		if(kh3.setting.isVertical && this.isAlphanumeric) this.offset += -0.05;
 		 // フォント依存だとは思うがとりあえず
 		

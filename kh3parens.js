@@ -32,6 +32,9 @@ kh3.Parens.prototype.close = function(){
 kh3.Parens.prototype.add = function(unit){
 	this.units.push(unit);
 }
+kh3.Parens.prototype.remove = function(){
+	return this.units.pop();
+}
 
 kh3.Parens.prototype.setSubpositions = function(){
 	// 位置を反映

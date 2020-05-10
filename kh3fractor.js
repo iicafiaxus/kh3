@@ -42,6 +42,10 @@ kh3.Fractor.prototype.add = function(unit){
 	if(this.turn == 1) this.upperunits.push(unit);
 	else this.lowerunits.push(unit);
 }
+kh3.Fractor.prototype.remove = function(){
+	if(this.turn == 1) return this.upperunits.pop();
+	else return this.lowerunits.pop();
+}
 
 kh3.Fractor.prototype.barspacing = kh3.setting.zh / 4;
 

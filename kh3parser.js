@@ -27,7 +27,14 @@ kh3.preprocess = function(text){
 			function(match, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10){ return rubypreprocess([p1, p2, p3, p4, p5], [p6, p7, p8, p9, p10]); });
 	text = text.replace(/(.)(.)(.)(.)(.)(.)\{\[([^ \]]*) ([^ \]]*) ([^ \]]*) ([^ \]]*) ([^ \]]*) ([^ \]]*)\]\}/g, 
 			function(match, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12){ return rubypreprocess([p1, p2, p3, p4, p5, p6], [p7, p8, p9, p10, p11, p12]); });
-	
+
+	// 下付き・上付きを新方式に変換
+	text = text.replace(/(_(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+ /g, x => "{!index}" + x.split("_").join(" ") + "{!}");
+	text = text.replace(/(_(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+/g, x => "{!index}" + x.split("_").join(" ") + "{!}{:pos::zwsp}");
+	text = text.replace(/(\^(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+ /g, x => "{!index:sup}" + x.split("^").join(" ") + "{!}");
+	text = text.replace(/(\^(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+/g, x => "{!index:sup}" + x.split("^").join(" ") + "{!}{:pos::zwsp}");
+	console.log(text);
+
 	// 下付きイタリック・上付きイタリック
 	text = text.replace(/ _\/([A-Za-zα-ωΑ-Ω]+) /g, "{:pos:sub}{:font:italic}$1{:font:}{:pos:}");
 	text = text.replace(/ _\/([A-Za-zα-ωΑ-Ω]+)/g, "{:pos:sub}{:font:italic}$1{:font:}{:pos::zwsp}");
@@ -176,9 +183,29 @@ kh3.parse = function(text){
 										if(this.unit.turn == 1) this.unit.turnover();
 										else this.unit.close(), this.isClosed = 1;
 								}.bind(o);
-								o.add = function(unit){
-									this.unit.add(unit);
+								o.add = function(unit){ this.unit.add(unit); }.bind(o);
+								o.remove = function(){ return this.unit.remove(); }.bind(o);
+								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
+								else res.push(o.unit);
+								metastack.push(o);
+								break;
+							case "indexed":
+							case "index":
+								o.command = "indexed";
+								o.pos = (operands.length > 1? operands[1]: "sub");
+								o.unit = new kh3.Indexed(o.pos);
+								o.turn = 1;
+								if(operands[0] == "index"){
+									if(metastack.length) o.unit.add(metastack[metastack.length - 1].remove());
+									else if(res.length) o.unit.add(res.pop());
+									o.unit.turnover();
+								}
+								o.close = function(){
+										if(this.unit.turn == 1) this.unit.turnover();
+										else this.unit.close(), this.isClosed = 1;
 								}.bind(o);
+								o.add = function(unit){ this.unit.add(unit); }.bind(o);
+								o.remove = function(){ return this.unit.remove(); }.bind(o);
 								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
 								else res.push(o.unit);
 								metastack.push(o);
@@ -189,6 +216,7 @@ kh3.parse = function(text){
 								o.unit = new kh3.Rootunit();
 								o.close = function(){ this.unit.close(), this.isClosed = 1; }.bind(o);
 								o.add = function(unit){ this.unit.add(unit); }.bind(o);
+								o.remove = function(){ return this.unit.remove(); }.bind(o);
 								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
 								else res.push(o.unit);
 								metastack.push(o);
@@ -198,6 +226,7 @@ kh3.parse = function(text){
 								o.unit = new kh3.Parens("{", "}");
 								o.close = function(){ this.unit.close(), this.isClosed = 1; }.bind(o);
 								o.add = function(unit){ this.unit.add(unit); }.bind(o);
+								o.remove = function(){ return this.unit.remove(); }.bind(o);
 								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
 								else res.push(o.unit);
 								metastack.push(o);
@@ -207,6 +236,7 @@ kh3.parse = function(text){
 								o.unit = new kh3.Parens();
 								o.close = function(){ this.unit.close(), this.isClosed = 1; }.bind(o);
 								o.add = function(unit){ this.unit.add(unit); }.bind(o);
+								o.remove = function(){ return this.unit.remove(); }.bind(o);
 								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
 								else res.push(o.unit);
 								metastack.push(o);
