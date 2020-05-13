@@ -121,6 +121,7 @@ kh3.rendermain = function(){
 	this._render.testspan.textContent = "花";
 	this._render.unit = this._render.testspan.getBoundingClientRect()[this.setting.isVertical? "height": "width"];
 	this._render.rubytestspan.textContent = "は";
+	this._render.testspan.appendChild(this._render.rubytestspan);
 	this._render.rubyunit = this._render.rubytestspan.getBoundingClientRect()[this.setting.isVertical? "height": "width"];
 	
 	// ToDo: いつの間にかルビの換算単位が取得できなくなっているので修正する
@@ -559,7 +560,11 @@ kh3._memoWidth = {};
 kh3.getWidth = function(text, unit, zw, prefix){
 	var key = prefix + "|" + text;
 	if(this._memoWidth[key] === void 0){
-		var span = (prefix == "ruby")? this._render.rubytestspan: this._render.testspan;
+		var span = this._render.testspan;
+		if(prefix == "ruby"){
+			span = this._render.rubytestspan;
+			this._render.testspan.appendChild(this._render.rubytestspan);
+		}
 		span.className += " " + prefix;
 		if(text.match(/[^\u3000-\u30ff\u4e00-\u9fcf\uff00-\uffef ]/)){
 			span.textContent = "|||" + text + "|||";
