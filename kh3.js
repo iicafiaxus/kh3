@@ -477,27 +477,33 @@ kh3.parrender = function(){
 	this.newline(line.units);
 	
 	// 下線があれば下線を引く
-	var uleft;
+	var uleft, udepth;
 	for(unit of units){
 		if(unit.underline > 0){
 			if(unit.isInitial || !unit.prev || unit.prev.underline != unit.underline){
 				uleft = unit.left;
+				if(this.setting.isVertical) udepth = unit.height - unit.middle;
+				else udepth = unit.middle;
+			}
+			else{
+				if(this.setting.isVertical) udepth = Math.max(udepth, unit.middle);
+				else udepth = Math.max(udepth, unit.height - unit.middle);
 			}
 			if(unit.isTerminal || !unit.next || unit.next.underline != unit.underline){
 				var uwidth = unit.left + unit.width - uleft;
 				if(unit.marginTo(linesep) < 0) uwidth += unit.marginTo(linesep);
-				var weight = 500, style = "solid";
-				if(unit.underline == "2") weight = 750;
+				var weight = 250, style = "solid";
+				if(unit.underline == "2") weight = 500;
 				if(unit.underline == "3") weight = 500, style = "double";
-				if(unit.underline == "4") weight = 250;
+				if(unit.underline == "4") weight = 125;
 				if(unit.underline == "5") style = "dotted";
 				if(! this.setting.isVertical) this.drawBox(
-						uleft, unit.top - this.setting.zh * 0.125, 
-						uwidth, this.setting.zh * 1.375 - weight / 2,
+						uleft, unit.top + unit.middle, 
+						uwidth, udepth + kh3.setting.zh * 0.125,
 						0, 0, 1, 0, weight, style);
 				else this.drawBox(
-						uleft, unit.top - this.setting.zh * 0.125 - weight / 2,
-						uwidth, this.setting.zh * 1.375 + weight,
+						uleft, unit.top + unit.middle - udepth - kh3.setting.zh * 0.125 - weight,
+						uwidth, udepth + kh3.setting.zh * 0.125,
 						1, 0, 0, 0, weight, style);
 			}
 		}
