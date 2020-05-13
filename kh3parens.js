@@ -38,9 +38,10 @@ kh3.Parens.prototype.remove = function(){
 
 kh3.Parens.prototype.setSubpositions = function(){
 	// 位置を反映
+	// この処理あちこちにあるので共通化すべき…
+	// ただしパーレンは特殊で上と下のMaxを取る（カッコの膨らみの真ん中が合うように）
 	let parenpadding = kh3.setting.zw / 8;
 	this.innerwidth = 0;
-	this.innerheight = kh3.setting.zh;
 	this.innermiddle = kh3.setting.zh / 2;
 	this.leftmark.left = 0;
 	this.leftmark.top = 0;
@@ -49,13 +50,18 @@ kh3.Parens.prototype.setSubpositions = function(){
 	for(unit of this.units){
 		if(lastunit) left += lastunit.marginTo(unit);
 		unit.left = left;
-		//unit.top = (kh3.setting.isVertical? (kh3.setting.zh - unit.height) / 2: 0);
 		unit.top = 0;
 		this.innerwidth = (left += unit.width) - this.leftmark.width;
-		this.innerheight = Math.max(this.innerheight, unit.height);
 		this.innermiddle = Math.max(this.innermiddle, unit.middle);
 		lastunit = unit;
 	}
+	// ここが特殊
+	this.innerheight = this.innermiddle * 2;
+	for(unit of this.units){
+		this.innerheight = Math.max(this.innerheight, (unit.height - unit.middle) * 2); 
+	}
+	this.innermiddle = this.innerheight / 2;
+
 	left += parenpadding;
 	this.rightmark.left = left;
 	this.rightmark.top = 0;
@@ -84,7 +90,7 @@ kh3.Parens.prototype.setPosition = function(){
 	// 中身を配置
 	for(u of this.units){
 		u.left += this.left + this.leftmark.width * (parenwidthscale - 1);
-		u.top += this.top - (this.innerheight / 2 - this.innermiddle);
+		u.top += this.top + (this.innermiddle - u.middle);
 		u.setPosition();
 	}
 	
@@ -102,11 +108,11 @@ kh3.Parens.prototype.setPosition = function(){
 		this.rightmark.span.style.transformOrigin = "left center";
 	}
 	this.leftmark.left += this.left;
-	this.leftmark.top = this.top - parenoffset;
+	this.leftmark.top = this.top + this.middle - kh3.setting.zh / 2 - parenoffset;
 	this.leftmark.offset = 0.0;
 	this.leftmark.setPosition();
 	this.rightmark.left += this.left;
-	this.rightmark.top = this.top - parenoffset;
+	this.rightmark.top = this.top + this.middle - kh3.setting.zh / 2 - parenoffset;
 	this.rightmark.offset = 0.0;
 	this.rightmark.setPosition();
 	

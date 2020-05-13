@@ -123,6 +123,19 @@ kh3.rendermain = function(){
 	this._render.rubytestspan.textContent = "は";
 	this._render.rubyunit = this._render.rubytestspan.getBoundingClientRect()[this.setting.isVertical? "height": "width"];
 	
+	// ToDo: いつの間にかルビの換算単位が取得できなくなっているので修正する
+
+	// 換算単位が取得できていなかったらやり直し
+	// 現在は殺してある
+	// console.log("px -> micron:", this._render.unit, this._render.rubyunit);
+	if(0){
+		console.log("フォントが読み込めていなかったため再描画します");
+		(x => x.parentNode && x.parentNode.removeChild(x))(this._render.testspan);
+		(x => x.parentNode && x.parentNode.removeChild(x))(this._render.rubytestspan);
+		window.setTimeout(this.rendermain.bind(this), 200);
+		return;
+	}
+
 	// 行送り位置
 	this._render.top = 0;
 
@@ -543,12 +556,12 @@ kh3.getWidth = function(text, unit, zw, prefix){
 		var span = (prefix == "ruby")? this._render.rubytestspan: this._render.testspan;
 		span.className += " " + prefix;
 		if(text.match(/[^\u3000-\u30ff\u4e00-\u9fcf\uff00-\uffef ]/)){
-			span.textContent = "---" + text + "---";
+			span.textContent = "|||" + text + "|||";
 			var width;
 			if(this.setting.isVertical) width = span.getBoundingClientRect().height / unit * zw;
 			else width = span.getBoundingClientRect().width / unit * zw;
-			if(text == "---") this._memoWidth[key] = width / 3;
-			else this._memoWidth[key] = width - 2 * this.getWidth("---", unit, zw, prefix)
+			if(text == "|||") this._memoWidth[key] = width / 3;
+			else this._memoWidth[key] = width - 2 * this.getWidth("|||", unit, zw, prefix)
 		}
 		else{
 			var f = (/sub|sup/.test(prefix)? 0.7: 1.0); // とりあえず…
@@ -604,10 +617,9 @@ kh3.newline = function(units = []){
 		heightOver = Math.max(heightOver, unit.middle - this.setting.zh / 2);
 	}
 	if(heightOver < (this.setting.lineHeight - this.setting.zh) / 2) heightOver = 0;
-	if(heightOver > 0){
-		for(unit of units) unit.top += heightOver, unit.setPosition();
-		this._render.top += heightOver;
-	}
+
+	for(unit of units) unit.top += heightOver + this.setting.zh / 2 - unit.middle, unit.setPosition();
+	this._render.top += heightOver;
 	
 	// 自由行送りの場合、次行との間隔を調整
 	var heightUnder = 0

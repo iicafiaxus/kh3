@@ -59,7 +59,7 @@ kh3.Indexed.prototype.setSubpositions = function(){
 	for(unit of this.mainunits){
 		if(lastunit) left += lastunit.marginTo(unit);
 		unit.left = left;
-		unit.top = 0;
+		unit.top = (this.pos == "sup"? kh3.setting.zh * 0.2: 0);
 		this.innerwidth = (left += unit.width);
 		this.innerheight = Math.max(this.innerheight, unit.height);
 		this.innermiddle = Math.max(this.innermiddle, unit.middle);
@@ -69,33 +69,33 @@ kh3.Indexed.prototype.setSubpositions = function(){
 	for(unit of this.indexunits){
 		if(lastunit) left += lastunit.marginTo(unit) * 0.7 * 0.4;
 		unit.left = left;
-		unit.top = 0;
+		unit.top = (this.pos == "sup"? kh3.setting.zh * -0.2: kh3.setting.zh * 0.4);
 		this.innerwidth = (left += unit.width);
 		this.innerheight = Math.max(this.innerheight, unit.height);
 		this.innermiddle = Math.max(this.innermiddle, unit.middle);
 		lastunit = unit;
 	}
 	this.width = this.innerwidth;
-	this.height = this.innerheight;
-	this.middle = this.innermiddle;
+	this.height = this.innerheight + kh3.setting.zh * 0.2;
+	this.middle = this.innermiddle + (this.pos == "sup"? kh3.setting.zh * 0.2: 0);
 
+	
+	// 縦中横の処理
 	if(this.isRotated){
 		for(unit of this.mainunits){
 			var l = unit.left, t = unit.top;
 			unit.left = t;
-			unit.top = -kh3.setting.zh / 2 + this.width / 2;
+			unit.top = this.width / 2 - l -  kh3.setting.zh / 2;
 		}
 		for(unit of this.indexunits){
 			var l = unit.left, t = unit.top;
-			if(this.pos == "sup"){
-				unit.left = t - kh3.setting.zh * 0.3;
-				unit.top = -kh3.setting.zh / 2 + this.width / 2 - l + kh3.setting.zh * 0.4; // よくわからない フォント依存かも
-			}
-			else{
-				unit.left = t + kh3.setting.zh * 0.3;
-				unit.top = -kh3.setting.zh / 2 + this.width / 2 - l - kh3.setting.zh * 0.4; // よくわからない フォント依存かも
-			}
+			unit.left = t;
+			unit.top = this.width / 2 - l -  kh3.setting.zh / 2;
 		}
+		var w = this.width, h = this.height;
+		this.height = w;
+		this.width = h;
+		this.middle = this.height / 2;
 	}
 	
 
@@ -105,6 +105,10 @@ kh3.Indexed.prototype.setSubpositions = function(){
 
 kh3.Indexed.prototype.rotate = function(){
 	kh3.Unit.prototype.rotate.call(this);
+	if(this.mainunits.length){
+		this.lastchar = (x => x[x.length - 1])(this.mainunits).lastchar;
+		this.firstchar = this.mainunits[0].firstchar; 
+	}
 	for(u of this.mainunits){
 		u.span.className += " rotated";
 	}

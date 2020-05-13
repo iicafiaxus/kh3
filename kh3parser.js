@@ -29,11 +29,10 @@ kh3.preprocess = function(text){
 			function(match, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12){ return rubypreprocess([p1, p2, p3, p4, p5, p6], [p7, p8, p9, p10, p11, p12]); });
 
 	// 下付き・上付きを新方式に変換
-	text = text.replace(/(_(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+ /g, x => "{!index}" + x.split("_").join(" ") + "{!}");
+	text = text.replace(/(_(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+(?!\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+)/g, x => "{!index}" + x.split("_").join(" ") + "{!}");
 	text = text.replace(/(_(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+/g, x => "{!index}" + x.split("_").join(" ") + "{!}{:pos::zwsp}");
-	text = text.replace(/(\^(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+ /g, x => "{!index:sup}" + x.split("^").join(" ") + "{!}");
+	text = text.replace(/(\^(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+(?!\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+)/g, x => "{!index:sup}" + x.split("^").join(" ") + "{!}");
 	text = text.replace(/(\^(\/?[A-Za-zα-ωΑ-Ω]+|[0-9]+|.))+/g, x => "{!index:sup}" + x.split("^").join(" ") + "{!}{:pos::zwsp}");
-	console.log(text);
 
 	// 下付きイタリック・上付きイタリック
 	text = text.replace(/ _\/([A-Za-zα-ωΑ-Ω]+) /g, "{:pos:sub}{:font:italic}$1{:font:}{:pos:}");

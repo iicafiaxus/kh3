@@ -46,8 +46,8 @@ kh3.font.main = {
 kh3.font.roman = kh3.font.numeric = kh3.font.main;
 
 kh3.font.italic = {
-	url: "https://fonts.googleapis.com/css?family=Old+Standard+TT:400i https://fonts.googleapis.com/css2?family=Alegreya:ital@1&display=swap",
-	name: "Old Standard TT" + '", "' + "Alegreya",
+	url: "https://fonts.googleapis.com/css?family=Old+Standard+TT:400i https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1&display=swap https://fonts.googleapis.com/css2?family=Alegreya:ital@1&display=swap",
+	name: ["Old Standard TT", "Alegreya"].join('", "'),
 	weight: 400,
 	style: "italic",
 	magnitude: 1.1,
@@ -152,15 +152,6 @@ kh3.font.reset = function(size){
 		s += "\t" + "font-size: " + (size * 0.7 * font.magnitude) + "mm;";
 		s += "}";
 		
-		s += "#allH ." + name + ".sub, #allH ." + name + ".sup{";
-		s += "\t" + "padding-top: " + (size * 0.7 * font.offset) + "mm;";
-		s += "}";
-		s += "#allV ." + name + ".sub:not(.rotated), #allV ." + name + ".sup:not(.rotated){";
-		s += "\t" + "padding-right: " + (size * 0.7 * font.offset / 2) + "mm;";
-		s += "}";
-		s += "#allV ." + name + ".sub.rotated, #allV ." + name + ".sup.rotated{";
-		s += "\t" + "padding-top: " + (size * 0.7 * font.offset / 2) + "mm;";
-		s += "}";
 		
 		style.innerHTML = s;
 	}
