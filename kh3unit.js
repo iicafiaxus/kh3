@@ -81,17 +81,15 @@ kh3.Unit.prototype.makeDom = function(){
 		this.rubyspan = rubyspan;
 	}
 	
-		// 採寸
-		this.width = kh3.getWidth(this.char, kh3._render.unit, kh3.setting.zw, this.font + " " + this.pos);
-		this.height = kh3.setting.zh;
-		this.offset = 0.0;
-		//if(this.pos == "sup") this.offset = -0.4;
-		//if(this.pos == "sub") this.offset = 0.4;
-		if(kh3.setting.isVertical && this.isAlphanumeric) this.offset += -0.05;
-		 // フォント依存だとは思うがとりあえず
-		
-		// heightが1zhではない場合に上下のはみ出し量を見るため
-		this.middle = kh3.setting.zh / 2;
+	// 採寸
+	this.width = kh3.getWidth(this.char, kh3._render.unit, kh3.setting.zw, this.font + " " + this.pos);
+	this.height = kh3.setting.zh;
+	this.offset = 0.0;
+	if(kh3.setting.isVertical && this.isAlphanumeric) this.offset += -0.05;
+		// フォント依存だとは思うがとりあえず
+	
+	// 文字の天から中心線まで
+	this.middle = kh3.setting.zh / 2;
 };
 
 kh3.Unit.prototype.rotate = function(){
@@ -99,8 +97,8 @@ kh3.Unit.prototype.rotate = function(){
 	this.isRotated = true;
 	var h = this.height, w = this.width;
 	this.height = w;
-	this.width = h;//Math.max(h, kh3.setting.zw);
-	this.offset += 0;//(kh3.setting.zh - this.height) / 2 / this.height; // 分母が this.height なのはおかしい気もするが今はこういう仕様
+	this.width = h;
+	this.offset += 0;
 	this.offset += kh3.setting.zh * 0.025 / this.height; // フォント依存だがとりあえず
 	this.middle = this.height / 2;
 	this.lastchar = "漢", this.firstchar = "漢"; // 本当はこれではないがアキの処理ができていないのでとりあえず
