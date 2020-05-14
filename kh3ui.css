@@ -289,10 +289,10 @@ input.shortnumber{
 		color: #999;
 		cursor: default;
 	}
-	#console input[type=number]:hover,
-	#console input[type=number]:focus,
-	#console input[type=text]:hover,
-	#console input[type=text]:focus,
+	#console input[type=number]:not([disabled]):hover,
+	#console input[type=number]:not([disabled]):focus,
+	#console input[type=text]:not([disabled]):hover,
+	#console input[type=text]:not([disabled]):focus,
 	button:enabled:hover{
 		background-color: #fe6;
 	}
@@ -311,8 +311,8 @@ input.shortnumber{
 	}
 	button,
 	select,
-	#console input[type=number],
-	#console input[type=text],
+	#console input[type=number]:not([disabled]),
+	#console input[type=text]:not([disabled]),
 	input[type=checkbox] + span,
 	#file input[type=checkbox] + span{
 		line-height: 220%;

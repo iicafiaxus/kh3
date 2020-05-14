@@ -65,7 +65,7 @@
 				
 				<fieldset>
 					<legend>書字方向</legend>
-					<label><input type=checkbox id=chkIsVertical checked><span>書字方向は縦書き</span></label>
+					<label><input type=checkbox id=chkIsVertical checked><span>縦書き</span></label>
 				</fieldset>
 
 				<fieldset>
@@ -84,19 +84,19 @@
 					<label>天地が字送り/行送りの整数倍でない場合
 						<br>　　
 						<select id=selTopMarginMethod>
-						<option value=balance class=unimp>天地で均等に調整する</option>
+						<option value=balance class=unimp disabled>天地で均等に調整する</option>
 						<option selected value=top>天を優先し、地で調整する</option>
-						<option value=bottom class=unimp>地を優先し、天で調整する</option>
-						<option value=justify class=unimp>字送り/行送りで調整する</option>
+						<option value=bottom class=unimp disabled>地を優先し、天で調整する</option>
+						<option value=justify class=unimp disabled>字送り/行送りで調整する</option>
 					</select></label>
 					<br>
 					<label>左右が字送り/行送りの整数倍でない場合
 						<br>　　
 						<select id=selSideMarginMethod>
 						<option selected value=center>左右で均等に調整する</option>
-						<option value=left class=unimp>右を優先し、左で調整する</option>
-						<option value=right class=unimp>左を優先し、右で調整する</option>
-						<option value=justify class=unimp>字送り/行送りで調整する</option>
+						<option value=left class=unimp disabled>右を優先し、左で調整する</option>
+						<option value=right class=unimp disabled>左を優先し、右で調整する</option>
+						<option value=justify class=unimp disabled>字送り/行送りで調整する</option>
 					</select></label>
 				</fieldset>
 				
@@ -111,11 +111,11 @@
 				
 				<fieldset>
 					<legend>フォント</legend>
-					<label>本文<input type=text id=txtFontName value="Noto Serif JP"></label>
-					<label>ウェイト<input type=number class=shortnumber id=txtFontWeight value= 3 min=1 max=9></label>
+					<label>本文<input type=text id=txtFontName value="Noto Serif JP" disabled></label>
+					<label>ウェイト<input type=number class=shortnumber id=txtFontWeight value= 3 min=1 max=9 disabled></label>
 					<br>
-					<label>ルビ<input type=text id=txtRubyName value="Noto Serif JP"></label>
-					<label>ウェイト<input type=number class=shortnumber id=txtRubyWeight value= 6 min=1 max=9></label>
+					<label>ルビ<input type=text id=txtRubyName value="Noto Serif JP" disabled></label>
+					<label>ウェイト<input type=number class=shortnumber id=txtRubyWeight value= 6 min=1 max=9 disabled></label>
 					<br>
 				</fieldset>
 				
