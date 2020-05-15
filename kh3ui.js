@@ -17,6 +17,8 @@ kh3ui.viewSetting = {};
 // ------------------------------
 kh3ui.redraw = function(canSaveText = 1){
 	//kh3ui.readConfig();
+	document.getElementById("drawing").style.display = "block";
+	kh3.afterRenderWorks.push(function(){ document.getElementById("drawing").style.display = "none"; });
 	window.setTimeout(function(){
 		var divTarget = document.getElementById(kh3.setting.isVertical? "allV": "allH");
 		var textAll = document.getElementById("areaSource").value;
@@ -434,7 +436,10 @@ kh3ui.resizePreview = function(){
 	// 表示領域の大きさ
 	var w = document.body.clientWidth - 20;
 	var h = document.body.clientHeight - document.getElementById("mode").clientHeight - 8;
-	
+
+	// 描画中アイコン
+	document.getElementById("drawing").style.top = (document.getElementById("mode").clientHeight + 8) + "px";
+
 	// 紙面の大きさ
 	// 自動延長されている可能性があるので高さは信用しない
 	var divs = document.getElementsByClassName("paper");

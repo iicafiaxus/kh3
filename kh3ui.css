@@ -202,6 +202,14 @@ input.shortnumber{
 	footer{
 		height: 10mm;
 	}
+	p#drawing{
+		position: fixed;
+		right: 2vw;
+		top: 2vw;
+		border: 2px solid #004b88;
+		background: #cef;
+		padding: 1em 2em; 
+	}
 }
 @media screen{
 	header{
