@@ -493,8 +493,6 @@ kh3.parrender = function(){
 				umiddle = Math.max(umiddle, unit.middle);
 			}
 			if(unit.isTerminal || !unit.next || unit.next.underline != unit.underline || unit.next.underlinepos != unit.underlinepos){
-				var uwidth = unit.left + unit.width - uleft;
-				if(unit.marginTo(linesep) < 0) uwidth += unit.marginTo(linesep);
 				var uname = {
 					"2": {weight: 500, style: "solid"},
 					"3": {weight: 500, style: "double"},
@@ -509,12 +507,18 @@ kh3.parrender = function(){
 					"5": [0, 0, 1, 0],
 					"6": [1, 0, 0, 0]
 				}[unit.underlinepos] || (this.setting.isVertical? [1, 0, 0, 0]: [0, 0, 1, 0]);
+				var umargin = {
+					"4": kh3.setting.zw / 4 + uname.weight / 2
+				}[unit.underlinepos] || 0;
+				var uwidth = {
+					"4": unit.left + unit.width - uleft + kh3.setting.zw / 2 - uname.weight
+				}[unit.underlinepos] || (unit.left + unit.width - uleft);
+				if(unit.marginTo(linesep) < 0) uwidth += unit.marginTo(linesep);
 				this.drawBox(
-					uleft, unit.top + unit.middle - umiddle - kh3.setting.zh * 0.125 - uname.weight / 2,
+					uleft - umargin, unit.top + unit.middle - umiddle - kh3.setting.zh * 0.125 - uname.weight / 2,
 					uwidth, udepth + umiddle + kh3.setting.zh * 0.25,
 					upos[0], upos[1], upos[2], upos[3], uname.weight, uname.style
 				);
-				console.log("u:", unit.char, uleft, uwidth, upos, uname, unit);
 			}
 		}
 	}

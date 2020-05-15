@@ -147,6 +147,12 @@ kh3.Unit.prototype.rubySpaceFor = function(unit){
 	if(this.rubywidth > 0 && unit.rubyid == this.rubyid){
 		if(this.rubywidth < this.width ) res = (this.width - this.rubywidth) / 2;
 	}
+
+	// 囲みを考慮 (仮)
+	if(this.underlinepos == "4" || unit.underlinepos == "4"){
+		if(this.underline != unit.underline || this.underlinepos != unit.underlinepos) res = 0;
+	}
+
 	return res;
 };
 
@@ -170,6 +176,13 @@ kh3.Unit.prototype.standardMarginTo = function(unit){
 	var char1 = this.lastchar, char2 = unit.firstchar;
 	var offset = 0;
 	if(this.pos == "sub" || this.pos == "sup") offset = kh3.setting.zw / 8;
+
+	// 囲みを考慮 (仮)
+	if(this.underlinepos == "4" || unit.underlinepos == "4"){
+		if(this.underline != unit.underline || this.underlinepos != unit.underlinepos) return kh3.setting.zw / 2;
+	}
+
+	// ルールを適用
 	for(var r of kh3.marginRules){
 		if(char1.match(kh3.letters[r[0]]) && char2.match(kh3.letters[r[1]])){
 			return r[2] - offset;
