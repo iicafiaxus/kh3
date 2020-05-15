@@ -301,6 +301,7 @@ kh3.parrender = function(){
 		}
 		if(unit.command == "underline"){
 			this._render.underline = unit.value;
+			this._render.underlinepos = unit.value && unit.value2;
 			continue;
 		}
 		if(unit.command == "center"){
@@ -344,6 +345,7 @@ kh3.parrender = function(){
 		
 		// 下線範囲内ならば下線を付加
 		unit.underline = this._render.underline;
+		unit.underlinepos = unit.underline && this._render.underlinepos;
 		
 		// DOM作成
 		unit.makeDom();
@@ -478,34 +480,41 @@ kh3.parrender = function(){
 	this.newline(line.units);
 	
 	// 下線があれば下線を引く
-	var uleft, udepth;
+	var uleft, udepth, umiddle;
 	for(unit of units){
 		if(unit.underline > 0){
-			if(unit.isInitial || !unit.prev || unit.prev.underline != unit.underline){
+			if(unit.isInitial || !unit.prev || unit.prev.underline != unit.underline || unit.prev.underlinepos != unit.underlinepos){
 				uleft = unit.left;
-				if(this.setting.isVertical) udepth = unit.height - unit.middle;
-				else udepth = unit.middle;
+				udepth = unit.height - unit.middle;
+				umiddle = unit.middle;
 			}
 			else{
-				if(this.setting.isVertical) udepth = Math.max(udepth, unit.middle);
-				else udepth = Math.max(udepth, unit.height - unit.middle);
+				udepth = Math.max(udepth, unit.height - unit.middle);
+				umiddle = Math.max(umiddle, unit.middle);
 			}
-			if(unit.isTerminal || !unit.next || unit.next.underline != unit.underline){
+			if(unit.isTerminal || !unit.next || unit.next.underline != unit.underline || unit.next.underlinepos != unit.underlinepos){
 				var uwidth = unit.left + unit.width - uleft;
 				if(unit.marginTo(linesep) < 0) uwidth += unit.marginTo(linesep);
-				var weight = 250, style = "solid";
-				if(unit.underline == "2") weight = 500;
-				if(unit.underline == "3") weight = 500, style = "double";
-				if(unit.underline == "4") weight = 125;
-				if(unit.underline == "5") style = "dotted";
-				if(! this.setting.isVertical) this.drawBox(
-						uleft, unit.top + unit.middle, 
-						uwidth, udepth + kh3.setting.zh * 0.125,
-						0, 0, 1, 0, weight, style);
-				else this.drawBox(
-						uleft, unit.top + unit.middle - udepth - kh3.setting.zh * 0.125 - weight,
-						uwidth, udepth + kh3.setting.zh * 0.125,
-						1, 0, 0, 0, weight, style);
+				var uname = {
+					"2": {weight: 500, style: "solid"},
+					"3": {weight: 500, style: "double"},
+					"4": {weight: 125, style: "solid"},
+					"5": {weight: 250, style: "dotted"}
+				}[unit.underline] || {weight: 250, style: "solid"};
+				var upos = {
+					"0": [0, 0, 0, 0],
+					"2": (this.setting.isVertical? [0, 0, 1, 0]: [1, 0, 0, 0]),
+					"3": [1, 0, 1, 0],
+					"4": [1, 1, 1, 1],
+					"5": [0, 0, 1, 0],
+					"6": [1, 0, 0, 0]
+				}[unit.underlinepos] || (this.setting.isVertical? [1, 0, 0, 0]: [0, 0, 1, 0]);
+				this.drawBox(
+					uleft, unit.top + unit.middle - umiddle - kh3.setting.zh * 0.125 - uname.weight / 2,
+					uwidth, udepth + umiddle + kh3.setting.zh * 0.25,
+					upos[0], upos[1], upos[2], upos[3], uname.weight, uname.style
+				);
+				console.log("u:", unit.char, uleft, uwidth, upos, uname, unit);
 			}
 		}
 	}

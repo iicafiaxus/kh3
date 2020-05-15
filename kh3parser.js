@@ -274,6 +274,7 @@ kh3.parse = function(text){
 							case "u":
 								o.command = "underline";
 								o.value = operands[1];
+								o.value2 = operands[2] || "1";
 								break;
 							case "center":
 								o.command = "center", o.char = "";
