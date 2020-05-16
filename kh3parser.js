@@ -320,11 +320,6 @@ kh3.parse = function(text){
 						else{
 							operands = commandtext.substring(1).split(":");
 							o.command = "indent";
-							/*
-							o.value = (isNumeric(operands[0])? +operands[0]: 1);
-							o.value2 = (isNumeric(operands[1])? +operands[1]: 0);
-							o.value3 = (isNumeric(operands[2])? +operands[2]: 0);
-							*/
 							o.value = operands[0];
 							o.value2 = operands[1];
 							o.value3 = operands[2];
@@ -362,14 +357,8 @@ kh3.parse = function(text){
 				}
 			}
 			
-//			/[0-9A-Za-zα-ωΑ-Ω\-\)',\.]/;
 			while(i + 1 < text.length && text.charAt(i + 1) != "{"
-					&& (/*text.charAt(i).match(/[「（￥＄]/) || text.charAt(i + 1).match(/[、。」）％！？]/) || */(
-//						text.charAt(i).match(/[!-~]/) && text.charAt(i + 1).match(/[!-~]/)
-//						text.charAt(i).match(/[0-9A-Za-zα-ωΑ-Ω\-\(',\.]/) && text.charAt(i + 1).match(/[0-9A-Za-zα-ωΑ-Ω\-\)',\.]/)
-						text.charAt(i).match(rxIsEuropean) && text.charAt(i + 1).match(rxIsEuropean)
-//						text.charAt(i).match(this.letters.alphanumeric) && text.charAt(i + 1).match(this.letters.alphanumeric)
-					))){
+					&& text.charAt(i).match(rxIsEuropean) && text.charAt(i + 1).match(rxIsEuropean)){
 				o.char = o.char + text.charAt(++i);
 			}
 		}
@@ -377,44 +366,19 @@ kh3.parse = function(text){
 		if(o.isMetacommand) continue;
 		
 		o.recalc(); // o.char を直接いじりまくっているので調整
-
-//		o.firstchar = o.char.length > 0? o.char.charAt(0): "";
-//		o.lastchar =  o.char.length > 0? o.char.charAt(o.char.length - 1): "";
 		
 		o.font = font;
 		o.pos = pos;
 		if(isInWord){
 			isInWord = 0;
-			o.firstchar = ""; // "|"
+			o.firstchar = "";
 			o.isAttached = 1;
-//			if(res.length) res[res.length - 1].lastchar = "|";
 		}
-		
-//		o.isAlphanumeric = !!o.char.match(/^[!-~α-ωΑ-Ω\+−]+$/);
 		
 		if(metastack.length) metastack[metastack.length - 1].add(o);
 		else res.push(o);
 	}
 	
-	// フォント変更等のコマンドがアキ判定に影響を与えないように
-	for(var i = 0; i < res.length - 1; i ++){
-//		if(res[i + 1].isInvisible) res[i + 1].lastchar = res[i].lastchar;
-//		if(res[i + 1].isInvisible) res[i + 1].lastchar = "|";
-	}
-	for(var i = res.length - 1; i > 0; i --){
-//		if(res[i - 1].isInvisible) res[i - 1].firstchar = res[i].firstchar;
-//		if(res[i - 1].isInvisible) res[i - 1].firstchar = "|";
-	}
-	
-	/*
-	for(var i = 0; i < res.length; i ++){
-		var o = res[i];
-		console.log(i, o.firstchar, o.char, o.lastchar);
-	}
-	*/
-//	alert(res.length);
 	return res;
 }
 
-
-//alert("Parser loaded.");
