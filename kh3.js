@@ -466,7 +466,8 @@ kh3.parrender = function(){
 	
 	// センタリング
 	if(isCentered && line.units.length){
-		var excess = (this.setting.lineWidth - rightindent - left - line.units[0].left + leftindent) / 2;
+		var excess = (this.setting.lineWidth - rightindent - left) / 2;
+		console.log(this.setting.lineWidth, rightindent, left, line.units[0].left, leftindent, excess);
 		if(excess > 0) for(unit of line.units) unit.left += excess;
 	}
 	// 末尾寄せ
