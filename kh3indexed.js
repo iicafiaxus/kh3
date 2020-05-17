@@ -36,7 +36,8 @@ kh3.Indexed.prototype.turnover = function(){
 }
 
 kh3.Indexed.prototype.close = function(){
-	this.isClosed = 1;
+	if(this.turn == 1) this.turnover();
+	else this.isClosed = 1;
 }
 
 kh3.Indexed.prototype.add = function(unit){

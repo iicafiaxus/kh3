@@ -178,15 +178,6 @@ kh3.parse = function(text){
 								o.command = "fraction";
 								o.unit = new kh3.Fractor();
 								o.turn = 1;
-								o.close = function(){
-										if(this.unit.turn == 1) this.unit.turnover();
-										else this.unit.close(), this.isClosed = 1;
-								}.bind(o);
-								o.add = function(unit){ this.unit.add(unit); }.bind(o);
-								o.remove = function(){ return this.unit.remove(); }.bind(o);
-								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
-								else res.push(o.unit);
-								metastack.push(o);
 								break;
 							case "indexed":
 							case "index":
@@ -199,51 +190,29 @@ kh3.parse = function(text){
 									else if(res.length) o.unit.add(res.pop());
 									o.unit.turnover();
 								}
-								o.close = function(){
-										if(this.unit.turn == 1) this.unit.turnover();
-										else this.unit.close(), this.isClosed = 1;
-								}.bind(o);
-								o.add = function(unit){ this.unit.add(unit); }.bind(o);
-								o.remove = function(){ return this.unit.remove(); }.bind(o);
-								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
-								else res.push(o.unit);
-								metastack.push(o);
 								break;
 							case "root":
 							case "rt":
 								o.command = "root";
 								o.unit = new kh3.Rootunit();
-								o.close = function(){ this.unit.close(), this.isClosed = 1; }.bind(o);
-								o.add = function(unit){ this.unit.add(unit); }.bind(o);
-								o.remove = function(){ return this.unit.remove(); }.bind(o);
-								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
-								else res.push(o.unit);
-								metastack.push(o);
 								break;
 							case "(+":
-								o.command = "parens";
-								o.unit = new kh3.Parens("{", "}");
-								o.close = function(){ this.unit.close(), this.isClosed = 1; }.bind(o);
-								o.add = function(unit){ this.unit.add(unit); }.bind(o);
-								o.remove = function(){ return this.unit.remove(); }.bind(o);
-								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
-								else res.push(o.unit);
-								metastack.push(o);
-								break;
 							case "(":
 								o.command = "parens";
-								o.unit = new kh3.Parens();
-								o.close = function(){ this.unit.close(), this.isClosed = 1; }.bind(o);
-								o.add = function(unit){ this.unit.add(unit); }.bind(o);
-								o.remove = function(){ return this.unit.remove(); }.bind(o);
-								if(metastack.length) metastack[metastack.length - 1].add(o.unit);
-								else res.push(o.unit);
-								metastack.push(o);
+								if(operands[0] == "(+") o.unit = new kh3.Parens("{", "}");
+								else o.unit = new kh3.Parens();
 								break;
-								// copied codes. to be refined.
 							default:
 								console.log("Unknown metacommand " + commandtext);
 								break;
+						}
+						if(o.unit){
+							o.close = function(){ this.unit.close(), this.isClosed = this.unit.isClosed; }.bind(o);
+							o.add = function(unit){ this.unit.add(unit); }.bind(o);
+							o.remove = function(){ return this.unit.remove(); }.bind(o);
+							if(metastack.length) metastack[metastack.length - 1].add(o.unit);
+							else res.push(o.unit);
+							metastack.push(o);
 						}
 						break;
 					case ":":

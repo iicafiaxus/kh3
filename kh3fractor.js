@@ -35,7 +35,8 @@ kh3.Fractor.prototype.turnover = function(){
 }
 
 kh3.Fractor.prototype.close = function(){
-	this.isClosed = 1;
+	if(this.turn == 1) this.turnover();
+	else this.isClosed = 1;
 }
 
 kh3.Fractor.prototype.add = function(unit){
