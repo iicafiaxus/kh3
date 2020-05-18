@@ -258,6 +258,28 @@ kh3.parrender = function(){
 			this.newcolumn();
 			continue;
 		}
+		if(unit.command == "center"){
+			if(line.units.length > 0){
+				if(! isCentered && ! isRighted){
+					tab.units = [];
+					lastunit = blank;
+				}
+				else continue;
+			}
+			isCentered = true;
+			continue;
+		}
+		if(unit.command == "right"){
+			if(line.units.length > 0){
+				if(! isCentered && ! isRighted){
+					tab.units = [];
+					lastunit = blank;
+				}
+				else continue;
+			}
+			isRighted = true;
+			continue;
+		}
 		if(unit.command == "indent"){
 			if(! isNumeric(unit.value) && unit.value in this._render.indentmap)
 					unit.value = this._render.indentmap[unit.value];
@@ -302,16 +324,6 @@ kh3.parrender = function(){
 		if(unit.command == "underline"){
 			this._render.underline = unit.value;
 			this._render.underlinepos = unit.value && unit.value2;
-			continue;
-		}
-		if(unit.command == "center"){
-			if(line.units.length > 0) continue;
-			isCentered = true;
-			continue;
-		}
-		if(unit.command == "right"){
-			if(line.units.length > 0) continue;
-			isRighted = true;
 			continue;
 		}
 		if(unit.command == "meta"){
@@ -465,15 +477,14 @@ kh3.parrender = function(){
 	}
 	
 	// センタリング
-	if(isCentered && line.units.length){
+	if(isCentered){
 		var excess = (this.setting.lineWidth - rightindent - left) / 2;
-		console.log(this.setting.lineWidth, rightindent, left, line.units[0].left, leftindent, excess);
-		if(excess > 0) for(unit of line.units) unit.left += excess;
+		if(excess > 0) for(unit of tab.units) unit.left += excess;
 	}
 	// 末尾寄せ
 	if(isRighted){
 		var excess = this.setting.lineWidth - rightindent - left;
-		if(excess > 0) for(unit of line.units) unit.left += excess;
+		if(excess > 0) for(unit of tab.units) unit.left += excess;
 	}
 	
 	
