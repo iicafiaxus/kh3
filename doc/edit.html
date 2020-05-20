@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#all{ max-width: 40em; margin: 0 auto; }
+h1{ font-size: 180%; font-weight: normal; text-align: center;
+    margin: 0; padding: 1.2em 2em 1.2em 6em;  /*background: linear-gradient(to right, #ceff, #ceff); */
+    background: url("../kh3logo.svg") #cef; background-size: min(20%, 4.8em); background-repeat: no-repeat; background-position: center left 1.5em; color: #000;
+    }
+/*h2{ margin: 2em max(1em, calc(100% - 20em)) 1em 0; padding: 1em 0 0.4em 0.7em; border-bottom: #004b88 2px solid; position: relative; }*/
+h2{ margin: 2em max(1em, calc(100% - 20em)) 1em 0; padding: 0.4em 7em 0.6em 0.7em;
+    position: relative; 
+    background: url("../kh3logo.svg") #004b88; background-size: auto 6.8em; background-repeat: no-repeat; background-position: top -2.5em right -0.5em; color: #fff;
+    border-radius: 0.2em; }
+h2::after{ content: ""; width: calc(100% - 7.0em); height: 0em; 
+    border-bottom: #fff 0.1em dashed; 
+    background: transparent; position: absolute; left: 0.7em; bottom: 0.5em; }
+h1 + h2{ margin-top: 1.4em; }
+h2::before{ content: ""; color: #cef; position: absolute; font-size: 250%; left: -0.35em; top: -0.4em; }
+h3{ width: auto; margin: 1.4em max(1em, calc(100% - 20em)) 1em 0em; padding: 0.7em 0.7em; border: #004b88 3px double; float: left; }
+h3 + *{ clear: left; }
+p{ line-height: 1.4em; margin: 0 1em 1.4em; text-indent: 0; }
+p.note{ padding: 1.8em 1em 1.4em; background: #cef; border: #004b88 1px solid; border-radius: 2px; position: relative; }
+p.note::before{ content: "参考"; background: #004b88; color: #fff; padding: 0.2em 1em; position: absolute; top: -0.7em; border-radius: 4px; }
+.img{ max-width: 100%; background: transparent; display: flex; flex-direction: column; align-items: center; flex-wrap: wrap; justify-content: flex-start; }
+.img img{ /*mix-blend-mode: multiply;*/ border: 1px solid #666; max-width: 90%; margin: 1%; }
+table{ margin: 0.7em auto; border-collapse: collapse; border: #004b88 1px solid; }
+table tr > *{ min-width: 5em; padding: 0.2em 1em; text-align: center; }
+thead tr > *{ background: #cef; }
+thead tr, tbody tr:not(:last-child){border-bottom: #004b88 1px solid; }
+
+
+
+</style>
+</head>
+<body>
+<div id=all>
+<h1>川の月 入力画面の説明</h1>
+<h2>基本的な使い方</h2>
+<p>入力画面の入力欄に、タイトルとテキストを入力してください。</p>
+<p class=img><img src="basic2-text.png"></p>
+<p>「プレビュー」を押すと組版結果が表示されます。</p>
+<p class=img><img src="basic2-result.png"></p>
+<p>ごく基本的な文書であれば、ここまでの説明で終わりです。どうぞご活用ください。
+<p class=note>「縦書き・横書き」「用紙サイズ」「段組み」などは、プレビュー画面の「ページ設定」で設定できます。</p>
+<h3>特殊文字について</h3>
+<p>テキストを書けばその通りに組版するのですが、コマンドで使うため入力できない文字があります。「アスタリスク」「中カッコ」「スラッシュ」などです。
+<p>これらの文字を使用したいときは、以下のように記載してください。</p>
+<table>
+<thead>
+<tr><th>テキスト<th>組版結果<th>説明</tr>
+</thead>
+<tbody>
+<tr><td>**<td>*<td>アスタリスク</tr>
+<tr><td>{(}<td>{<td>中カッコ</tr>
+<tr><td>{)}<td>}<td>中カッコ</tr>
+<tr><td> / <td>/<td>スラッシュ</tr>
+</tbody>
+</table>
+<p>このリストは追加・変更されることがあります。</p>
+<p>仕様が大幅に変わる場合は、ページ設定でバージョンの項目を設けて後方互換性をとるつもりではあります。</p>
+
+<h2>コマンドの説明</h2>
+<p>ルビやフォントなどを使う場合は、コマンドが必要です。コマンドの文法や仕様について説明します。</p>
+
+<h3>改行など</h3>
+<p>テキストを改行すると、組版結果でも改行になります。テキストの空行は、組版結果でも空行になります。</p>
+<p>改ページは {:page} です。</p>
+<p>改段は {:column} です。なお、1段組の場合や、複数段組でもページ内の最終の段にいる場合は、{:page} と同じ効果になります。</p>
+<table>
+<thead>
+<tr><th>テキスト<th>組版結果<th>説明</tr>
+</thead>
+<tbody>
+<tr><td class=meta>改行<td class=meta>改行<td></tr>
+<tr><td>{:column}<td class=meta>改段<td>1段組の場合は{:page}と同じ</tr>
+<tr><td>{:page}<td class=meta>改ページ<td></tr>
+</tbody>
+</table>
+
+<h3>フォント</h3>
+<p>* で囲んだ部分は太字（和文はゴシック、欧文はボールド）になります。</p>
+<p>/ を前置した文字はイタリックになります（英数字とギリシャ文字のみ有効）。</p>
+
+<h3>保存について</h3>
+<p>オートセーブであり、1文字入力するごとにセーブしています。なお、Undo履歴はセーブしていません（Ctrl + Z でUndoできますが、これはブラウザの機能です）。</p>
+<p>セーブ先はブラウザのストレージ（localStorage）です。あまり大きくないので5MB程度でいっぱいになります。保存するのは文字データのみなので、人間が執筆した文章を保存するのであれば普通は問題になりませんが、自動生成したテキストなどを保存するといっぱいになることがあるかもしれません。</p>
+<p>ブラウザの管理画面からデータを消した場合には、保存されているテキストは消えてしまいます。また、ないと思いたいですが、プログラムのバグなどにより、データが消えてしまうこともあるかもしれません。大切なテキストはご自身の責任により、時々「エクスポート」で書き出しすることをおすすめします。（エクスポートされるのはtext形式なので、最悪「メモ帳」などで内容を見ることができます。）</p>
+</div>
+</body>
+</html>
