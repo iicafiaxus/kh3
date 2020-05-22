@@ -197,8 +197,10 @@ kh3.parrender = function(){
 	var blank = new kh3.Unit("");
 	
 	// 行頭行末の番兵
-	var linesep  = new kh3.Unit("\n");
-	linesep.lastchar = linesep.firstchar = "\n";
+	if(! kh3.linesep){
+		kh3.linesep  = new kh3.Unit("\n");
+		kh3.linesep.lastchar = kh3.linesep.firstchar = "\n";
+	}
 	
 	var lastunit = blank;
 	
@@ -402,7 +404,7 @@ kh3.parrender = function(){
 		tab.units.push(unit);
 		
 		// 改行の必要がある場合...
-		if(left + unit.margin + unit.width + unit.marginTo(linesep) + rightindent > this.setting.lineWidth){
+		if(left + unit.margin + unit.width + unit.marginTo(kh3.linesep) + rightindent > this.setting.lineWidth){
 			
 			// 直近で改行可能な位置を探す(＝追い出し処理)
 			var isp;
@@ -432,7 +434,7 @@ kh3.parrender = function(){
 			left += unit.width + unit.margin;
 
 			// 改行位置が句読点などだった場合の調整
-			if(unitbefore) left += unitbefore.marginTo(linesep);
+			if(unitbefore) left += unitbefore.marginTo(kh3.linesep);
 			
 			// 追い出しに伴う均等割り
 			var sepcount = 0;
@@ -446,9 +448,9 @@ kh3.parrender = function(){
 			}
 
 			// 復帰と改行
-			left = leftindent + linesep.marginTo(unitafter);
+			left = leftindent + kh3.linesep.marginTo(unitafter);
 			this.newline(line.units);
-			lastunit = linesep;
+			lastunit = kh3.linesep;
 			
 			// 行内容・タブ内容のリセット
 			line.units = [];
@@ -490,50 +492,6 @@ kh3.parrender = function(){
 	
 	// 段落末で改行する
 	this.newline(line.units);
-	
-	// 下線があれば下線を引く
-	var uleft, udepth, umiddle;
-	for(unit of units){
-		if(unit.underline > 0){
-			if(unit.isInitial || !unit.prev || unit.prev.underline != unit.underline || unit.prev.underlinepos != unit.underlinepos){
-				uleft = unit.left;
-				udepth = unit.height - unit.middle;
-				umiddle = unit.middle;
-			}
-			else{
-				udepth = Math.max(udepth, unit.height - unit.middle);
-				umiddle = Math.max(umiddle, unit.middle);
-			}
-			if(unit.isTerminal || !unit.next || unit.next.underline != unit.underline || unit.next.underlinepos != unit.underlinepos){
-				var uname = {
-					"2": {weight: 500, style: "solid"},
-					"3": {weight: 500, style: "double"},
-					"4": {weight: 125, style: "solid"},
-					"5": {weight: 250, style: "dotted"}
-				}[unit.underline] || {weight: 250, style: "solid"};
-				var upos = {
-					"0": [0, 0, 0, 0],
-					"2": (this.setting.isVertical? [0, 0, 1, 0]: [1, 0, 0, 0]),
-					"3": [1, 0, 1, 0],
-					"4": [1, 1, 1, 1],
-					"5": [0, 0, 1, 0],
-					"6": [1, 0, 0, 0]
-				}[unit.underlinepos] || (this.setting.isVertical? [1, 0, 0, 0]: [0, 0, 1, 0]);
-				var umargin = {
-					"4": kh3.setting.zw / 4 + uname.weight / 2
-				}[unit.underlinepos] || 0;
-				var uwidth = {
-					"4": unit.left + unit.width - uleft + kh3.setting.zw / 2 - uname.weight
-				}[unit.underlinepos] || (unit.left + unit.width - uleft);
-				if(unit.marginTo(linesep) < 0) uwidth += unit.marginTo(linesep);
-				this.drawBox(
-					uleft - umargin, unit.top + unit.middle - umiddle - kh3.setting.zh * 0.125 - uname.weight / 2,
-					uwidth, udepth + umiddle + kh3.setting.zh * 0.25,
-					upos[0], upos[1], upos[2], upos[3], uname.weight, uname.style
-				);
-			}
-		}
-	}
 	
 	// 後処理
 	if(++this._render.index < this._render.textLines.length){
@@ -668,6 +626,50 @@ kh3.newline = function(units = []){
 	if(this._render.isRuling) this._render.isRuling = 0, this._render.isRuled = 1;
 	else if(this._render.isRuled) this.drawRule(heightOver, heightUnder);
 	
+	// 下線があれば下線を引く
+	var uleft, udepth, umiddle;
+	for(unit of units){
+		if(unit.underline > 0){
+			if(unit.isInitial || !unit.prev || unit.prev.underline != unit.underline || unit.prev.underlinepos != unit.underlinepos){
+				uleft = unit.left;
+				udepth = unit.height - unit.middle;
+				umiddle = unit.middle;
+			}
+			else{
+				udepth = Math.max(udepth, unit.height - unit.middle);
+				umiddle = Math.max(umiddle, unit.middle);
+			}
+			if(unit.isTerminal || !unit.next || unit.next.underline != unit.underline || unit.next.underlinepos != unit.underlinepos){
+				var uname = {
+					"2": {weight: 500, style: "solid"},
+					"3": {weight: 500, style: "double"},
+					"4": {weight: 125, style: "solid"},
+					"5": {weight: 250, style: "dotted"}
+				}[unit.underline] || {weight: 250, style: "solid"};
+				var upos = {
+					"0": [0, 0, 0, 0],
+					"2": (this.setting.isVertical? [0, 0, 1, 0]: [1, 0, 0, 0]),
+					"3": [1, 0, 1, 0],
+					"4": [1, 1, 1, 1],
+					"5": [0, 0, 1, 0],
+					"6": [1, 0, 0, 0]
+				}[unit.underlinepos] || (this.setting.isVertical? [1, 0, 0, 0]: [0, 0, 1, 0]);
+				var umargin = {
+					"4": kh3.setting.zw / 4 + uname.weight / 2
+				}[unit.underlinepos] || 0;
+				var uwidth = {
+					"4": unit.left + unit.width - uleft + kh3.setting.zw / 2 - uname.weight
+				}[unit.underlinepos] || (unit.left + unit.width - uleft);
+				if(unit.marginTo(kh3.linesep) < 0) uwidth += unit.marginTo(kh3.linesep);
+				this.drawBox(
+					uleft - umargin, unit.top + unit.middle - umiddle - kh3.setting.zh * 0.125 - uname.weight / 2,
+					uwidth, udepth + umiddle + kh3.setting.zh * 0.25,
+					upos[0], upos[1], upos[2], upos[3], uname.weight, uname.style
+				);
+			}
+		}
+	}
+
 	// ラインフィード（無限改行の場合は自由行送りとする）
 	// （本当は無限改行と自由行送りは別々の設定項目にするのがよさそう）
 	var linefeed = this.setting.lineHeight;
