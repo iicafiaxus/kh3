@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>入力画面ヘルプ - 川の月</title>
 <style>
 #all{ max-width: 40em; margin: 0 auto; }
+*{ font-size: 100%; }
 h1{ font-size: 180%; font-weight: normal; text-align: center;
     margin: 0; padding: 1.2em 2em 1.2em 6em;  /*background: linear-gradient(to right, #ceff, #ceff); */
-    background: url("../kh3logo.svg") #cef; background-size: min(20%, 4.8em); background-repeat: no-repeat; background-position: center left 1.5em; color: #000;
+/*    background:  #cef; background-size: min(20%, 4.8em); background-repeat: no-repeat; background-position: center left 1.5em; color: #000;
+    position: relative; */
     }
-/*h2{ margin: 2em max(1em, calc(100% - 20em)) 1em 0; padding: 1em 0 0.4em 0.7em; border-bottom: #004b88 2px solid; position: relative; }*/
-h2{ margin: 2em max(1em, calc(100% - 20em)) 1em 0; padding: 0.4em 7em 0.6em 0.7em;
+h2{ font-size: 160%; margin: 2em max(1em, calc(100% - 20em)) 1em 0; padding: 0.4em 7em 0.6em 0.7em;
     position: relative; 
     background: url("../kh3logo.svg") #004b88; background-size: auto 6.8em; background-repeat: no-repeat; background-position: top -2.5em right -0.5em; color: #fff;
     border-radius: 0.2em; }
@@ -17,8 +19,9 @@ h2::after{ content: ""; width: calc(100% - 7.0em); height: 0em;
     background: transparent; position: absolute; left: 0.7em; bottom: 0.5em; }
 h1 + h2{ margin-top: 1.4em; }
 h2::before{ content: ""; color: #cef; position: absolute; font-size: 250%; left: -0.35em; top: -0.4em; }
-h3{ width: auto; margin: 1.4em max(1em, calc(100% - 20em)) 1em 0em; padding: 0.7em 0.7em; border: #004b88 3px double; float: left; }
+h3{ font-size: 130%; width: auto; margin: 1.4em max(1em, calc(100% - 20em)) 1em 0em; padding: 0.7em 0.7em; float: left; position: relative; }
 h3 + *{ clear: left; }
+h3::after{ content: ""; width: 100%; height: 0.5em; mix-blend-mode: multiply; background: #cef; position: absolute; left: 0.5em; bottom: 0.7em; }
 p{ line-height: 1.4em; margin: 0 1em 1.4em; text-indent: 0; }
 p.note{ padding: 1.8em 1em 1.4em; background: #cef; border: #004b88 1px solid; border-radius: 2px; position: relative; }
 p.note::before{ content: "参考"; background: #004b88; color: #fff; padding: 0.2em 1em; position: absolute; top: -0.7em; border-radius: 4px; }
@@ -28,7 +31,7 @@ table{ margin: 0.7em auto; border-collapse: collapse; border: #004b88 1px solid;
 table tr > *{ min-width: 5em; padding: 0.2em 1em; text-align: center; }
 thead tr > *{ background: #cef; }
 thead tr, tbody tr:not(:last-child){border-bottom: #004b88 1px solid; }
-
+tbody tr img{ max-width: 100%; }
 
 
 </style>
@@ -44,8 +47,8 @@ thead tr, tbody tr:not(:last-child){border-bottom: #004b88 1px solid; }
 <p>ごく基本的な文書であれば、ここまでの説明で終わりです。どうぞご活用ください。
 <p class=note>「縦書き・横書き」「用紙サイズ」「段組み」などは、プレビュー画面の「ページ設定」で設定できます。</p>
 <h3>特殊文字について</h3>
-<p>テキストを書けばその通りに組版するのですが、コマンドで使うため入力できない文字があります。「アスタリスク」「中カッコ」「スラッシュ」などです。
-<p>これらの文字を使用したいときは、以下のように記載してください。</p>
+<p>半角の「アスタリスク」「中カッコ」「スラッシュ」は特殊文字です。
+<p>これらの文字は、以下のように入力してください。</p>
 <table>
 <thead>
 <tr><th>テキスト<th>組版結果<th>説明</tr>
@@ -57,11 +60,27 @@ thead tr, tbody tr:not(:last-child){border-bottom: #004b88 1px solid; }
 <tr><td> / <td>/<td>スラッシュ</tr>
 </tbody>
 </table>
-<p>このリストは追加・変更されることがあります。</p>
-<p>仕様が大幅に変わる場合は、ページ設定でバージョンの項目を設けて後方互換性をとるつもりではあります。</p>
+<h3>仕様修正について</h3>
+<p>この説明書に記載されている仕様は追加・変更されることがあります。</p>
+<p>仕様が大幅に変わる場合は、バージョンの切り替えなどにより後方互換性をとると思いますが、確証はもてません。</p>
 
 <h2>コマンドの説明</h2>
-<p>ルビやフォントなどを使う場合は、コマンドが必要です。コマンドの文法や仕様について説明します。</p>
+<p>コマンドの文法や仕様について説明します。</p>
+
+<h3>ルビ</h3>
+<p>以下の例のように記載します。半角の中カッコ、半角のイコール、半角のスペースを使用してください。</p>
+<table>
+<thead>
+<tr><th>テキスト<th>組版結果</tr>
+</thead>
+<tbody>
+<tr><td rowspan=2>彼{=かれ}の功績{=こう せき}を賞賛{=しょう さん}する。<br><br>長崎県諫早市{=いさ はや し}を訪{=おとず}れ、法規遵守{=じゅん しゅ}の取り組みを視察した。現地では、新幹線{=しん かん せん}の建設の準備{=じゅん び}が進んでいた。
+    <td><a href="ruby-yoko-result.png"><img src="ruby-yoko-result.png"></a></tr>
+<tr><td><a href="ruby-result.png"><img src="ruby-result.png"></a></tr>
+</tbody>
+</table>
+<p>上の例のように、隣接する文字との間隔は適当に調整されます。ルビがかかっている単語の途中でも改行されることがあります。</p>
+
 
 <h3>改行など</h3>
 <p>テキストを改行すると、組版結果でも改行になります。テキストの空行は、組版結果でも空行になります。</p>
