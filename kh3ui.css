@@ -295,7 +295,6 @@ input.shortnumber{
 	header button.link{
 		min-width: 2em;
 		background: transparent;
-		text-decoration: underline;
 		border: 2px solid #fff;
 		color: #fff;
 	}
