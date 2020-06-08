@@ -242,9 +242,9 @@ input.shortnumber{
 	button, header button, .menu button{
 		font-size: 2vmin;
 		width: auto;
-		min-width: 8em;
+		min-width: 6em;
 		height: 2.5em;
-		padding: 0;
+		padding: 0 0.5em;
 	}
 	header a:link, header a:visited{
 		text-decoration: none;
@@ -291,6 +291,16 @@ input.shortnumber{
 		color: #fff;
 		border: 1px solid #ccc;
 		cursor: default;
+	}
+	header button.link{
+		min-width: 2em;
+		background: transparent;
+		text-decoration: underline;
+		border: 2px solid #fff;
+		color: #fff;
+	}
+	header button.link:hover{
+		color: #000;
 	}
 	input[type=checkbox]:disabled + span{
 		background-color: #fff;
@@ -367,7 +377,14 @@ input.shortnumber{
 		color: #555;
 	}
 	#divFileInfo{
-	margin: 5em 2em 0;
+		margin: 5em 2em 0;
 	}
+	.apptitle{ 
+		padding-left: 2em; 
+	    background-image: url("./kh3logo.svg");
+		background-size: 1.4em;
+		background-repeat: no-repeat;
+		background-position: 0.2em 0;
+    }
 }
 

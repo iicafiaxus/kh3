@@ -1,7 +1,7 @@
 <!doctype html>
 <head>
 	<meta charset="utf-8">
-	<title>KH3: Online Typesetter</title>
+	<title>川の月 : オンライン日本語組版</title>
 
 	<!-- favicons; thanks to https://realfavicongenerator.net -->
 	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
@@ -156,7 +156,9 @@
 			<!--p>
 				<button onclick="kh3ui.showPics()">画像...</button>
 			</p-->
-			<p><span id=counter></span>文字 <button onclick="kh3ui.showPreview()">プレビュー</button></p>
+			<p><span id=counter></span>文字
+			<button class=link onclick="window.open('doc/edit.html', 'kh3_edit_help')">ヘルプ</button>
+			<button onclick="kh3ui.showPreview()">プレビュー</button></p>
 		</header>
 		<p id=pTitle>
 			<label>表題<input type=text id=txtTitle onkeyup="kh3ui.saveTitle()" onblur="kh3ui.saveTitle()" value="無題のテキスト"></label>
@@ -182,6 +184,7 @@
 				Flex
 				</label>
 				</span>
+				<button class=link onclick="window.open('doc/preview.html', 'kh3_preview_help')">ヘルプ</button>
 				<button id=btnRedraw onclick="kh3.clearMemoWidth(), kh3ui.showPreview()">再描画</button>
 				<button id=btnShowConfig onclick="kh3ui.showConfig()">ページ設定...</button>
 				<button id=btnPrint onclick="kh3ui.print()">印刷...</button>
@@ -202,10 +205,11 @@
 			<button id="btnFileDelete" onclick="kh3ui.fileDelete()">削除...</button>
 		</p>
 		<header>
-			<p>KH3: Online Typesetter</p>
+			<p class=apptitle>川の月 : オンライン日本語組版</p>
 			<p>
 			</p>
 			<p>
+			<button class=link onclick="window.open('doc/file.html', 'kh3_file_help')">ヘルプ</button>
 			<button id="btnFileNew" onclick="kh3ui.fileNew()">新規作成...</button>
 			<button id="btnFileImport" onclick="kh3ui.fileImport()">インポート...</button>
 			</p>

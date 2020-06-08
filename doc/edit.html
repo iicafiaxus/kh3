@@ -2,45 +2,12 @@
 <html>
 <head>
 <title>入力画面ヘルプ - 川の月</title>
-<style>
-#all{ max-width: 40em; margin: 0 auto; }
-*{ font-size: 100%; line-height: 1.4em; }
-h1{ font-size: 180%; font-weight: normal; text-align: center;
-    margin: 0; padding: 1.2em 2em 1.2em 6em;  /*background: linear-gradient(to right, #ceff, #ceff); */
-/*    background:  #cef; background-size: min(20%, 4.8em); background-repeat: no-repeat; background-position: center left 1.5em; color: #000;
-    position: relative; */
-    }
-h2{ font-size: 160%; margin: 2em max(1em, calc(100% - 20em)) 1em 0; padding: 0.4em 7em 0.6em 0.7em;
-    position: relative; 
-    background: url("../kh3logo.svg") #004b88; background-size: auto 6.8em; background-repeat: no-repeat; background-position: top -2.5em right -0.5em; color: #fff;
-    border-radius: 0.2em; }
-h2::after{ content: ""; width: calc(100% - 7.0em); height: 0em; 
-    border-bottom: #fff 0.1em dashed; 
-    background: transparent; position: absolute; left: 0.7em; bottom: 0.5em; }
-h1 + h2{ margin-top: 1.4em; }
-h2::before{ content: ""; color: #cef; position: absolute; font-size: 250%; left: -0.35em; top: -0.4em; }
-h3{ font-size: 130%; width: auto; margin: 1.4em max(1em, calc(100% - 20em)) 1em 0em; padding: 0.7em 0.7em; float: left; position: relative; }
-h3 + *{ clear: left; }
-h3::after{ content: ""; width: 100%; height: 0.5em; mix-blend-mode: multiply; background: #cef; position: absolute; left: 0.5em; bottom: 0.7em; }
-p{ line-height: 1.4em; margin: 0 1em 1.4em; text-indent: 0; }
-p.note{ padding: 1.8em 1em 1.4em; background: #cef; border: #004b88 1px solid; border-radius: 2px; position: relative; }
-p.note::before{ content: "参考"; background: #004b88; color: #fff; padding: 0.2em 1em; position: absolute; top: -0.7em; border-radius: 4px; }
-.img{ max-width: 100%; background: transparent; display: flex; flex-direction: column; align-items: center; flex-wrap: wrap; justify-content: flex-start; }
-.img img{ /*mix-blend-mode: multiply;*/ border: 1px solid #666; max-width: 90%; margin: 1%; }
-table{ max-width: 90%; margin: 0.7em auto; border-collapse: collapse; border: #004b88 1px solid; }
-table tr > *{ min-width: 5em; padding: 0.2em 1em; text-align: center; }
-thead tr > *{ background: #cef; }
-thead tr, tbody tr:not(:last-child){ border-bottom: #004b88 1px solid; }
-table tr > *:not(:last-child){ border-right:  #004b88 1px solid; }
-tbody tr img{ max-width: 100%; }
-table.sample{ table-layout: fixed; }
-table.sample tbody tr > .src{ text-align: left; font-family: monospace; }
-table.sample tbody tr{ min-height: 3em; }
-
-</style>
+<link rel="stylesheet" type="text/css" href="doc.css">
 </head>
 <body>
 <div id=all>
+<nav><a href="../index.html">川の月</a> : ヘルプ 
+<a href="file.html">ファイル一覧</a> | <a href="edit.html">入力</a> | <a href="preview.html">プレビュー</a></nav>
 <h1>川の月 入力画面の説明</h1>
 <h2>基本的な使い方</h2>
 <p>入力画面の入力欄に、タイトルとテキストを入力してください。</p>
@@ -116,10 +83,99 @@ table.sample tbody tr{ min-height: 3em; }
 </tbody>
 </table>
 
+<h3>ルビ</h3>
+<table>
+<thead>
+<tr><th>テキスト<th>説明</tr>
+</thead>
+<tbody>
+<tr><td class=src>日本語{=に ほん ご}<td>ルビです。</tr>
+<tr><td class=src>{[飛鳥]あすか}<td>熟語ルビです。熟語ルビの途中では改行されません。</tr>
+</tbody>
+</table>
+
+<h3>インデント</h3>
+<p>デフォルトの字下げ量はページ設定で設定します。それを一時的に変更したい場合のコマンドです。</p>
+<table>
+<thead>
+<tr><th>テキスト<th>説明</tr>
+</thead>
+<tbody>
+<tr><td class=src>{>3}<td>現在位置を3字下げにします。主に段落の頭で使いますが、段落の途中でも使えます。「3」は例であり、数または変数が使えます。</tr>
+<tr><td class=src>{>=A}<td>現在の位置を変数Aとして記憶します。「A」は例です。変数名は数字以外の文字を含まなければなりません。</tr>
+<tr><td class=src>{>A}<td>変数Aに記憶された位置まで字下げします。「A」は例です。</tr>
+<tr><td class=src>{>3:2}<td>現在位置を3字下げにして、左端は2字下げにします。「3」「2」は例であり、数または変数が使えます。</tr>
+<tr><td class=src>{>3:2:1}<td>現在位置を3字下げにして、左端は2字下げ、右端は1字下げにします。「3」「2」「1」は例であり、数または変数が使えます。</tr>
+<tr><td class=src>{<}<td>段落の頭で使います。{>0}と同じ意味になります。</tr>
+<tr><td class=src>{:center}<td>センター揃えです。主に段落の頭で使いますが、段落の途中でも使えます。</tr>
+<tr><td class=src>{:right}<td>右揃えです。主に段落の頭で使いますが、段落の途中でも使えます。</tr>
+</tbody>
+</table>
+
+<h3>囲みなど</h3>
+<table>
+<thead>
+<tr><th>テキスト<th>説明</tr>
+</thead>
+<tbody>
+<tr><td class=src>{:ruled:1}<td>段落囲みを開始します。「1」は例で、線種を指定します。線種は1〜4があります。</tr>
+<tr><td class=src>{:ruled:0}<td>段落囲みを終了します。{:ruled:0}を記載する行には{:ruled:0}だけを記載して下さい。</tr>
+<tr><td class=src>{:ruled}<td>{:ruled:1}の略記です。</tr>
+<tr><td class=src>{:u:1:4}<td>下線類を開始します。「1」は例で、線種を指定します。線種は1〜5があります。「4」は例で、下線の位置を指定します。1〜6があります。</tr>
+<tr><td class=src>{:u:0}<td>下線類を終了します。</tr>
+</tbody>
+</table>
+
+<h3>メタ変数</h3>
+<p>仕様は変わるかもしれませんが現時点です。</p>
+<table>
+<thead>
+<tr><th>テキスト<th>説明</tr>
+</thead>
+<tbody>
+<tr><td class=src>$page<td>現在のページ番号に置き換えられます。</tr>
+</tbody>
+</table>
+
+<h3>メタ変数</h3>
+<p>仕様は変わるかもしれませんが現時点です。</p>
+<table>
+<thead>
+<tr><th>テキスト<th>説明</tr>
+</thead>
+<tbody>
+<tr><td class=src>{*a b}<td>「a b」は例です。この部分を1つの文字（単語）として扱います。</tr>
+</tbody>
+</table>
+
+<h3>数式など</h3>
+<p>{!}で区切ります。この文法は変わるかもしれませんが現時点ではこれです。</p>
+<table>
+<thead>
+<tr><th>テキスト<th>説明</tr>
+</thead>
+<tbody>
+<tr><td class=src>{!f}100{!}200{!}<td>分数です。</tr>
+<tr><td class=src>{!rt}3{!}<td>根号です。</tr>
+<tr><td class=src>{!(}/a + /b{!}<td>カッコです。中身の縦幅が大きいときは広がります。</tr>
+<tr><td class=src>{!(+}/a + /b{!}<td>中カッコです。中身の縦幅が大きいときは広がります。</tr>
+<tr><td class=src>/a{!index}/n{!}<td>下付きです。</tr>
+<tr><td class=src>/a_/n<td>下付きの略記です。</tr>
+<tr><td class=src>/a{!index:sup}/n{!}<td>上付きです。</tr>
+<tr><td class=src>/a^/n<td>上付きの略記です。</tr>
+</tbody>
+</table>
+
+<h2>諸注意</h2>
+
 <h3>保存について</h3>
 <p>オートセーブであり、1文字入力するごとにセーブしています。なお、Undo履歴はセーブしていません（Ctrl + Z でUndoできますが、これはブラウザの機能です）。</p>
 <p>セーブ先はブラウザのストレージ（localStorage）です。あまり大きくないので5MB程度でいっぱいになります。保存するのは文字データのみなので、人間が執筆した文章を保存するのであれば普通は問題になりませんが、自動生成したテキストなどを保存するといっぱいになることがあるかもしれません。</p>
 <p>ブラウザの管理画面からデータを消した場合には、保存されているテキストは消えてしまいます。また、ないと思いたいですが、プログラムのバグなどにより、データが消えてしまうこともあるかもしれません。大切なテキストはご自身の責任により、時々「エクスポート」で書き出しすることをおすすめします。（エクスポートされるのはtext形式なので、最悪「メモ帳」などで内容を見ることができます。）</p>
+
+<h2>詳細な使い方</h2>
+<p>ヘルプ作成中です。</p>
+
 </div>
 </body>
 </html>
