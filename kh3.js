@@ -468,7 +468,7 @@ kh3.parrender = function(){
 		
 		// インデント位置を記憶
 		if(waitingIndentName){
-			this._render.indentmap[waitingIndentName] = (left - leftindent) / this.setting.zw;
+			this._render.indentmap[waitingIndentName] = left / this.setting.zw;
 			waitingIndentName = "";
 		}
 
