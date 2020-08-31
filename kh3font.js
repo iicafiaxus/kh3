@@ -46,8 +46,12 @@ kh3.font.main = {
 kh3.font.roman = kh3.font.numeric = kh3.font.main;
 
 kh3.font.italic = {
-	url: "https://fonts.googleapis.com/css?family=Old+Standard+TT:400i https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1&display=swap https://fonts.googleapis.com/css2?family=Alegreya:ital@1&display=swap",
-	name: ["Old Standard TT", "Alegreya"].join('", "'),
+	url: [
+		"https://fonts.googleapis.com/css?family=Old+Standard+TT:400i",
+		"https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1&display=swap",
+		"https://fonts.googleapis.com/css2?family=Alegreya:ital@1&display=swap",
+	].join(" "),
+	name: ["Old Standard TT", "EB Garamond"].join('", "'),
 	weight: 400,
 	style: "italic",
 	magnitude: 1.1,
