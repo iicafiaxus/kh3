@@ -1,7 +1,7 @@
 kh3.font = {};
 
 // フォントの定義
-kh3.font.names = ["roman", "numeric", "italic", "italiccaps", "main", "bold"];
+kh3.font.names = ["roman", "numeric", "italic", "italiccaps", "main", "bold", "bolditalic"];
 
 
 kh3.font.roman = {
@@ -74,6 +74,15 @@ kh3.font.bold = {
 	style: "normal",
 	magnitude: 1.0,
 	offset: 0.1,
+}
+
+kh3.font.bolditalic = {
+	url: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,700&display=swap",
+	name: "Lora",
+	weight: 700,
+	style: "italic",
+	magnitude: 1.0,
+	offset: 0.0,
 }
 
 // ----------

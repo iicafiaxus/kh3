@@ -135,6 +135,7 @@ kh3.parse = function(text){
 	var res = [];
 	var metastack = [];
 	var font = "main", pos = "", isInWord = false;
+	var fontmap = {};
 	for(var i = 0; i < text.length; i ++){
 		var o = new kh3.Unit(text.charAt(i));
 		while(o.char.match(/ /)) o.char = text.charAt(++i);
@@ -256,6 +257,13 @@ kh3.parse = function(text){
 							case "rotated":
 								o.command = "rotate", o.char = (operands.length > 1? operands[1]: "");
 								break;
+							case "bold":
+							case "b":
+								o.value = (isNumeric(operands[1])? +operands[1]: 1);
+								if(o.value) fontmap = {"": "bold", main: "bold", italic: "bolditalic"};
+								else fontmap = {};
+								o.isMetacommand = 1;
+								break;
 							case "font":
 								font = (operands.length > 1? operands[1]: "");
 								if(operands.length > 2 && operands[2] == "zwsp") isInWord = 1;
@@ -336,7 +344,7 @@ kh3.parse = function(text){
 		
 		o.recalc(); // o.char を直接いじりまくっているので調整
 		
-		o.font = font;
+		o.font = fontmap[font] || font;
 		o.pos = pos;
 		if(isInWord){
 			isInWord = 0;

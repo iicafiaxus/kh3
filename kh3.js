@@ -248,7 +248,7 @@ kh3.parrender = function(){
 			prevUnit = unit;
 			i ++;
 		}
-		
+
 		// コマンドの処理
 		if(unit.command == "page"){
 			this.newline(line.units);
