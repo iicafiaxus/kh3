@@ -144,6 +144,10 @@ kh3.rendermain = function(){
 	this._render.isRuling = 0;
 	this._render.isRuled = 0;
 
+	// インデント位置
+	this._render.leftindent = 0;
+	this._render.rightindent = 0;
+
 	// 名前づけられたインデント位置
 	this._render.indentmap = {};
 
@@ -206,8 +210,9 @@ kh3.parrender = function(){
 	
 
 	// インデント
-	var left = this.setting.parIndent * this.setting.zw;
-	var leftindent = 0, rightindent = 0;
+	var leftindent = this._render.leftindent || 0;
+	var rightindent = this._render.rightindent || 0;
+	var left = leftindent + this.setting.parIndent * this.setting.zw;
 	var isCentered = 0;
 	var isRighted = 0;
 	
@@ -300,8 +305,15 @@ kh3.parrender = function(){
 			}
 
 			left = leftindent + +unit.value * this.setting.zw;
-			if(isNumeric(unit.value2)) leftindent += +unit.value2 * this.setting.zw;
-			if(isNumeric(unit.value3)) rightindent += +unit.value3 * this.setting.zw;
+			if(isNumeric(unit.value2)) leftindent = +unit.value2 * this.setting.zw;
+			if(isNumeric(unit.value3)) rightindent = +unit.value3 * this.setting.zw;
+
+			if(unit.isLong){
+				this._render.leftindent = leftindent;
+				this._render.rightindent = rightindent;
+				this._render.parindent = left;
+			}
+
 			continue;
 		}
 		if(unit.command == "setindent"){

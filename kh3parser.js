@@ -236,6 +236,14 @@ kh3.parse = function(text){
 								o.value3 = (isNumeric(operands[3])? +operands[3]: 0);
 								o.char = "";
 								break;
+							case "longindent":
+								o.command = "indent";
+								o.value = (isNumeric(operands[1])? +operands[1]: 1);
+								o.value2 = (isNumeric(operands[2])? +operands[2]: 0);
+								o.value3 = (isNumeric(operands[3])? +operands[3]: 0);
+								o.char = "";
+								o.isLong = 1;
+								break;
 							case "ruled":
 								o.command = "ruled";
 								o.value = (isNumeric(operands[1])? +operands[1]: 1);
