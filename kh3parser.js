@@ -260,7 +260,7 @@ kh3.parse = function(text){
 							case "bold":
 							case "b":
 								o.value = (isNumeric(operands[1])? +operands[1]: 1);
-								if(o.value) fontmap = {"": "bold", main: "bold", italic: "bolditalic"};
+								if(o.value) fontmap = {"": "bold", main: "bold", italic: "bolditalic", italiccaps: "bolditalic"};
 								else fontmap = {};
 								o.isMetacommand = 1;
 								break;
