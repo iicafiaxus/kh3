@@ -1,7 +1,7 @@
 kh3.font = {};
 
 // フォントの定義
-kh3.font.names = ["roman", "numeric", "italic", "italiccaps", "main", "bold", "bolditalic"];
+kh3.font.names = ["roman", "numeric", "italic", "italiccaps", "main", "bold", "bolditalic", "bolditaliccaps"];
 
 
 kh3.font.roman = {
@@ -72,17 +72,26 @@ kh3.font.bold = {
 	name: "Tienne" + '", "' + "Noto Sans JP",
 	weight: 700,
 	style: "normal",
-	magnitude: 1.0,
-	offset: 0.1,
+	magnitude: 1.05,
+	offset: 0.15,
 }
 
 kh3.font.bolditalic = {
-	url: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,700&display=swap",
-	name: "Lora",
+	url: "https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@1,700&display=swap",//"https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,700&display=swap",
+	name: "Volkhov",
 	weight: 700,
 	style: "italic",
-	magnitude: 1.0,
-	offset: 0.0,
+	magnitude: 1.15,
+	offset: 0.1,
+}
+
+kh3.font.bolditaliccaps = {
+	url: "https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@1,700&display=swap",
+	name: "Noto Serif",
+	weight: 700,
+	style: "italic",
+	magnitude: 1.05,
+	offset: 0.05,
 }
 
 // ----------
