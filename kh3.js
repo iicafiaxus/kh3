@@ -340,6 +340,10 @@ kh3.parrender = function(){
 			this._render.underlinepos = unit.value && unit.value2;
 			continue;
 		}
+		if(unit.command == "nolf"){
+			this._render.hasNoLinefeedHere = 1;
+			continue;
+		}
 		if(unit.command == "meta"){
 			switch(unit.metaname){
 				case "page":
@@ -685,7 +689,8 @@ kh3.newline = function(units = []){
 	// ラインフィード（無限改行の場合は自由行送りとする）
 	// （本当は無限改行と自由行送りは別々の設定項目にするのがよさそう）
 	var linefeed = this.setting.lineHeight;
-	this._render.top += linefeed + heightUnder;
+	if(! this._render.hasNoLinefeedHere) this._render.top += linefeed + heightUnder;
+	this._render.hasNoLinefeedHere = 0;
 
 	// 行数がオーバーしていれば改段または段延長
 	if(this._render.top + this.setting.zh > this.setting.pageHeight){

@@ -254,6 +254,10 @@ kh3.parse = function(text){
 								o.value = operands[1];
 								o.value2 = operands[2] || "1";
 								break;
+							case "nolinefeed":
+							case "nolf":
+								o.command = "nolf", o.char = "";
+								break;
 							case "center":
 								o.command = "center", o.char = "";
 								break;
