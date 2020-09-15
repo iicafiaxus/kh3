@@ -244,6 +244,12 @@ kh3.parse = function(text){
 								o.char = "";
 								o.isLong = 1;
 								break;
+							case "rightbox":
+								o.command = "rightbox";
+								o.value = (isNumeric(operands[1])? +operands[1]: 1);
+								o.value2 = (isNumeric(operands[2])? +operands[2]: 0);
+								o.char = "";
+								break;
 							case "ruled":
 								o.command = "ruled";
 								o.value = (isNumeric(operands[1])? +operands[1]: 1);

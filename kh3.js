@@ -208,10 +208,17 @@ kh3.parrender = function(){
 	
 	var lastunit = blank;
 	
+	// 右ボックスインデントがあったときはカウントを減らす
+	if(this._render.rightboxcount > 0){
+		this._render.rightboxcount -= 1;
+		if(this._render.rightboxcount <= 0){
+			this._render.rightboxindent = 0;
+		}
+	}
 
 	// インデント
 	var leftindent = this._render.leftindent || 0;
-	var rightindent = this._render.rightindent || 0;
+	var rightindent = (this._render.rightindent || 0) + (this._render.rightboxindent || 0);
 	var left = leftindent + this.setting.parIndent * this.setting.zw;
 	var isCentered = 0;
 	var isRighted = 0;
@@ -318,6 +325,15 @@ kh3.parrender = function(){
 		}
 		if(unit.command == "setindent"){
 			waitingIndentName = unit.value;
+			continue;
+		}
+		if(unit.command == "rightbox"){
+			if(isNumeric(unit.value) && isNumeric(unit.value2)){
+				this._render.rightboxindent = +unit.value * this.setting.zw;
+				this._render.rightboxcount = +unit.value2 + 1;
+				rightindent += this._render.rightboxindent;
+				// この場合は行をすべて戻す
+			}
 			continue;
 		}
 		if(unit.command == "ruled"){
@@ -472,7 +488,16 @@ kh3.parrender = function(){
 			line.units = [];
 			line.prevHeightUnder = line.heightUnder;
 			tab.units = [];
-			
+
+			// 右ボックスインデントがあったときはカウントを減らす
+			if(this._render.rightboxcount > 0){
+				this._render.rightboxcount -= 1;
+				if(this._render.rightboxcount <= 0){
+					rightindent -= this._render.rightboxindent;
+					this._render.rightboxindent = 0;
+				}
+			}
+
 			// このときはDOMを作成しない(iを戻したので)
 			continue;
 		}
@@ -701,7 +726,6 @@ kh3.newline = function(units = []){
 			this.extendColumn(this.setting.lineHeight + heightOver + heightUnder);
 		}
 	}
-	
 	
 	
 }
