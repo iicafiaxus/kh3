@@ -306,7 +306,7 @@ kh3.parse = function(text){
 						o.char = "";
 						break;
 					case ">":
-						if(commandtext.length > 1 && commandtext.charAt(1) == "="){
+						if(commandtext.length > 2 && commandtext.charAt(1) == "="){
 							operands = commandtext.substring(2).split(":");
 							o.command = "setindent";
 							o.value = operands[0];

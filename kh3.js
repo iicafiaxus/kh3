@@ -509,8 +509,13 @@ kh3.parrender = function(){
 		
 		// インデント位置を記憶
 		if(waitingIndentName){
-		this._render.indentmap[waitingIndentName] = (left - leftindent) / this.setting.zw;
+			this._render.indentmap[waitingIndentName] = (left - leftindent) / this.setting.zw;
 			waitingIndentName = "";
+		}
+
+		// 等号だった場合もインデント位置として記憶
+		if(unit.char == "="){
+			this._render.indentmap["="] = (left - leftindent) / this.setting.zw;
 		}
 
 		// 次のユニットへ
