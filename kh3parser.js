@@ -134,7 +134,10 @@ kh3.preprocess = function(text){
 kh3.parse = function(text){
 	var res = [];
 	var metastack = [];
-	var font = "main", pos = "", isInWord = false;
+	var font = "main", color = "", pos = "", isInWord = false;
+	var palette = [
+		"#000000", "#0077dd", "#dd3300", "#9900cc", "#229900"
+	]; // 将来的には設定項目とする
 	var fontmap = {};
 	for(var i = 0; i < text.length; i ++){
 		var o = new kh3.Unit(text.charAt(i));
@@ -287,6 +290,14 @@ kh3.parse = function(text){
 								if(operands.length > 2 && operands[2] == "zwsp") isInWord = 1;
 								o.isMetacommand = 1;
 								break;
+							case "color":
+								if(isNumeric(operands[1]) && +operands[1] < palette.length){
+									color = palette[operands[1]];
+								}
+								else color = "";
+								if(operands.length > 2 && operands[2] == "zwsp") isInWord = 1;
+								o.isMetacommand = 1;
+								break;
 							case "pos":
 								pos = (operands.length > 1? operands[1]: "");
 								if(operands.length > 2 && operands[2] == "zwsp") isInWord = 1;
@@ -363,6 +374,7 @@ kh3.parse = function(text){
 		o.recalc(); // o.char を直接いじりまくっているので調整
 		
 		o.font = fontmap[font] || font;
+		o.color = color;
 		o.pos = pos;
 		if(isInWord){
 			isInWord = 0;

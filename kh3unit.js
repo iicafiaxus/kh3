@@ -60,6 +60,7 @@ kh3.Unit.prototype.makeDom = function(){
 	
 	if(this.font != "") span.className += " " + this.font;
 	if(this.pos != "") span.className += " " + this.pos;
+	if(this.color != "") span.style.color = this.color;
 	
 	// グリフの置き換え(とりあえず)
 	if(this.font == "italic"){
