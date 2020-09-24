@@ -168,7 +168,9 @@ kh3ui.showFile = function(){
 		kh3ui.restoreTitle();
 	};
 }
-
+// ------------------------------
+// ファイルリスト表示
+// ------------------------------
 kh3ui.fileListReload = function(){
 	var divFileInfo = document.getElementById("divFileInfo");
 	divFileInfo.innerHTML = "";
@@ -234,6 +236,9 @@ kh3ui.fileListReload = function(){
 	kh3ui.fileButtonActivate();
 }
 
+// ------------------------------
+// ファイル画面のボタンの活性・非活性制御
+// ------------------------------
 kh3ui.fileButtonActivate = function(){
 	var chks = document.getElementById("ulFiles").getElementsByTagName("input");
 	var cnt = 0;
@@ -244,9 +249,12 @@ kh3ui.fileButtonActivate = function(){
 	document.getElementById("btnFileImport").disabled = !(cnt >= 0);
 	document.getElementById("btnFileExport").disabled = !(cnt == 1);
 	document.getElementById("btnFileDelete").disabled = !(cnt >= 1);
-	document.getElementById("btnFileDuplicate").disabled = !(cnt >= 1);
+	document.getElementById("btnFileDuplicate").disabled = !(cnt == 1);
 }
 
+// ------------------------------
+// ファイルを開く
+// ------------------------------
 kh3ui.fileOpen = function(){
 	var chks = document.getElementById("ulFiles").getElementsByTagName("input");
 	for(chk of chks) if(chk.checked){
@@ -255,6 +263,9 @@ kh3ui.fileOpen = function(){
 	kh3ui.showEditor();
 }
 
+// ------------------------------
+// ファイル新規作成
+// ------------------------------
 kh3ui.fileNew = function(){
 	var newTitle = window.prompt("作成する文書の名前", "");
 	if(newTitle === null) return;
@@ -281,9 +292,10 @@ kh3ui.fileNew2 = function(title){
 	kh3ui.fileListReload();
 }
 
-/* 
-https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa
-*/
+// ------------------------------
+// ユーティリティ：Base64
+// ------------------------------
+// https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa
 // ucs-2 string to base64 encoded ascii
 function utoa(str) {
     return window.btoa(unescape(encodeURIComponent(str)));
@@ -293,6 +305,41 @@ function atou(str) {
     return decodeURIComponent(escape(window.atob(str)));
 }
 
+// ------------------------------
+// インポートしたテキストを反映
+// ------------------------------
+kh3ui.applyImportedText = function(text){
+	var lines = text.split("\n");
+	var title = "無題";
+	var textAll = "";
+	var params = {};
+	var isInPreamble = 1;
+	for(line of lines){
+		if(isInPreamble){
+			if(/^#TITLE=/i.test(line)) title = line.slice(7);
+			else if(/^#(txt[^=]*) *= *(.*)$/.test(line)){
+				params["" + RegExp.$1] = "" + RegExp.$2;
+			}
+			else if(/^#(chk[^=]*) *= *(.*)$/.test(line)){
+				params["" + RegExp.$1] = (RegExp.$2 == "true" || RegExp.$2 == "1")? "1": "0";
+			}
+			else if(/^#([^=]*) *= *(.*)$/.test(line)){
+				params["" + RegExp.$1] = "" + RegExp.$2;
+			}
+			else if(line == "") isInPreamble = 0;
+			else isInPreamble = 0, textAll += line + "\n";
+		}
+		else textAll += line + "\n";
+	}
+	kh3ui.fileNew2(title);
+	kh3ui.file.write(textAll, "textAll");
+	kh3ui.file.reload();
+	kh3ui.restoreConfig(function(x){ return this[x]; }.bind(params));
+}
+
+// ------------------------------
+// ファイルインポート
+// ------------------------------
 kh3ui.fileImport = function(){
 	var fileselect = document.createElement("input");
 	fileselect.type = "file";
@@ -312,42 +359,17 @@ kh3ui.fileImport2 = function(file){
 	var reader = new FileReader();
 	reader.onload = function(e){
 		var text = e.target.result;
-		var lines = text.split("\n");
-		var title = "無題";
-		var textAll = "";
-		var params = {};
-		var isInPreamble = 1;
-		for(line of lines){
-			if(isInPreamble){
-				if(/^#TITLE=/i.test(line)) title = line.slice(7);
-				else if(/^#(txt[^=]*) *= *(.*)$/.test(line)){
-					params["" + RegExp.$1] = "" + RegExp.$2;
-				}
-				else if(/^#(chk[^=]*) *= *(.*)$/.test(line)){
-					params["" + RegExp.$1] = (RegExp.$2 == "true" || RegExp.$2 == "1")? "1": "0";
-				}
-				else if(/^#([^=]*) *= *(.*)$/.test(line)){
-					params["" + RegExp.$1] = "" + RegExp.$2;
-				}
-				else if(line == "") isInPreamble = 0;
-				else isInPreamble = 0, textAll += line + "\n";
-			}
-			else textAll += line + "\n";
-		}
-		kh3ui.fileNew2(title);
-		kh3ui.file.write(textAll, "textAll");
-		kh3ui.file.reload();
-		kh3ui.restoreConfig(function(x){ return this[x]; }.bind(params));
+		kh3ui.applyImportedText(text);
 	}
 	reader.readAsText(file);
 }
 
-kh3ui.fileExport = function(){
-	var chks = document.getElementById("ulFiles").getElementsByTagName("input");
-	for(chk of chks) if(chk.checked){
-		kh3ui.file.name = chk.value;
-	}
-	
+// ------------------------------
+// エクスポート用のテキストを作成
+// ------------------------------
+kh3ui.getExportText = function(filename){
+	kh3ui.file.name = filename;
+
 	var params = {};
 	kh3ui.saveConfig(function(x, v){ this[x] = v; }.bind(params));
 
@@ -358,7 +380,30 @@ kh3ui.fileExport = function(){
 	}
 	text += "\n";
 	text += kh3ui.file.read("textAll");
-	
+
+	return text;
+}
+
+// ------------------------------
+// 選択されているファイル名 (最初に見つかった1つ)
+// ------------------------------
+kh3ui.getSelectedFileName = function(){
+	var filename;
+	var chks = document.getElementById("ulFiles").getElementsByTagName("input");
+	for(chk of chks) if(chk.checked){
+		filename = chk.value;
+		break;
+	}
+	return filename;
+}
+
+
+// ------------------------------
+// ファイルエクスポート
+// ------------------------------
+kh3ui.fileExport = function(){
+	var filename = kh3ui.getSelectedFileName();
+	var text = kh3ui.getExportText(filename);
 	var data = "data:text/plain;base64," + utoa(text);
 	
 	var a = document.createElement("a");
@@ -368,10 +413,26 @@ kh3ui.fileExport = function(){
 	a.click();
 }
 
+// ------------------------------
+// ファイル複製
+// ------------------------------
 kh3ui.fileDuplicate = function(){
-	alert("未実装です。");
+	var isOK = window.confirm("選択中のファイルを複製します。", "");
+	if(! isOK) return;
+
+	var filename = kh3ui.getSelectedFileName();
+	var text = kh3ui.getExportText(filename);
+	kh3ui.applyImportedText(text);
+
+	kh3ui.title += " (コピー)";
+	kh3ui.redrawTitle();
+	kh3ui.saveTitle();
 }
 
+
+// ------------------------------
+// ファイル削除 (論理削除)
+// ------------------------------
 kh3ui.fileDelete = function(){
 	var filenames = [], filetitles = [];
 	var chks = document.getElementById("ulFiles").getElementsByTagName("input");
