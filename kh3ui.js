@@ -220,6 +220,8 @@ kh3ui.fileListReload = function(){
 		
 		// 2行になってしまわないように詰める
 		var tempIncipit = span2.textContent;
+		tempIncipit = tempIncipit.replace(/\{[^}]*\}/ig, "");
+		tempIncipit = tempIncipit.replace(/\*(?!\*)/ig, "");
 		while(span2.getBoundingClientRect().bottom != bottom){
 			tempIncipit = tempIncipit.slice(0, -1);
 			span2.textContent = tempIncipit + "...";
