@@ -210,20 +210,22 @@ kh3ui.fileListReload = function(){
 			}.bind({value: chk.value}));
 		label.appendChild(span);
 		
-		
+		// インキピット
 		var span2 = document.createElement("span");
 		span2.className = "incipit";
 		span2.textContent = "Afg国 (1)";
 		li.appendChild(span2);
 		var bottom = span2.getBoundingClientRect().bottom;
-		span2.textContent = kh3ui.file.metaread("incipit", name) || "";
 		
-		// 2行になってしまわないように詰める
-		var tempIncipit = span2.textContent;
+		var tempIncipit = kh3ui.file.metaread("incipit", name) || "";
 		tempIncipit = tempIncipit.replace(/\{.*?\}/g, "");
+		tempIncipit = tempIncipit.replace(/\{.*?$/g, "");
 		tempIncipit = tempIncipit.replace(/\*(?!\*)/g, "");
 		tempIncipit = tempIncipit.replace(/(?<!\/)\/(?!\/)/g, "");
 		tempIncipit = tempIncipit.replace(/[ 　]+/g, " ");
+		span2.textContent = tempIncipit;
+
+		// 2行になってしまわないように詰める
 		while(span2.getBoundingClientRect().bottom != bottom){
 			tempIncipit = tempIncipit.slice(0, -1);
 			span2.textContent = tempIncipit + "...";
