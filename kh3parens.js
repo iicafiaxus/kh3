@@ -15,10 +15,15 @@ kh3.Parens.prototype.makeDom = function(){
 		this.span.parentNode.removeChild(this.span);
 	}
 	this.span = document.createElement("span");
+
+	this.leftmark.color = this.color;
 	this.leftmark.makeDom();
 	this.span.appendChild(this.leftmark.span);
+	
 	for(unit of this.units) unit.makeDom();
 	for(unit of this.units) this.span.appendChild(unit.span);
+
+	this.rightmark.color = this.color;
 	this.rightmark.makeDom();
 	this.span.appendChild(this.rightmark.span);
 

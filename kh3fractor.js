@@ -18,6 +18,7 @@ kh3.Fractor.prototype.makeDom = function(){
 	// 子ユニットのDOMを作成
 	for(unit of this.upperunits) unit.makeDom();
 	this.rule = new kh3.Unit("─");
+	this.rule.color = this.color;
 	this.rule.makeDom();
 	for(unit of this.lowerunits) unit.makeDom();
 	

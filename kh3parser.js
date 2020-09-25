@@ -369,13 +369,14 @@ kh3.parse = function(text){
 			}
 		}
 		
+		(o.unit || o).font = fontmap[font] || font;
+		(o.unit || o).color = color;
+		o.pos = pos;
+
 		if(o.isMetacommand) continue;
 		
 		o.recalc(); // o.char を直接いじりまくっているので調整
 		
-		o.font = fontmap[font] || font;
-		o.color = color;
-		o.pos = pos;
 		if(isInWord){
 			isInWord = 0;
 			o.firstchar = "";

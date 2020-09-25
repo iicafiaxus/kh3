@@ -14,6 +14,8 @@ kh3.Rootunit.prototype.makeDom = function(){
 		this.span.parentNode.removeChild(this.span);
 	}
 	this.span = document.createElement("span");
+
+	this.rootmark.color = this.color;
 	this.rootmark.makeDom();
 	this.span.appendChild(this.rootmark.span);
 	for(unit of this.units) unit.makeDom();
@@ -22,6 +24,7 @@ kh3.Rootunit.prototype.makeDom = function(){
 	this.setSubpositions();
 
 	this.rule = new kh3.Unit("─");
+	this.rule.color = this.color;
 	this.rule.makeDom();
 	this.span.appendChild(this.rule.span);
 }
