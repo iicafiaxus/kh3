@@ -46,6 +46,7 @@ kh3ui.init = function(){
 	kh3ui.hidePaperSizePanel();
 	window.addEventListener("resize", kh3ui.resizeEditor);
 	window.addEventListener("resize", kh3ui.resizePreview);
+	window.addEventListener("resize", kh3ui.resizeFileList);
 	window.addEventListener("keydown", kh3ui.handleKeys);
 	
 	// 初期化の内容
@@ -468,12 +469,22 @@ kh3ui.fileDelete = function(){
 	kh3ui.fileListReload();
 }
 
+// ------------------------------
+// ファイル画面の画面サイズのアジャストメント
+// ------------------------------
+kh3ui.resizeFileList = function(){
+	if(kh3ui.mode != "file") return;
+	kh3ui.fileListReload();
+}
 
 
 // ------------------------------
 // 編集画面の文字カウンターの更新
 // ------------------------------
 kh3ui.redrawCounter = function(){
+
+	if(kh3ui.mode != "editor") return;
+
 	document.getElementById('counter').textContent = document.getElementById("areaSource").value.split(/\s/).join('').length;
 }
 
@@ -481,6 +492,9 @@ kh3ui.redrawCounter = function(){
 // 編集画面の画面サイズのアジャストメント
 // ------------------------------
 kh3ui.resizeEditor = function(){
+
+	if(kh3ui.mode != "editor") return;
+
 	var header = document.getElementById("srcheader");
 
 	var pTitle = document.getElementById("pTitle");
@@ -504,6 +518,7 @@ kh3ui.resizeEditor = function(){
 // ------------------------------
 kh3ui.resizePreview = function(){
 	
+	if(kh3ui.mode != "preview") return;
 	
 	// 表示領域の大きさ
 	var w = document.body.clientWidth - 20;
