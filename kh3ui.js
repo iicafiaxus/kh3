@@ -375,6 +375,7 @@ kh3ui.fileImport2 = function(file){
 // ------------------------------
 kh3ui.getExportText = function(filename){
 	kh3ui.file.name = filename;
+	kh3ui.file.load(filename);
 
 	var params = {};
 	kh3ui.saveConfig(function(x, v){ this[x] = v; }.bind(params));
