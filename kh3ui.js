@@ -49,19 +49,30 @@ kh3ui.init = function(){
 	window.addEventListener("resize", kh3ui.resizeFileList);
 	window.addEventListener("keydown", kh3ui.handleKeys);
 	
+	// ページ遷移制御 (戻るボタン)
+	kh3ui.hide = null;
+	kh3ui.pageStack = [];
+	window.addEventListener("popstate", function(e){
+		kh3ui.show = void 0;
+		if(kh3ui.pageStack.length > 0){
+			var show = kh3ui.pageStack.pop();
+			show(1);
+		}
+	});
+
 	// 初期化の内容
 	kh3ui.file.loaders.push(kh3ui.restoreText);
 	kh3ui.file.loaders.push(kh3ui.restoreTitle);
 	kh3ui.file.loaders.push(kh3ui.restoreConfig);
 	kh3ui.file.loaders.push(kh3ui.redrawEditor);
-	kh3ui.file.loaders.push(kh3ui.showPreview);
-	kh3ui.file.loaders.push(kh3ui.showEditor);
+//	kh3ui.file.loaders.push(kh3ui.showPreview);
+//	kh3ui.file.loaders.push(kh3ui.showEditor);
 	
 	// 初期化
 	var name = kh3ui.file.metaread("name") || "__default";
 	kh3ui.file.load(name);
-	
-	kh3ui.showFile();
+
+	kh3ui.showFile(1);
 
 	// ローカル実行の場合ローカルの旨を表示
 	if(! window.location.href.match(/^http/)){
@@ -92,9 +103,11 @@ kh3ui.restoreTitle = function(){
 // ------------------------------
 // プレビュー画面に切り替える
 // ------------------------------
-kh3ui.showPreview = function(){
+kh3ui.showPreview = function(isBack = 0){
+	if(kh3ui.show) kh3ui.pageStack.push(kh3ui.show);
 	if(kh3ui.hide) kh3ui.hide();
 	kh3ui.mode = "preview";
+	if(! isBack) history.pushState({}, "", "?preview");
 	
 	document.getElementById("btnShowEditor").style.display = "inline";
 	document.getElementById("btnShowConfig").style.display = "inline";
@@ -109,6 +122,7 @@ kh3ui.showPreview = function(){
 	
 	kh3ui.redrawTitle();
 	
+	kh3ui.show = kh3ui.showPreview.bind(kh3ui);
 	kh3ui.hide = function(){
 		document.getElementById("btnShowEditor").style.display = "none";
 		document.getElementById("btnShowConfig").style.display = "none";
@@ -119,16 +133,20 @@ kh3ui.showPreview = function(){
 // ------------------------------
 // 編集画面に切り替える
 // ------------------------------
-kh3ui.showEditor = function(){
+kh3ui.showEditor = function(isBack = 0){
+	if(kh3ui.show) kh3ui.pageStack.push(kh3ui.show);
 	if(kh3ui.hide) kh3ui.hide();
 	kh3ui.mode = "editor";
+	if(! isBack) history.pushState({}, "", "?editor");
 	
 	document.getElementById("screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #src{ display: block } }";
 	
 	kh3ui.resizeEditor();
+	kh3ui.redrawCounter();
 	document.getElementById("areaSource").focus();
 	
+	kh3ui.show = kh3ui.showEditor.bind(kh3ui);
 	kh3ui.hide = function(){
 	}
 }
@@ -136,9 +154,11 @@ kh3ui.showEditor = function(){
 // ------------------------------
 // 設定画面に切り替える
 // ------------------------------
-kh3ui.showConfig = function(){
+kh3ui.showConfig = function(isBack = 0){
+	if(kh3ui.show) kh3ui.pageStack.push(kh3ui.show);
 	if(kh3ui.hide) kh3ui.hide();
 	kh3ui.mode = "config";
+	if(! isBack) history.pushState({}, "", "?config");
 	
 	document.getElementById("screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #console{ display: block } }";
@@ -146,6 +166,7 @@ kh3ui.showConfig = function(){
 	kh3ui.redrawTitle();
 	window.scroll(0, 0);
 	
+	kh3ui.show = kh3ui.showConfig.bind(kh3ui);
 	kh3ui.hide = function(){
 	}
 }
@@ -153,9 +174,11 @@ kh3ui.showConfig = function(){
 // ------------------------------
 // ファイル選択画面に切り替える
 // ------------------------------
-kh3ui.showFile = function(){
+kh3ui.showFile = function(isBack = 0){
+	if(kh3ui.show) kh3ui.pageStack.push(kh3ui.show);
 	if(kh3ui.hide) kh3ui.hide();
 	kh3ui.mode = "file";
+	if(! isBack) history.pushState({}, "", "?file");
 	
 	document.getElementById("screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #file{ display: block } }";
@@ -165,6 +188,7 @@ kh3ui.showFile = function(){
 	kh3ui.redrawTitle();
 	window.scroll(0, 0);
 	
+	kh3ui.show = kh3ui.showFile.bind(kh3ui);
 	kh3ui.hide = function(){
 		kh3ui.restoreTitle();
 	};
@@ -482,9 +506,7 @@ kh3ui.resizeFileList = function(){
 // 編集画面の文字カウンターの更新
 // ------------------------------
 kh3ui.redrawCounter = function(){
-
 	if(kh3ui.mode != "editor") return;
-
 	document.getElementById('counter').textContent = document.getElementById("areaSource").value.split(/\s/).join('').length;
 }
 

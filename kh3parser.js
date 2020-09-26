@@ -3,6 +3,8 @@
 // テキストの前処理
 // この関数は定義を上書きしている
 kh3.preprocess = function(text){
+
+	if(! text) return "";
 	
 	// ルビ
 	var rubyindex = 1;

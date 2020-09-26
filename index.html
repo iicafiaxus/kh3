@@ -33,11 +33,11 @@
 	<div id=console class=screen>
 		<header>
 			<p>
-				<button onclick="kh3ui.restoreConfig(), kh3ui.showPreview()">キャンセル</button>
+				<button onclick="kh3ui.restoreConfig(), history.back()">キャンセル</button>
 				<span class=title></span> - ページ設定
 			</p>
 			<p>
-				<button onclick="kh3ui.saveConfig(), kh3ui.showPreview()">確定</button>
+				<button onclick="kh3ui.saveConfig(), history.back()">確定</button>
 			</p>
 		</header>
 		<div>
@@ -151,7 +151,7 @@
 	<div id=src>
 		<header id=srcheader>
 			<p>
-				<button onclick="kh3ui.showFile()">閉じる</button>
+				<button onclick="history.back()">閉じる</button>
 				</p>
 			<!--p>
 				<button onclick="kh3ui.showPics()">画像...</button>
@@ -171,7 +171,7 @@
 	<div id=main class=print>
 		<header id=mode class=screen>
 			<p>
-				<button id=btnShowEditor onclick="kh3ui.showEditor()">戻る</button>
+				<button id=btnShowEditor onclick="history.back()">戻る</button>
 				<span class=title></span>
 			</p>
 			<p>

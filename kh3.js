@@ -556,7 +556,7 @@ kh3.parrender = function(){
 		if(this._render.divPaper.textContent == "") this._render.divPaper.parentNode.removeChild(this._render.divPaper);
 		
 		// テスト用(採寸用)のspanを削除
-		this._render.testspan.parentNode.removeChild(this._render.testspan);
+		if(this._render.testspan.parentNode) this._render.testspan.parentNode.removeChild(this._render.testspan);
 		
 		// 組版終了後にやる処理があればそれをやる
 		for(f of this.afterRenderWorks) f();
