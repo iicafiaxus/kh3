@@ -423,16 +423,20 @@ kh3ui.fileExport = function(){
 // ファイル複製
 // ------------------------------
 kh3ui.fileDuplicate = function(){
-	var isOK = window.confirm("選択中のファイルを複製します。", "");
-	if(! isOK) return;
-
 	var filename = kh3ui.getSelectedFileName();
+	kh3ui.file.name = filename;
+	var title = kh3ui.file.read("title") || "無題のテキスト";
+
+	var newTitle = window.prompt("作成する文書の名前", title + " (コピー)");
+	if(newTitle === null) return;
+	
 	var text = kh3ui.getExportText(filename);
 	kh3ui.applyImportedText(text);
 
-	kh3ui.title += " (コピー)";
+	kh3ui.title = newTitle;
 	kh3ui.redrawTitle();
 	kh3ui.saveTitle();
+	
 }
 
 
