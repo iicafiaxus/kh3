@@ -462,6 +462,8 @@ kh3ui.fileDuplicate = function(){
 	kh3ui.title = newTitle;
 	kh3ui.redrawTitle();
 	kh3ui.saveTitle();
+
+	kh3ui.showEditor();
 	
 }
 
