@@ -114,14 +114,8 @@ kh3ui.showPreview = function(isBack = 0){
 	document.getElementById("screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #main{ display: block } }";
 	
-	kh3ui.scale = 1.0;
-	kh3ui.setScaling();
-	kh3ui.clearPages();
-	window.setTimeout(kh3ui.redraw, 30);
-	window.setTimeout(kh3ui.resizePreview, 10);
-	
-	kh3ui.redrawTitle();
-	
+	kh3ui.refreshPreview();
+
 	kh3ui.show = kh3ui.showPreview.bind(kh3ui);
 	kh3ui.hide = function(){
 		document.getElementById("btnShowEditor").style.display = "none";
@@ -129,6 +123,20 @@ kh3ui.showPreview = function(isBack = 0){
 		kh3.scrollX = window.scrollX, kh3.scrollY = window.scrollY;
 	};
 }
+
+// ------------------------------
+// プレビュー画面の再描画
+// ------------------------------
+kh3ui.refreshPreview = function(){
+	kh3ui.scale = 1.0;
+	kh3ui.setScaling();
+	kh3ui.clearPages();
+	window.setTimeout(kh3ui.redraw, 30);
+	window.setTimeout(kh3ui.resizePreview, 10);
+	
+	kh3ui.redrawTitle();
+};
+	
 
 // ------------------------------
 // 編集画面に切り替える
