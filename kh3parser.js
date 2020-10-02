@@ -200,7 +200,8 @@ kh3.parse = function(text){
 							case "root":
 							case "rt":
 								o.command = "root";
-								o.unit = new kh3.Rootunit();
+								o.index = (operands.length > 1? operands[1]: "");
+								o.unit = new kh3.Rootunit(o.index);
 								break;
 							case "(+":
 							case "(":
