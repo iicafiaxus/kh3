@@ -700,7 +700,7 @@ kh3ui.handleKeys = function(ev){
 		else ev.preventDefault();
 	}
 	else if(ev.code == "Escape"){
-		if(kh3ui.mode == "preview") kh3ui.showEditor(), ev.preventDefault();
-		else if(kh3ui.mode == "config") kh3ui.showEditor(), ev.preventDefault();
+		if(kh3ui.mode == "preview") history.back(), ev.preventDefault();
+		else if(kh3ui.mode == "config") history.back(), ev.preventDefault();
 	}
 }
