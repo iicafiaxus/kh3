@@ -78,6 +78,10 @@ kh3ui.init = function(){
 	if(! window.location.href.match(/^http/)){
 		if(! document.title.match(/\[LOCAL\]/)) document.title = "[LOCAL] " + document.title;
 	}
+
+	// 起動時画面を消す
+	document.getElementById("sprash").style.display = "none";
+
 }
 
 kh3ui.restoreText = function(){
