@@ -77,12 +77,12 @@ kh3.font.bold = {
 }
 
 kh3.font.bolditalic = {
-	url: "https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@1,700&display=swap",//"https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,700&display=swap",
-	name: "Volkhov",
-	weight: 700,
+	url: "https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@1,600&display=swap",//"https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@1,700&display=swap",//"https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,700&display=swap",
+	name: "Vollkorn",
+	weight: 600,
 	style: "italic",
 	magnitude: 1.15,
-	offset: 0.1,
+	offset: 0.2,
 }
 
 kh3.font.bolditaliccaps = {
