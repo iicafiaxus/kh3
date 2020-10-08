@@ -203,7 +203,6 @@ kh3.Unit.prototype.marginTo = function(unit){
 
 // 次のunitとの間での改行可否 (禁則判定)
 kh3.Unit.prototype.canBreakBetween = function(unit){
-	if(this.isFracted && unit.isFracted) return false;
 	var char1 = this.lastchar, char2 = unit.firstchar;
 	if(char1.match(kh3.letters.leader)) return false;
 	if(char1.match(kh3.letters.control)) return false;
