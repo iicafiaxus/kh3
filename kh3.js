@@ -676,14 +676,14 @@ kh3.newline = function(units = []){
 
 	// 右ボックスがある場合も罫を引く
 	if(this._render.isRightboxing){
-		this.openRule(this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent);
+		this.openRule(this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent, 0);
 	}
 	else if(this._render.rightboxcount > 1){
 		this.drawRule(heightOver, heightUnder, 
 				this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent);
 	}
 	else if(this._render.rightboxcount == 1){
-		this.closeRule(this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent);
+		this.closeRule(this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent, 0);
 	}
 	
 	// 下線があれば下線を引く
@@ -815,23 +815,23 @@ kh3.extendPage = function(){
 }
 
 // 囲みの開始の書き込み
-kh3.openRule = function(left = this._render.left, width = this.setting.lineWidth){
+kh3.openRule = function(left = this._render.left, width = this.setting.lineWidth, margin = this.setting.zw / 2){
 	kh3.drawBox(
 		left + this.setting.zw / 2,
-		this._render.top + this.setting.zw / 2,
+		this._render.top + margin,
 		width - this.setting.zw,
-		this.setting.lineHeight / 2,
+		this.setting.lineHeight / 2 + this.setting.zw / 2 - margin,
 		1, 1, 0, 1
 	);
 }
 
 // 囲みの終了の書き込み
-kh3.closeRule = function(left = this._render.left, width = this.setting.lineWidth){
+kh3.closeRule = function(left = this._render.left, width = this.setting.lineWidth, margin = this.setting.zw / 2){
 	kh3.drawBox(
 		left + this.setting.zw / 2,
-		this._render.top - (this.setting.lineHeight - this.setting.zw) / 2,
+		this._render.top - this.setting.lineHeight / 2 + this.setting.zw / 2,
 		width - this.setting.zw,
-		this.setting.lineHeight / 2,
+		this.setting.lineHeight / 2 + this.setting.zw / 2 - margin,
 		0, 1, 1, 1
 	);
 }
