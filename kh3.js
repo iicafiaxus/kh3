@@ -329,6 +329,7 @@ kh3.parrender = function(){
 		}
 		if(unit.command == "rightbox"){
 			if(isNumeric(unit.value) && isNumeric(unit.value2)){
+				this._render.isRightboxing = 1;
 				this._render.rightboxindent = +unit.value * this.setting.zw;
 				this._render.rightboxcount = +unit.value2 + 1;
 				rightindent += this._render.rightboxindent;
@@ -492,6 +493,7 @@ kh3.parrender = function(){
 			// 右ボックスインデントがあったときはカウントを減らす
 			if(this._render.rightboxcount > 0){
 				this._render.rightboxcount -= 1;
+				this._render.isRightboxing = 0;
 				if(this._render.rightboxcount <= 0){
 					rightindent -= this._render.rightboxindent;
 					this._render.rightboxindent = 0;
@@ -671,6 +673,18 @@ kh3.newline = function(units = []){
 	// 囲みの内部である場合は罫を引く
 	if(this._render.isRuling) this._render.isRuling = 0, this._render.isRuled = 1;
 	else if(this._render.isRuled) this.drawRule(heightOver, heightUnder);
+
+	// 右ボックスがある場合も罫を引く
+	if(this._render.isRightboxing){
+		this.openRule(this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent);
+	}
+	else if(this._render.rightboxcount > 1){
+		this.drawRule(heightOver, heightUnder, 
+				this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent);
+	}
+	else if(this._render.rightboxcount == 1){
+		this.closeRule(this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent);
+	}
 	
 	// 下線があれば下線を引く
 	var uleft, udepth, umiddle;
@@ -801,33 +815,33 @@ kh3.extendPage = function(){
 }
 
 // 囲みの開始の書き込み
-kh3.openRule = function(){
+kh3.openRule = function(left = this._render.left, width = this.setting.lineWidth){
 	kh3.drawBox(
-		this._render.left + this.setting.zw / 2,
+		left + this.setting.zw / 2,
 		this._render.top + this.setting.zw / 2,
-		this.setting.lineWidth - this.setting.zw,
+		width - this.setting.zw,
 		this.setting.lineHeight / 2,
 		1, 1, 0, 1
 	);
 }
 
 // 囲みの終了の書き込み
-kh3.closeRule = function(){
+kh3.closeRule = function(left = this._render.left, width = this.setting.lineWidth){
 	kh3.drawBox(
-		this._render.left + this.setting.zw / 2,
+		left + this.setting.zw / 2,
 		this._render.top - (this.setting.lineHeight - this.setting.zw) / 2,
-		this.setting.lineWidth - this.setting.zw,
+		width - this.setting.zw,
 		this.setting.lineHeight / 2,
 		0, 1, 1, 1
 	);
 }
 
 // 囲みの途中
-kh3.drawRule = function(heightOver = 0, heightUnder = 0){
+kh3.drawRule = function(heightOver = 0, heightUnder = 0, left = this._render.left, width = this.setting.lineWidth){
 	kh3.drawBox(
-		this._render.left + this.setting.zw / 2,
+		left + this.setting.zw / 2,
 		this._render.top - heightOver - (this.setting.lineHeight - this.setting.zw) / 2,
-		this.setting.lineWidth - this.setting.zw,
+		width - this.setting.zw,
 		this.setting.lineHeight + heightOver + heightUnder,
 		0, 1, 0, 1
 	);
