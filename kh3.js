@@ -228,8 +228,8 @@ kh3.parrender = function(){
 	// 囲み内の場合はインデントを調整
 	if(this._render.isRuled){
 		left += this.setting.zw;
-		leftindent = this.setting.zw;
-		rightindent = this.setting.zw;
+		leftindent += this.setting.zw;
+		rightindent += this.setting.zw;
 	}
 	
 	// テキストを読み込んで単語に切り分け
@@ -330,7 +330,7 @@ kh3.parrender = function(){
 		if(unit.command == "rightbox"){
 			if(isNumeric(unit.value) && isNumeric(unit.value2)){
 				this._render.isRightboxing = 1;
-				this._render.rightboxindent = +unit.value * this.setting.zw;
+				this._render.rightboxindent = this._render.rightindent + unit.value * this.setting.zw;
 				this._render.rightboxcount = +unit.value2 + 1;
 				rightindent += this._render.rightboxindent;
 				// この場合は行をすべて戻す
@@ -675,15 +675,17 @@ kh3.newline = function(units = []){
 	else if(this._render.isRuled) this.drawRule(heightOver, heightUnder);
 
 	// 右ボックスがある場合も罫を引く
+	// 囲みの内部だった場合の扱いは暫定(rightindentが反映されてこないので…)
+	var rightboxleft = this.setting.lineWidth - this._render.rightindent - this._render.rightboxindent;
+	if(this._render.isRuled) rightboxleft -= this.setting.zw;
 	if(this._render.isRightboxing){
-		this.openRule(this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent, 0);
+		this.openRule(rightboxleft, this._render.rightboxindent, 0);
 	}
 	else if(this._render.rightboxcount > 1){
-		this.drawRule(heightOver, heightUnder, 
-				this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent);
+		this.drawRule(heightOver, heightUnder, rightboxleft, this._render.rightboxindent);
 	}
 	else if(this._render.rightboxcount == 1){
-		this.closeRule(this.setting.lineWidth - this._render.rightboxindent, this._render.rightboxindent, 0);
+		this.closeRule(rightboxleft, this._render.rightboxindent, 0);
 	}
 	
 	// 下線があれば下線を引く
