@@ -17,6 +17,7 @@ kh3.Parens.prototype.makeDom = function(){
 	this.span = document.createElement("span");
 
 	this.leftmark.color = this.color;
+	this.leftmark.font = this.font;
 	this.leftmark.makeDom();
 	this.span.appendChild(this.leftmark.span);
 	
@@ -24,6 +25,7 @@ kh3.Parens.prototype.makeDom = function(){
 	for(unit of this.units) this.span.appendChild(unit.span);
 
 	this.rightmark.color = this.color;
+	this.rightmark.font = this.font;
 	this.rightmark.makeDom();
 	this.span.appendChild(this.rightmark.span);
 

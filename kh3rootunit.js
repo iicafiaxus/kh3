@@ -17,6 +17,7 @@ kh3.Rootunit.prototype.makeDom = function(){
 	this.span = document.createElement("span");
 
 	this.indexunit.color = this.color;
+	this.indexunit.font = this.font;
 	this.indexunit.pos = "sup";
 	this.indexunit.makeDom();
 	this.span.appendChild(this.indexunit.span);
@@ -30,7 +31,8 @@ kh3.Rootunit.prototype.makeDom = function(){
 
 	this.setSubpositions();
 
-	this.rule = new kh3.Unit("─");
+	let rulechar = (this.font.match(/bold/)) ? "━" : "─"; // 罫線素片
+	this.rule = new kh3.Unit(rulechar);
 	this.rule.color = this.color;
 	this.rule.makeDom();
 	this.span.appendChild(this.rule.span);

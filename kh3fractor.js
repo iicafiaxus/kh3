@@ -16,8 +16,10 @@ kh3.Fractor.prototype.makeDom = function(){
 	
 	// 子ユニットのDOMを作成
 	for(unit of this.upperunits) unit.makeDom();
-	this.rule = new kh3.Unit("─");
+	let char = (this.font.match(/bold/)) ? "━" : "─"; // 罫線素片
+	this.rule = new kh3.Unit(char);
 	this.rule.color = this.color;
+	console.log(this.font);
 	this.rule.makeDom();
 	for(unit of this.lowerunits) unit.makeDom();
 	
