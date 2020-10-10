@@ -64,7 +64,6 @@ kh3.Rootunit.prototype.setSubpositions = function(){
 		left += -this.indexunit.left;
 		this.indexunit.left = 0;
 	}
-	this.indexunit.top = this.middle + kh3.setting.zh * -0.9;
 	
 	this.rootmark.left = left;
 	this.rootmark.top = 0;
@@ -87,6 +86,9 @@ kh3.Rootunit.prototype.setSubpositions = function(){
 	this.width = left/* this.rootmark.width + this.innerwidth*/ + rootpadding;
 	this.height = this.innerheight + this.barspacing;
 	this.middle = this.innermiddle + this.barspacing;
+
+	this.indexunit.top = this.middle - this.middle * 0.6 - this.indexunit.middle;
+	console.log(this.indexunit.top, this.middle, this.middle * 0.6, this.indexunit.middle);
 
 //	for(unit of this.units) if(unit.setSubpositions) unit.setSubpositions();
 	
