@@ -90,7 +90,6 @@ kh3.Rootunit.prototype.setSubpositions = function(){
 	this.middle = this.innermiddle + this.barspacing;
 
 	this.indexunit.top = this.middle - this.middle * 0.6 - this.indexunit.middle;
-	console.log(this.indexunit.top, this.middle, this.middle * 0.6, this.indexunit.middle);
 
 //	for(unit of this.units) if(unit.setSubpositions) unit.setSubpositions();
 	

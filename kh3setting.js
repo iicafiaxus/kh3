@@ -1,9 +1,7 @@
 
 kh3.setValue = function(name, value){
-	//console.log("setValue", name, value);
 	if(value || value !== void 0 && ! isNaN(value)){
 		kh3.setting[name] = value;
-		//console.log(kh3.setting[name]);
 	}
 }
 

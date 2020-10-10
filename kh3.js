@@ -76,7 +76,6 @@ kh3.render = function(divTarget, textAll, canSaveText){
 	// 旧テキストを退避
 	if(canSaveText) this._render.oldText = textAll;
 
-	//console.log(diffPoint, diffLineNo);
 
 	// テキストを読み込み
 	this._render.textLines =  textAll.split("\n").slice(diffLineNo);
@@ -128,7 +127,6 @@ kh3.rendermain = function(){
 
 	// 換算単位が取得できていなかったらやり直し
 	// 現在は殺してある
-	// console.log("px -> micron:", this._render.unit, this._render.rubyunit);
 	if(0){
 		console.log("フォントが読み込めていなかったため再描画します");
 		(x => x.parentNode && x.parentNode.removeChild(x))(this._render.testspan);
