@@ -3,7 +3,7 @@ kh3.loadScript("kh3rootunit.js");
 kh3.loadScript("kh3parens.js");
 kh3.loadScript("kh3indexed.js");
 
-kh3.Unit = function(text){
+kh3.Unit = function(text, parentunit){
 	this.char = text; // parser ではこの後で直接 this.char を書き換えてくるので注意
 	this.ruby = "";
 	this.isRotated = 0;
@@ -12,8 +12,10 @@ kh3.Unit = function(text){
 	this.recalc();
 	
 	this.command = "";
-	this.font = "";
-	this.pos = "";
+	this.font = parentunit ? parentunit.font : "";
+	this.pos = parentunit ? parentunit.pos : "";
+	this.isBold = parentunit ? parentunit.isBold : "";
+	this.color = parentunit ? parentunit.color : "";
 	
 	this.rubyHang = 0;
 	
@@ -36,12 +38,11 @@ kh3.Unit.prototype.recalc = function(){
 	}
 }
 
-// DOM作成
-kh3.Unit.prototype.makeDom = function(){
-	
-	// フォントの調整　場違いな気もするがとりあえず…
+// フォントの調整
+kh3.Unit.prototype.recalcFont = function(){
 	if(this.font == "main" || this.font == ""){
-		if(this.char.match(/^[!-~α-ωΑ-Ω]+$/)){
+		if(this.isBold) this.font = "bold";
+		else if(this.char.match(/^[!-~α-ωΑ-Ω]+$/)){
 			if(this.char.match(/[0-9]+/)){
 				this.font = "numeric";
 			}
@@ -49,7 +50,18 @@ kh3.Unit.prototype.makeDom = function(){
 		}
 		else this.font = "main";
 	}
+	else if(this.font == "italic"){
+		if(this.isBold) this.font = "bolditalic";
+	}
+	else if(this.font == "italiccaps"){
+		if(this.isBold) this.font = "bolditaliccaps";
+	}
+}
+
+// DOM作成
+kh3.Unit.prototype.makeDom = function(){
 	
+	this.recalcFont();
 
 	if(this.span && this.span.parentNode){
 		this.span.parentNode.removeChild(this.span);

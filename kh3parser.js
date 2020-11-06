@@ -140,9 +140,9 @@ kh3.parse = function(text){
 	var palette = [
 		"#000000", "#0077dd", "#dd3300", "#9900cc", "#229900"
 	]; // 将来的には設定項目とする
-	var fontmap = {};
+	var isBold = 0;
 	for(var i = 0; i < text.length; i ++){
-		var o = new kh3.Unit(text.charAt(i));
+		var o = new kh3.Unit(text.charAt(i), metastack[metastack.length - 1]);
 		while(o.char.match(/ /)) o.char = text.charAt(++i);
 		if(o.char == "{"){
 			var commandtext = "";
@@ -284,8 +284,7 @@ kh3.parse = function(text){
 							case "bold":
 							case "b":
 								o.value = (isNumeric(operands[1])? +operands[1]: 1);
-								if(o.value) fontmap = {"": "bold", main: "bold", italic: "bolditalic", italiccaps: "bolditaliccaps"};
-								else fontmap = {};
+								if(o.value) isBold = 1; else isBold = 0;
 								o.isMetacommand = 1;
 								break;
 							case "font":
@@ -372,7 +371,8 @@ kh3.parse = function(text){
 			}
 		}
 		
-		(o.unit || o).font = fontmap[font] || font;
+		(o.unit || o).font = font;
+		(o.unit || o).isBold = !! isBold;
 		(o.unit || o).color = color;
 		o.pos = pos;
 
