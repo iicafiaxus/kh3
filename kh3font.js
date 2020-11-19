@@ -1,7 +1,7 @@
 kh3.font = {};
 
 // フォントの定義
-kh3.font.names = ["roman", "numeric", "italic", "italiccaps", "main", "bold", "bolditalic", "bolditaliccaps"];
+kh3.font.names = ["roman", "numeric", "italic", "italiccaps", "main", "bold", "boldroman", "boldnumeric", "bolditalic", "bolditaliccaps"];
 
 
 kh3.font.roman = {
@@ -68,13 +68,29 @@ kh3.font.italiccaps = {
 }
 
 kh3.font.bold = {
-	url: "https://fonts.googleapis.com/css?family=Noto+Sans+JP:700&subset=japanese https://fonts.googleapis.com/css?family=Tienne:700&display=swap",
+	url: [
+		"https://fonts.googleapis.com/css?family=Noto+Sans+JP:700&subset=japanese",
+		"https://fonts.googleapis.com/css?family=Tienne:700&display=swap"
+	].join(" "),
+	name: "Noto Sans JP",
+	weight: 700,
+	style: "normal",
+	magnitude: 1.00,
+	offset: 0.0,
+}
+
+kh3.font.boldroman = {
+	url: [
+		"https://fonts.googleapis.com/css?family=Noto+Sans+JP:700&subset=japanese",
+		"https://fonts.googleapis.com/css?family=Tienne:700&display=swap"
+	].join(" "),
 	name: "Tienne" + '", "' + "Noto Sans JP",
 	weight: 700,
 	style: "normal",
 	magnitude: 1.05,
-	offset: 0.15,
+	offset: 0.10,
 }
+kh3.font.boldnumeric = kh3.font.boldroman;
 
 kh3.font.bolditalic = {
 	url: "https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@1,600&display=swap",//"https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@1,700&display=swap",//"https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,700&display=swap",
@@ -82,7 +98,7 @@ kh3.font.bolditalic = {
 	weight: 600,
 	style: "italic",
 	magnitude: 1.15,
-	offset: 0.2,
+	offset: 0.15,
 }
 
 kh3.font.bolditaliccaps = {

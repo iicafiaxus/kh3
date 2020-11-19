@@ -41,14 +41,13 @@ kh3.Unit.prototype.recalc = function(){
 // フォントの調整
 kh3.Unit.prototype.recalcFont = function(){
 	if(this.font == "main" || this.font == ""){
-		if(this.isBold) this.font = "bold";
-		else if(this.char.match(/^[!-~α-ωΑ-Ω]+$/)){
+		if(this.char.match(/^[!-~α-ωΑ-Ω]+$/)){
 			if(this.char.match(/[0-9]+/)){
-				this.font = "numeric";
+				this.font = this.isBold ? "boldnumeric" : "numeric";
 			}
-			else this.font = "roman";
+			else this.font = this.isBold ? "boldroman" : "roman";
 		}
-		else this.font = "main";
+		else this.font = this.isBold ? "bold" : "main";
 	}
 	else if(this.font == "italic"){
 		if(this.isBold) this.font = "bolditalic";
