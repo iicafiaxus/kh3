@@ -378,6 +378,7 @@ kh3ui.applyImportedText = function(text){
 	kh3ui.file.write(textAll, "textAll");
 	kh3ui.file.reload();
 	kh3ui.restoreConfig(function(x){ return this[x]; }.bind(params));
+	kh3ui.saveConfig();
 }
 
 // ------------------------------
