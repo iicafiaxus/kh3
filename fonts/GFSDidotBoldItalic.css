@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'GFS Didot Bold Italic';
+  font-style: italic;
+  font-weight: 700;
+  font-display: block;
+  src: url(GFSDidotBoldItalic.woff) format('woff');
+}
+/*
+This font is licensed under the SIL Open Font License, Version 1.1
+by https://www.greekfontsociety-gfs.gr/
+*/
