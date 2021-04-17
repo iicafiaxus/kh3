@@ -105,10 +105,14 @@ kh3.setSetting = function(val){
 	}
 	
 	// フォント
+	// MEMO: この仕組みおそらく機能していないので確認して除去
 	kh3.setValue("fontName", val("txtFontName"));
 	kh3.setValue("rubyfontName", val("txtFontName"));
 	kh3.setValue("fontWeight", val("txtFontWeight") * 100);
 	kh3.setValue("rubyfontWeight", val("txtRubyWeight") * 100);
+
+	// フォントセット
+	kh3.setValue("fontsetIndex", val("selFontset"));
 	
 	// 字下げ
 	kh3.setValue("parIndent", val("chkParIndent")? 1: 0);

@@ -19,6 +19,8 @@ kh3ui.restoreConfig = function(valueFor){
 		if(o.getAttribute("type") == "text") if(exists(o.id)) o.value = "" + valueFor(o.id);
 		if(o.getAttribute("type") == "number") if(exists(o.id)) o.value = +valueFor(o.id);
 	}
+	var selects = document.getElementById("console").getElementsByTagName("select");
+	for(o of selects) if(exists(o.id)) o.value = "" + valueFor(o.id);
 }
 
 // ------------------------------
@@ -33,6 +35,8 @@ kh3ui.saveConfig = function(save){
 		if(o.getAttribute("type") == "text") save(o.id, "" + o.value);
 		if(o.getAttribute("type") == "number") save(o.id, "" + o.value);
 	}
+	var selects = document.getElementById("console").getElementsByTagName("select");
+	for(o of selects) save(o.id, "" + o.value);
 }
 
 // ------------------------------
@@ -44,6 +48,7 @@ kh3ui.getConfigValue = function(name){
 	else if(o.getAttribute("type") == "checkbox") return !! o.checked;
 	else if(o.getAttribute("type") == "text") return "" + o.value;
 	else if(o.getAttribute("type") == "number") return +o.value;
+	else if(o.tagName == "select" || o.tagName == "SELECT") return "" + o.value;
 }
 
 // ------------------------------

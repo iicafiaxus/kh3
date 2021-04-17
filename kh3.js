@@ -89,14 +89,15 @@ kh3.render = function(divTarget, textAll, canSaveText){
 
 // 全体の組版の本体
 kh3.rendermain = function(){
-	
+
 	// フォントの読み込み待ちを開始
-	if(!this._render.fontLoadStarted){
+	if( ! this._render.fontLoadStarted || this._render.loadedFontsetIndex != this.setting.fontsetIndex){
 		if(this.font && this.font.names){
-			for(var i = 0; i < this.font.names.length; i ++) this.font.load(this.font.names[i]);
+			for(var i = 0; i < this.font.names.length; i ++) this.font.load(this.font.names[i], this.setting.fontsetIndex);
 		}
 		else this.font = { waitcount: 0 };
 		this._render.fontLoadStarted = 1;
+		this._render.loadedFontsetIndex = this.setting.fontsetIndex;
 		window.setTimeout(this.rendermain.bind(this), 200);
 		return;
 	}
@@ -581,8 +582,9 @@ kh3.resetFont = function(){
 			"\n" + "span.ruby { font-weight: " + this.setting.rubyfontWeight + " }" + 
 			"\n" + "span.char { font-size: " + size + "mm; line-height: " + size + "mm }" +
 			"\n" + "span.ruby { font-size: " + (size / 2) + "mm; line-height: " + (size / 2) + "mm }";
+	// MEMO: この部分↑おそらく機能してないのでトルでよさそう
 	
-	if(this.font && this.font.reset) this.font.reset(size);
+	if(this.font && this.font.reset) this.font.reset(size, this.setting.fontsetIndex);
 }
 // 幅(micron)を取得
 kh3._memoWidth = {};

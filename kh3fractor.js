@@ -117,6 +117,7 @@ kh3.Fractor.prototype.setPosition = function(){
 	}
 	
 	var scale = this.width / kh3.setting.zw;
+	scale /= kh3.font.sets[kh3.setting.fontsetIndex || "default"][this.font || "main"].magnitude;
 	if(kh3.setting.isVertical){
 		this.rule.span.style.transform = "scale(1.0, " + scale + ")";
 		this.rule.span.style.transformOrigin = "center top";

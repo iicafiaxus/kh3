@@ -69,6 +69,7 @@ kh3.Unit.prototype.makeDom = function(){
 	var span = document.createElement("span");
 	span.className = "char";
 	
+	//if(this.fontset != "") span.className += " " + this.fontset;
 	if(this.font != "") span.className += " " + this.font;
 	if(this.pos != "") span.className += " " + this.pos;
 	if(this.color != "") span.style.color = this.color;
@@ -119,7 +120,7 @@ kh3.Unit.prototype.rotate = function(){
 
 // DOMを配置
 kh3.Unit.prototype.setPosition = function(){
-	if(this.width == 0) console.log("Width = 0 である Unit (char = \"" + this.char + "\") を配置しようとしています。");
+	//if(this.width == 0) console.log("Width = 0 である Unit (char = \"" + this.char + "\") を配置しようとしています。");
 	if(this.span) kh3.setPosition(
 		this.span, 
 		this.left, this.top + this.height * this.offset, 

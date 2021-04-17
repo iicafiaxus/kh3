@@ -129,6 +129,7 @@ kh3.Rootunit.prototype.setPosition = function(){
 	
 	// 根号線を配置
 	var rulescale = (this.width - (this.rootmark.left - this.left) - this.rootmark.width + kh3.setting.zw / 4) / kh3.setting.zw;
+	rulescale /= kh3.font.sets[kh3.setting.fontsetIndex || "default"][this.font || "main"].magnitude;
 	if(kh3.setting.isVertical){
 		this.rule.span.style.transform = "scale(1.0, " + rulescale + ")";
 		this.rule.span.style.transformOrigin = "center top";
