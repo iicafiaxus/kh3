@@ -118,7 +118,10 @@
 					<label>ウェイト<input type=number class=shortnumber id=txtRubyWeight value= 6 min=1 max=9 disabled></label>
 					<br>
 					<label>フォントセット<select id=selFontset>
-					<option value="default">デフォルト</option><option value="standard1">標準1</option><option value="standard2">標準2</option>
+						<option value="default">デフォルト</option>
+						<option value="standard1">標準1</option>
+						<option value="standard2">標準2</option>
+						<option value="mplus">M+ 1P</option>
 					</select>
 				</fieldset>
 				
@@ -226,9 +229,12 @@
 
 	<!-- ==== 起動時画面 ==== -->
 	<div id=sprash
-		style="position:fixed; left: 0; top: 0; width:100vw; height:100vh; background: #cef; z-index:10000"
+		style="position:fixed; left: 0; top: 0; width:100vw; height:100vh; background: #cef; z-index:10000;
+			display: flex; flex-direction: column; justify-content: space-evenly; text-align: center; "
 	>
-	<p style="line-height: 100vh; margin: 0; padding: 0; text-align: center"></p>
+	<p></p>
+	<p><img src="./kh3logo.svg" style="height: 5em"><br>川の月：オンライン日本語組版</p>
+	<p><span style="color: #999">起動しないとき : <a style="color: #7ac" href="safemode.html">セーフモード</a></span></p>
 	</div>
 </body>
 </html>

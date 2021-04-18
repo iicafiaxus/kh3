@@ -1,0 +1,85 @@
+<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<title>川の月 : オンライン日本語組版（セーフモード）</title>
+	<style>
+		table{ border-collapse: collapse; }
+		th, td{ border: 1px solid #999; padding: 0.1em 0.2em; }
+		tr :nth-child(1){ text-align: center; }
+		tr.deleted{ background: #aaa; color: #666; }
+	</style>
+	<script>kh3ui = {}; </script>
+	<script src="kh3uifile.js"></script>
+	<script>
+	create = function(tagName, parent){
+		let o = document.createElement(tagName);
+		parent.appendChild(o);
+		return o;
+	}
+	init = function(){
+		let table = create("table", document.body);
+		let thead = create("thead", table);
+
+		let trHeader = create("tr", thead);
+		create("th", trHeader).textContent = "番号";
+		create("th", trHeader).textContent = "タイトル";
+		create("th", trHeader).textContent = "状態";
+		create("th", trHeader).textContent = "操作";
+
+		let tbody = create("tbody", table);
+
+		var filenames = (kh3ui.file.metaread("filenames") || "").split(" ");
+		for(name of filenames){
+			let title = kh3ui.file.metaread("title", name) || "無題のテキスト";
+			let isDeleted = !! kh3ui.file.metaread("isDeleted", name);
+
+			let tr = create("tr", tbody);
+			create("td", tr).textContent = name;
+			create("td", tr).textContent = title;
+			create("td", tr).textContent = (isDeleted ? "削除済み" : "");
+
+			if(isDeleted) tr.classList.add("deleted");
+
+			let tdOps = create("td", tr);
+			if(isDeleted){
+				let btnUndelete = create("button", tdOps);
+				btnUndelete.textContent = "復元";
+				btnUndelete.dataset.name = name;
+				btnUndelete.addEventListener("click", ((ev) => undelete(btnUndelete.dataset.name)));
+			}
+
+			let btnExport = create("button", tdOps);
+			btnExport.textContent = "エクスポート";
+			btnExport.dataset.name = name;
+			btnExport.addEventListener("click", ((ev) => exportFile(btnExport.dataset.name)));
+
+
+		}
+	};
+	undelete = function(name){
+		if( ! confirm("削除済みの" + name + "を復元します.")) return;
+
+		kh3ui.file.metawrite("", "isDeleted", name);
+
+		location.reload();
+	}
+	exportFile = function(name){
+	kh3ui.file.name = name;
+	var text = "#TITLE=" + kh3ui.file.read("title") + "\n\n";
+	text += kh3ui.file.read("textAll");
+	var data = "data:text/plain;base64," + utoa(text);
+	
+	var a = document.createElement("a");
+	a.href = data;
+	a.download = kh3ui.file.read("title") + "(簡易).txt";
+	document.body.appendChild(a);
+	a.click();
+	}
+	</script>
+</head>
+<body onload="init()">
+	<h1>川の月 セーフモード</h1>
+	<h2>保存されているファイル</h2>
+	<p><button onclick="location.reload()">最新の情報に更新</button></p>
+</body>
+</html>
