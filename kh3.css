@@ -34,12 +34,6 @@ div.face{
 #allV div.paper .rotated{
 	writing-mode: lr-tb;
 }
-div.paper .roman{
-	font-style: normal;
-}
-div.paper .italic{
-	font-style: italic;
-}
 span.char{
 	position: absolute;
 	width: auto;
