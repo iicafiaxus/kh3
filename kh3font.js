@@ -121,6 +121,42 @@ kh3.font.notoserifbolditalic = {
 	offset: 0.05,
 }
 
+kh3.font.mplus1p = {
+	url: "https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;500",
+	name: "M PLUS 1p",
+	weight: 300,
+	style: "normal",
+	magnitude: 1.00,
+	offset: 0.00,
+}
+
+kh3.font.mplus1pbold = {
+	url: "https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@700",
+	name: "M PLUS 1p",
+	weight: 700,
+	style: "normal",
+	magnitude: 1.00,
+	offset: 0.00,
+}
+
+kh3.font.mplus1pitalic = {
+	url: "https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;500",
+	name: "M PLUS 1p",
+	weight: 300,
+	style: "italic",
+	magnitude: 1.00,
+	offset: 0.00,
+}
+
+kh3.font.mplus1pbolditalic = {
+	url: "https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@700",
+	name: "M PLUS 1p",
+	weight: 700,
+	style: "italic",
+	magnitude: 1.00,
+	offset: 0.00,
+}
+
 
 kh3.font.roman = kh3.font.numeric = kh3.font.main = kh3.font.notoserif;
 kh3.font.italiccaps = kh3.font.italic = kh3.font.oldstandard;
@@ -165,7 +201,20 @@ kh3.font.sets = {
 		boldnumeric: kh3.font.tienne,
 		bolditalic: kh3.font.vollkornbolditalic,
 		bolditaliccaps: kh3.font.vollkornbolditalic
+	},
+	"mplus": {
+		main: kh3.font.mplus1p,
+		roman: kh3.font.mplus1p,
+		numeric: kh3.font.mplus1p,
+		italic: kh3.font.mplus1p,
+		italiccaps: kh3.font.mplus1p,
+		bold: kh3.font.mplus1pbold,
+		boldroman: kh3.font.mplus1pbold,
+		boldnumeric: kh3.font.mplus1pbold,
+		bolditalic: kh3.font.mplus1pbold,
+		bolditaliccaps: kh3.font.mplus1pbold
 	}
+
 };
 
 // ----------
