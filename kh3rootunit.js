@@ -4,13 +4,15 @@ kh3.Rootunit = function(index){
 	kh3.Unit.call(this, "√");
 	this.canRotate = 0;
 	this.units = [];
-	this.rootmark = new kh3.Unit("√");
-	this.indexunit = new kh3.Unit(index || "");
+	this.index = index || "";
 }
 kh3.Rootunit.prototype = Object.create(kh3.Unit.prototype);
 kh3.Rootunit.prototype.constractor = kh3.Rootunit;
 
 kh3.Rootunit.prototype.makeDom = function(){
+	this.rootmark = new kh3.Unit("√"); // thisからbold等を継承させない
+	this.indexunit = new kh3.Unit(this.index, this);
+
 	if(this.span && this.span.parentNode){
 		this.span.parentNode.removeChild(this.span);
 	}
@@ -32,7 +34,7 @@ kh3.Rootunit.prototype.makeDom = function(){
 	this.setSubpositions();
 
 	let rulechar = (this.font.match(/bold/)) ? "━" : "─"; // 罫線素片
-	this.rule = new kh3.Unit(rulechar);
+	this.rule = new kh3.Unit(rulechar, this);
 	this.rule.color = this.color;
 	this.rule.makeDom();
 	this.span.appendChild(this.rule.span);
