@@ -314,8 +314,8 @@ kh3.parse = function(text){
 						operands = commandtext.substring(1).split(":");
 						o.command = "indent";
 						o.value = 0;
-						o.value2 = (isNumeric(operands[1])? +operands[1]: 0);
-						o.value3 = (isNumeric(operands[2])? +operands[2]: 0);
+						o.value2 = operands[1];
+						o.value3 = operands[2];
 						o.char = "";
 						break;
 					case ">":
