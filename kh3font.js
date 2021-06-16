@@ -300,7 +300,7 @@ kh3.font.reset = function(size, index){
 		s += "}";
 		
 		s += "span." + name + ".sub, span." + name + ".sup{";
-		s += "\t" + "font-size: " + (size * 0.7 * font.magnitude) + "mm;";
+		s += "\t" + "font-size: " + (size * 0.6 * font.magnitude) + "mm;";
 		s += "}";
 		
 		

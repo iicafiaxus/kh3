@@ -70,15 +70,15 @@ kh3.Indexed.prototype.setSubpositions = function(){
 	for(unit of this.indexunits){
 		if(lastunit) left += lastunit.marginTo(unit) * 0.7 * 0.4;
 		unit.left = left;
-		unit.top = (this.pos == "sup"? kh3.setting.zh * -0.2: kh3.setting.zh * 0.4);
+		unit.top = (this.pos == "sup"? kh3.setting.zh * -0.2: kh3.setting.zh * 0.25);
 		this.innerwidth = (left += unit.width);
 		this.innerheight = Math.max(this.innerheight, unit.height);
 		this.innermiddle = Math.max(this.innermiddle, unit.middle);
 		lastunit = unit;
 	}
-	this.width = this.innerwidth;
-	this.height = this.innerheight + kh3.setting.zh * 0.2;
-	this.middle = this.innermiddle + (this.pos == "sup"? kh3.setting.zh * 0.2: 0);
+	this.width = this.innerwidth + kh3.setting.zw * (this.pos == "sup"? 0: 0.1);
+	this.height = this.innerheight + kh3.setting.zh * (this.pos == "sup"? 0.2: 0);
+	this.middle = this.innermiddle + kh3.setting.zh * (this.pos == "sup"? 0.2: 0);
 
 	
 	// 縦中横の処理
