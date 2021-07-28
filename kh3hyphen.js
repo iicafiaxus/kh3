@@ -20,7 +20,7 @@ kh3.hyphenator.url = "https://iicafiaxus.github.io/kh3/resources/mhyph.txt";
 // modified (soft hyphen)
 
 kh3.hyphenator.load = async function(text){
-	let lines = text.split("\n");
+	let lines = text.split("\r\n");
 	for(line of lines){
 		let words = line.split(" ");
 		for(word of words){
@@ -48,7 +48,7 @@ kh3.hyphenate = function(text){
 		let as = [], bs = [];
 		for(var i = 0, tmp = ""; i < syllables.length - 1; i ++) tmp += syllables[i], as[i] = tmp;
 		for(var i = syllables.length - 1, tmp = ""; i > 0; i --) tmp = syllables[i] + tmp, bs[i] = tmp;
-		for(var i = as.length - 1; i >= 0; i --) res.push([as[i], bs[i + 1]]);
+		for(var i = as.length - 1; i >= 0; i --) res.push([as[i] + "-", bs[i + 1]]);
 	}
 	console.log(text, res);
 
