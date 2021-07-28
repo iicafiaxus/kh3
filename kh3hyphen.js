@@ -6,8 +6,8 @@
 
 kh3.hyphenator = {};
 
-//kh3.hyphenator.url = "https://iicafiaxus.github.io/kh3/fonts/GFSDidotItalic.css";
-kh3.hyphenator.url = "https://www.gutenberg.org/files/3204/files/mhyph.txt";
+//kh3.hyphenator.url = "https://www.gutenberg.org/files/3204/files/mhyph.txt";
+kh3.hyphenator.url = "https://iicafiaxus.github.io/kh3/resources/mhyph.txt";
 // Moby Hyphenation List by Grady Ward (Public Domain)
 
 kh3.hyphenator.load = async function(text){
