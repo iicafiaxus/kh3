@@ -437,9 +437,30 @@ kh3.parrender = function(){
 		line.units.push(unit);
 		tab.units.push(unit);
 		
+		// 右側の余裕
+		let rightroom = this.setting.lineWidth - 
+				(left + unit.margin + unit.width + unit.marginTo(kh3.linesep) + rightindent);
+
 		// 改行の必要がある場合...
-		if(left + unit.margin + unit.width + unit.marginTo(kh3.linesep) + rightindent > this.setting.lineWidth){
+		if(rightroom < 0){
+			let originalWidth = unit.width;
 			
+			// ハイフネーションで対処可能であればそのようにする
+			unit.hyphenate( -rightroom );
+
+			// ハイフネーションで対処できた場合、
+			// はみ出した部分を新しいunitとして、行とタブに追加しておく
+			// （それが次行に送られる）
+			if(unit.hyphenatedUnit){
+				line.units.push(unit.hyphenatedUnit);
+				tab.units.push(unit.hyphenatedUnit);
+
+				unit.left = this._render.left + left + unit.margin;
+				unit.top = this._render.top;
+				unit.makeDom();
+				this._render.parTarget.appendChild(unit.span);
+			}
+
 			// 直近で改行可能な位置を探す(＝追い出し処理)
 			var isp;
 			for(isp = tab.units.length - 1; isp >= 2; isp --){
@@ -459,9 +480,10 @@ kh3.parrender = function(){
 			while(tab.units.length > isp){
 				var u = tab.units.pop();
 				line.units.pop();
-				if(u.span) u.span.parentNode.removeChild(u.span);
-				left -= u.width + u.margin;
+				if(u.span && u.span.parendNode) u.span.parentNode.removeChild(u.span);
+				left -= (u.width + u.margin) || 0;
 				insertedUnitStack.push(u);
+				console.log(tab.units.length, left, u.char, u.width, u.margin);
 			}
 			
 			// 減じすぎているので調整
@@ -475,6 +497,8 @@ kh3.parrender = function(){
 			for(u of tab.units) sepcount += u.sepratio;
 			if(sepcount == 0) sepcount = 1;
 			var k = (this.setting.lineWidth - left - rightindent) / sepcount;
+			//if(unit.hyphenatedUnit) k -= (originalWidth - unit.width) / sepcount;
+			if(unit.hyphenatedUnit) k -= unit.hyphenatedUnit.width / sepcount;
 			var ksum = 0;
 			for(u of tab.units){
 				ksum += k * u.sepratio;
@@ -501,6 +525,7 @@ kh3.parrender = function(){
 				}
 			}
 
+
 			// このときはDOMを作成しない(iを戻したので)
 			continue;
 		}
@@ -509,7 +534,7 @@ kh3.parrender = function(){
 		if(left > 0 && unit.margin) left += unit.margin;
 		unit.left = this._render.left + left;
 		unit.top = this._render.top;
-		
+
 		// インデント位置を記憶
 		if(waitingIndentName){
 			this._render.indentmap[waitingIndentName] = (left - leftindent) / this.setting.zw;

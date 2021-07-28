@@ -21,6 +21,9 @@ kh3.Unit = function(text, parentunit){
 	
 	this.span = void 0;
 	this.rubyspan = void 0;
+
+	this.hyphenatedUnit = null; // ハイフネーションした場合の後半部分
+	this.isHyphenatable = true; // ハイフネーションを試みることが可能
 };
 
 kh3.Unit.prototype.recalc = function(){
@@ -233,4 +236,29 @@ kh3.Unit.prototype.sepTo = function(unit){
 		}
 	}
 	return 1;
+}
+
+// ハイフネーションにより幅を excess 以上削減することが可能なら
+// ハイフネーションをする
+kh3.Unit.prototype.hyphenate = function(excess){
+	if(excess <= 0) return;
+	if( ! this.isHyphenatable) return;
+	if(this.char.length <= 2) return;
+	let words = kh3.hyphenate(this.char);
+	if(words.length <= 1) return;
+	for(word of words){
+		if(word.length <= 1) continue;
+		let width0 = kh3.getWidth(word[0], kh3._render.unit, kh3.setting.zw, this.font + " " + this.pos);
+		if(width0 <= this.width - excess){
+			this.char = word[0];
+			this.recalc();
+			this.makeDom();
+			this.hyphenatedUnit = new kh3.Unit(word[1], this);
+			this.hyphenatedUnit.recalc();
+			this.hyphenatedUnit.makeDom();
+			this.hyphenatedUnit.margin = 0;
+			break;
+		}
+	}
+	console.log("excess:", excess, this, this.hyphenatedUnit, this.top, this.left, this.sepratio, this.margin);
 }
