@@ -24,7 +24,7 @@ kh3.hyphenator.load = async function(text){
 	for(line of lines){
 		let words = line.split(" ");
 		for(word of words){
-			let key = word.split(kh3.hyphenator.softHyphen).join("");
+			let key = word.split(kh3.hyphenator.softHyphen).join("").toLowerCase();
 			kh3.hyphenator.words[key] = word;
 		}
 	}
@@ -42,15 +42,18 @@ kh3.hyphenate = function(text){
 	for(var i = text.length - 2; i >= 1; i --){
 		if(text.charAt(i) == "-") res.push([text.slice(0, i + 1), text.slice(i + 1)]);
 	}
-	if(text in kh3.hyphenator.words){
-		let word = kh3.hyphenator.words[text];
-		let syllables = word.split(kh3.hyphenator.softHyphen);
-		let as = [], bs = [];
-		for(var i = 0, tmp = ""; i < syllables.length - 1; i ++) tmp += syllables[i], as[i] = tmp;
-		for(var i = syllables.length - 1, tmp = ""; i > 0; i --) tmp = syllables[i] + tmp, bs[i] = tmp;
-		for(var i = as.length - 1; i >= 0; i --) res.push([as[i] + "-", bs[i + 1]]);
-	}
-	console.log(text, res);
+	let key = text.toLowerCase();
+	let word = kh3.hyphenator.words[key] || 
+		kh3.hyphenator.words[key.slice(0, key.length - 1)] ||
+		kh3.hyphenator.words[key.slice(0, key.length - 2)] ||
+		key;
+	let syllables = word.split(kh3.hyphenator.softHyphen);
+	let poses = [];
+	var pos = 0;
+	for(s of syllables) poses.push(pos += s.length);
+	for(var i = poses.length - 2; i >= 0; i --) res.push(
+		[text.slice(0, poses[i]) + "-", text.slice(poses[i])]
+	);
 
 	return res;
 }
