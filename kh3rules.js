@@ -33,10 +33,11 @@ kh3.letters = {
 // アキの量のルール
 kh3.marginRules = [
 	["linesep", "cjkleader", -0.5 * kh3.setting.zw],
-	["linesep", "alphanumeric", 0.0625 * kh3.setting.zw],
+	// ["linesep", "alphanumeric", 0.0625 * kh3.setting.zw],
+		// 和文のときに使うルールだが欧文で具合が悪いので一旦消しておく
 	["linesep", "any", 0],
 	["cjkhwfollower", "linesep", -0.5 * kh3.setting.zw],
-	["alphanumeric", "linesep", 0.125 * kh3.setting.zw],
+	// ["alphanumeric", "linesep", 0.125 * kh3.setting.zw],
 	["any", "linesep", 0],
 	["empty", "any", 0],
 	["empty", "empty", 0],

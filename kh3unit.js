@@ -252,9 +252,11 @@ kh3.Unit.prototype.hyphenate = function(excess){
 		if(width0 <= this.width - excess){
 			this.char = word[0];
 			this.recalc();
+			this.isTerminal = 1;
 			this.makeDom();
 			this.hyphenatedUnit = new kh3.Unit(word[1], this);
 			this.hyphenatedUnit.recalc();
+			this.hyphenatedUnit.isInitial = 1;
 			this.hyphenatedUnit.makeDom();
 			this.hyphenatedUnit.margin = 0;
 			break;
