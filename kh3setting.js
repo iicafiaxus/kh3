@@ -120,4 +120,7 @@ kh3.setSetting = function(val){
 	// カンマ・読点修正
 	kh3.setValue("correctPunct", val("chkCorrectPunct"));
 
+	// ハイフネーション
+	kh3.setValue("hyphenate", val("chkHyphenate"));
+
 }

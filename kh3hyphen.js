@@ -42,6 +42,9 @@ kh3.hyphenate = function(text){
 	for(var i = text.length - 2; i >= 1; i --){
 		if(text.charAt(i) == "-") res.push([text.slice(0, i + 1), text.slice(i + 1)]);
 	}
+	
+	if( ! kh3.setting.hyphenate) return res;
+
 	let key = text.toLowerCase();
 	let word = kh3.hyphenator.words[key] || 
 		kh3.hyphenator.words[key.slice(0, key.length - 1)] ||
