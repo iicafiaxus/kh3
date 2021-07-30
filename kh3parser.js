@@ -112,6 +112,14 @@ kh3.preprocess = function(text){
 	text = text.replace(/([^A-Za-z])'([A-Za-z])/g, "$1’$2");
 	text = text.replace(/([^A-Za-z])'([^A-Za-z])/g, "$1′$2");
 
+	// 引用符
+	if(kh3.setting.correctQuotes){
+		text = text.replace(/^"/, "“");
+		text = text.replace(/ "/g, " “");
+		text = text.replace(/" /g, "” ");
+		text = text.replace(/"$/g, "”");
+	}
+
 	// ! で始まるコマンドを簡略表記
 	text = text.replace(/(^|[ \r\n])!([^!\s]?[^!\s]?)([ \r\n]|$)/g, "$1{!$2}$3");
 	text = text.replace(/(^|[ \r\n])!([^!\s]?[^!\s]?)([ \r\n]|$)/g, "$1{!$2}$3");
