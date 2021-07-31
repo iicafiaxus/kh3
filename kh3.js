@@ -467,66 +467,71 @@ kh3.parrender = function(){
 				if(tab.units[isp - 1].canBreakBetween(tab.units[isp])) break;
 			}
 			
-			// 改行直前直後のユニット
-			var unitbefore = tab.units[isp - 1];
-			var unitafter = tab.units[isp];
-			prevUnit = unitbefore;
+			// 1つのunitだけでオーバーしている場合はあきらめる
+			// 追い出しができる場合、
+			if(isp > 0){
 
-			// 行頭行末を設定
-			if(unitbefore) unitbefore.isTerminal = 1;
-			unitafter.isInitial = 1;
+				// 改行直前直後のユニット
+				var unitbefore = tab.units[isp - 1];
+				var unitafter = tab.units[isp];
+				prevUnit = unitbefore;
 
-			// 改行することになった位置以降を次行に送る
-			while(tab.units.length > isp){
-				var u = tab.units.pop();
-				line.units.pop();
-				if(u.span && u.span.parendNode) u.span.parentNode.removeChild(u.span);
-				left -= (u.width + u.margin) || 0;
-				insertedUnitStack.push(u);
-			}
-			
-			// 減じすぎているので調整
-			left += unit.width + unit.margin;
+				// 行頭行末を設定
+				if(unitbefore) unitbefore.isTerminal = 1;
+				unitafter.isInitial = 1;
 
-			// 改行位置が句読点などだった場合の調整
-			if(unitbefore) left += unitbefore.marginTo(kh3.linesep);
-			
-			// 追い出しに伴う均等割り
-			var sepcount = 0;
-			for(u of tab.units) sepcount += u.sepratio;
-			if(sepcount == 0) sepcount = 1;
-			var k = (this.setting.lineWidth - left - rightindent) / sepcount;
-			//if(unit.hyphenatedUnit) k -= (originalWidth - unit.width) / sepcount;
-			if(unit.hyphenatedUnit) k -= unit.hyphenatedUnit.width / sepcount;
-			var ksum = 0;
-			for(u of tab.units){
-				ksum += k * u.sepratio;
-				u.left += ksum;
-			}
-
-			// 復帰と改行
-			left = leftindent + kh3.linesep.marginTo(unitafter);
-			this.newline(line.units);
-			lastunit = kh3.linesep;
-			
-			// 行内容・タブ内容のリセット
-			line.units = [];
-			line.prevHeightUnder = line.heightUnder;
-			tab.units = [];
-
-			// 右ボックスインデントがあったときはカウントを減らす
-			if(this._render.rightboxcount > 0){
-				this._render.rightboxcount -= 1;
-				this._render.isRightboxing = 0;
-				if(this._render.rightboxcount <= 0){
-					rightindent -= this._render.rightboxindent;
-					this._render.rightboxindent = 0;
+				// 改行することになった位置以降を次行に送る
+				while(tab.units.length > isp){
+					var u = tab.units.pop();
+					line.units.pop();
+					if(u.span && u.span.parendNode) u.span.parentNode.removeChild(u.span);
+					left -= (u.width + u.margin) || 0;
+					insertedUnitStack.push(u);
 				}
+				
+				// 減じすぎているので調整
+				left += unit.width + unit.margin;
+
+				// 改行位置が句読点などだった場合の調整
+				if(unitbefore) left += unitbefore.marginTo(kh3.linesep);
+				
+				// 追い出しに伴う均等割り
+				var sepcount = 0;
+				for(u of tab.units) sepcount += u.sepratio;
+				if(sepcount == 0) sepcount = 1;
+				var k = (this.setting.lineWidth - left - rightindent) / sepcount;
+				//if(unit.hyphenatedUnit) k -= (originalWidth - unit.width) / sepcount;
+				if(unit.hyphenatedUnit) k -= unit.hyphenatedUnit.width / sepcount;
+				var ksum = 0;
+				for(u of tab.units){
+					ksum += k * u.sepratio;
+					u.left += ksum;
+				}
+
+				// 復帰と改行
+				left = leftindent + kh3.linesep.marginTo(unitafter);
+				this.newline(line.units);
+				lastunit = kh3.linesep;
+				
+				// 行内容・タブ内容のリセット
+				line.units = [];
+				line.prevHeightUnder = line.heightUnder;
+				tab.units = [];
+
+				// 右ボックスインデントがあったときはカウントを減らす
+				if(this._render.rightboxcount > 0){
+					this._render.rightboxcount -= 1;
+					this._render.isRightboxing = 0;
+					if(this._render.rightboxcount <= 0){
+						rightindent -= this._render.rightboxindent;
+						this._render.rightboxindent = 0;
+					}
+				}
+
+				// このときはDOMを作成しない(iを戻したので)
+				continue;
+
 			}
-
-
-			// このときはDOMを作成しない(iを戻したので)
-			continue;
 		}
 		
 		// 位置を反映
