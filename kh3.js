@@ -615,7 +615,8 @@ kh3.resetFont = function(){
 // 幅(micron)を取得
 kh3._memoWidth = {};
 kh3.getWidth = function(text, unit, zw, prefix){
-	var key = prefix + "|" + text;
+	let displaytext = kh3.toDisplayText(text);
+	var key = prefix + "|" + displaytext;
 	if(this._memoWidth[key] === void 0){
 		var span = this._render.testspan;
 		if(prefix == "ruby"){
@@ -624,7 +625,7 @@ kh3.getWidth = function(text, unit, zw, prefix){
 		}
 		span.className += " " + prefix;
 		if(text.match(/[^\u3000-\u30ff\u4e00-\u9fcf\uff00-\uffef ]/)){
-			span.textContent = "|||" + text + "|||";
+			span.textContent = "|||" + displaytext + "|||";
 			var width;
 			if(this.setting.isVertical) width = span.getBoundingClientRect().height / unit * zw;
 			else width = span.getBoundingClientRect().width / unit * zw;

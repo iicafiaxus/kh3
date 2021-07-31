@@ -89,3 +89,16 @@ kh3.sepratioRules = [
 	["any", "any", 1],
 ];
 
+
+// 実際に表示する文字に変換
+kh3.toDisplayText = function(text){
+
+	// 合字
+	text = text.replace(/ffi/g, "ﬃ");
+	text = text.replace(/ffl/g, "ﬄ");
+	text = text.replace(/ff/g, "ﬀ");
+	text = text.replace(/fi/g, "ﬁ");
+	text = text.replace(/fl/g, "ﬂ");
+	
+	return text;
+}

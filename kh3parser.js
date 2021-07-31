@@ -132,13 +132,6 @@ kh3.preprocess = function(text){
 	text = text.replace(/(^|[ \r\n])!([^!\s]?[^!\s]?)([ \r\n]|$)/g, "$1{!$2}$3");
 	text = text.replace(/(^|[ \r\n])!([^!\s]?[^!\s]?)([ \r\n]|$)/g, "$1{!$2}$3");
 	
-	// 合字
-	text = text.replace(/ffi/g, "ﬃ");
-	text = text.replace(/ffl/g, "ﬄ");
-	text = text.replace(/ff/g, "ﬀ");
-	text = text.replace(/fi/g, "ﬁ");
-	text = text.replace(/fl/g, "ﬂ");
-	
 	// 縦書き時の大文字語
 	if(this.setting.isVertical){
 	}

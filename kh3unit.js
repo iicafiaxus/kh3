@@ -87,13 +87,13 @@ kh3.Unit.prototype.makeDom = function(){
 		else this.char = this.char.replace("、", "，");
 	}
 	
-	span.textContent = this.char;
+	span.textContent = kh3.toDisplayText(this.char);
 	this.span = span;
 	if(this.ruby){
 		var rubyspan = document.createElement("span");
 		rubyspan.className = "char ruby";
 		span.appendChild(rubyspan);
-		rubyspan.textContent = this.ruby;
+		rubyspan.textContent = kh3.toDisplayText(this.ruby);
 		this.rubyspan = rubyspan;
 	}
 	
