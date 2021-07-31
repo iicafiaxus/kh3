@@ -109,7 +109,7 @@ kh3.preprocess = function(text){
 	text = text.replace(/^-([ \{\(0-9])/g, "−$1");
 	
 	// アポストロフィの扱い（仮）
-	text = text.replace(/([^A-Za-z])'([A-Za-z])/g, "$1’$2");
+	text = text.replace(/([A-Za-z])'(s[ ,\.])/g, "$1’$2");
 	text = text.replace(/([^A-Za-z])'([^A-Za-z])/g, "$1′$2");
 
 	// 引用符
