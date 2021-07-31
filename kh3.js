@@ -483,7 +483,6 @@ kh3.parrender = function(){
 				if(u.span && u.span.parendNode) u.span.parentNode.removeChild(u.span);
 				left -= (u.width + u.margin) || 0;
 				insertedUnitStack.push(u);
-				console.log(tab.units.length, left, u.char, u.width, u.margin);
 			}
 			
 			// 減じすぎているので調整

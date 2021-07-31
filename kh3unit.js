@@ -262,5 +262,4 @@ kh3.Unit.prototype.hyphenate = function(excess){
 			break;
 		}
 	}
-	console.log("excess:", excess, this, this.hyphenatedUnit, this.top, this.left, this.sepratio, this.margin);
 }
