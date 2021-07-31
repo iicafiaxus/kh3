@@ -123,6 +123,9 @@ kh3.setSetting = function(val){
 	// ハイフネーション
 	kh3.setValue("hyphenate", val("chkHyphenate"));
 
+	// アポストロフィの修正
+	kh3.setValue("correctApostrophe", val("chkCorrectApostrophe"));
+
 	// 引用符の修正
 	kh3.setValue("correctQuotes", val("chkCorrectQuotes"));
 

@@ -109,8 +109,16 @@ kh3.preprocess = function(text){
 	text = text.replace(/^-([ \{\(0-9])/g, "−$1");
 	
 	// アポストロフィの扱い（仮）
-	text = text.replace(/([A-Za-z])'(s[ ,\.])/g, "$1’$2");
-	text = text.replace(/([^A-Za-z])'([^A-Za-z])/g, "$1′$2");
+	if(kh3.setting.correctApostrophe){
+		text = text.replace(/([^A-Za-z0-9])'([0-9][0-9][^0-9])/g, "$1’$2");
+		text = text.replace(/^'([0-9][0-9][^0-9])/g, "’$1");
+		text = text.replace(/([A-Za-z]n)'(t[ ,\.\?\!])/g, "$1’$2");
+		text = text.replace(/([A-Za-z])'((m|re|ve|d|ll)[ ,\.\?\!])/g, "$1’$2");
+		text = text.replace(/([A-Za-z]|[0-9][0-9])'(s[ ,\.\?\!\-])/g, "$1’$2");
+		text = text.replace(/( (J|j|L|l|C|c|T|t|D|d))'([a-z][a-z])/g, "$1’$3");
+		text = text.replace(/([A-Za-z][a-z][a-z]s)'([ ,\.\?\!])/g, "$1’$2");
+		//text = text.replace(/([^A-Za-z])'([^A-Za-z])/g, "$1′$2");
+	}
 
 	// 引用符
 	if(kh3.setting.correctQuotes){
