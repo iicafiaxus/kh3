@@ -124,7 +124,7 @@ kh3.preprocess = function(text){
 	if(kh3.setting.correctQuotes){
 		text = text.replace(/^"/, "“");
 		text = text.replace(/ "/g, " “");
-		text = text.replace(/" /g, "” ");
+		text = text.replace(/"([ \,\.\?\!])/g, "”$1");
 		text = text.replace(/"$/g, "”");
 	}
 
