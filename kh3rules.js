@@ -89,6 +89,8 @@ kh3.sepratioRules = [
 	["linesep", "any", 0],
 	["any", "linesep", 0],
 	["any", "cjkfollower", 0.2],
+	["dash", "alphanemeric", 0.2],
+	["alphanemeric", "dash", 0.2],
 	["any", "any", 1],
 ];
 
