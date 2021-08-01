@@ -82,12 +82,10 @@ kh3.Unit.prototype.makeDom = function(){
 		this.char = this.char.replace("f", "ƒ");
 		this.char = this.char.replace("'", "′");
 	}
-	if(kh3.setting.correctPunct){
-		if(kh3.setting.isVertical) this.char = this.char.replace("，", "、");
-		else this.char = this.char.replace("、", "，");
-	}
 	
+	// 実際に表示する文字に変換
 	span.textContent = kh3.toDisplayText(this.char);
+
 	this.span = span;
 	if(this.ruby){
 		var rubyspan = document.createElement("span");

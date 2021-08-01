@@ -100,5 +100,11 @@ kh3.toDisplayText = function(text){
 	text = text.replace(/fi/g, "ﬁ");
 	text = text.replace(/fl/g, "ﬂ");
 	
+	// 句読点の修正
+	if(kh3.setting.correctPunct){
+		if(kh3.setting.isVertical) this.char = this.char.replace("，", "、");
+		else this.char = this.char.replace("、", "，");
+	}
+
 	return text;
 }
