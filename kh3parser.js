@@ -88,6 +88,8 @@ kh3.preprocess = function(text){
 	text = text.replace(/？　/, "？");
 	text = text.replace(/！　/, "！");
 
+	// ダッシュ類を単語から切り離す
+	text = text.replace(/([A-Za-z0-9])([–—])([A-Za-z0-9])/, "$1 $2 $3");
 	
 	// 縦書き用の約物
 	if(this.setting.isVertical){
