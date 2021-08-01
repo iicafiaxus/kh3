@@ -65,10 +65,14 @@ kh3.hyphenate = function(text){
 	let key = text.
 		toLowerCase().
 		replace(/[\,\.\?\!]$/g, "");
-	let word = kh3.hyphenator.words[key] || 
-		kh3.hyphenator.words[key.slice(0, key.length - 1)] ||
-		kh3.hyphenator.words[key.slice(0, key.length - 2)] ||
-		key;
+	let word = key;
+	for(rule of kh3.hyphenator.rules){
+		let newkey = key.replace(rule[0], rule[1]);
+		if(kh3.hyphenator.words[newkey]){
+			word = kh3.hyphenator.words[newkey] + rule[2];
+			break;
+		}
+	}
 	let syllables = word.split(kh3.hyphenator.softHyphen);
 	let poses = [];
 	var pos = 0;
@@ -79,3 +83,18 @@ kh3.hyphenate = function(text){
 
 	return res;
 }
+
+// 語尾変化を吸収するルール（仮）
+kh3.hyphenator.rules = [
+	[/^(.*)$/, "$1", ""],
+	[/^(.*)ly$/, "$1", kh3.hyphenator.softHyphen + "ly"],
+	[/^(.*)al$/, "$1", kh3.hyphenator.softHyphen + "al"],
+	[/^(.*)ic$/, "$1", kh3.hyphenator.softHyphen + "ic"],
+	[/^(.*)ical$/, "$1", kh3.hyphenator.softHyphen + "ic" + kh3.hyphenator.softHyphen + "al"],
+	[/^(.*)ally$/, "$1", kh3.hyphenator.softHyphen + "al" + kh3.hyphenator.softHyphen + "ly"],
+	[/^(.*)ically$/, "$1", kh3.hyphenator.softHyphen + "ic" + kh3.hyphenator.softHyphen + "al" + kh3.hyphenator.softHyphen + "ly"],
+	[/^(.*)ies$/, "$1y", "es"],
+	[/^(.*)ied$/, "$1y", "ed"],
+	[/^(.*).$/, "$1", "_"],
+	[/^(.*)..$/, "$1", "__"],
+];
