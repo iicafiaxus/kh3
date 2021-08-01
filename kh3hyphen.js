@@ -10,7 +10,8 @@ kh3.hyphenator.words = {
 	// ローカルでのテスト用にいくつか入れてある
 	"international": "in­ter­nat­ion­al",
 	"internationally": "in­ter­nat­ion­al­ly",
-	"socialization": "so­cial­i­za­tion"
+	"socialization": "so­cial­i­za­tion",
+	"apostrophe": "a­pos­tro­phe"
 };
 kh3.hyphenator.softHyphen = "­"; // unicode 00AD
 
@@ -95,6 +96,9 @@ kh3.hyphenator.rules = [
 	[/^(.*)ically$/, "$1", kh3.hyphenator.softHyphen + "ic" + kh3.hyphenator.softHyphen + "al" + kh3.hyphenator.softHyphen + "ly"],
 	[/^(.*)ies$/, "$1y", "es"],
 	[/^(.*)ied$/, "$1y", "ed"],
+	[/^(.*)ings?$/, "$1", kh3.hyphenator.softHyphen + "ing"],
+	[/^(.*)ings?$/, "$1e", "ng"], // 本当はingの前にもハイフンが入る
+	[/^(.*)(.)\2ings?$/, "$1$2", kh3.hyphenator.softHyphen + "_ing"],
 	[/^(.*).$/, "$1", "_"],
 	[/^(.*)..$/, "$1", "__"],
 ];
