@@ -39,8 +39,25 @@ fetch(kh3.hyphenator.url, {mode: "no-cors"}).then(
 
 kh3.hyphenate = function(text){
 	let res = [[text]];
-	for(var i = text.length - 2; i >= 1; i --){
-		if(text.charAt(i) == "-") res.push([text.slice(0, i + 1), text.slice(i + 1)]);
+
+	let subs = text.split("-");
+	if(subs.length > 1){
+		for(var i = subs.length - 1; i >= 0; i --){
+			let prefix = subs.slice(0, i).join("-"), suffix = subs.slice(i + 1).join("-");
+			for(subre of kh3.hyphenate(subs[i])){
+				let a = subre[0], b = subre[1];
+				if(prefix != "") a = prefix + "-" + a;
+				if( ! b){
+					if(suffix == "") continue;
+					a += "-";
+					b = "";
+				}
+				if(b != "" && suffix != "") b = b + "-" + suffix;
+				else b = b + suffix;
+				res.push([a, b]);
+			}
+		}
+		return res;
 	}
 
 	if( ! kh3.setting.hyphenate) return res;
