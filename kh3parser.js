@@ -152,7 +152,7 @@ kh3.parse = function(text){
 	var palette = [
 		"#000000", "#0077dd", "#dd3300", "#9900cc", "#229900"
 	]; // 将来的には設定項目とする
-	var isBold = 0;
+	var isBold = 0, isItalic = 0;
 	for(var i = 0; i < text.length; i ++){
 		var o = new kh3.Unit(text.charAt(i), metastack[metastack.length - 1]);
 		while(o.char.match(/ /)) o.char = text.charAt(++i);
@@ -299,6 +299,12 @@ kh3.parse = function(text){
 								if(o.value) isBold = 1; else isBold = 0;
 								o.isMetacommand = 1;
 								break;
+							case "italic":
+							case "it":
+								o.value = (isNumeric(operands[1])? +operands[1]: 1);
+								if(o.value) isItalic = 1; else isItalic = 0;
+								o.isMetacommand = 1;
+								break;
 							case "font":
 								font = (operands.length > 1? operands[1]: "");
 								if(operands.length > 2 && operands[2] == "zwsp") isInWord = 1;
@@ -385,6 +391,7 @@ kh3.parse = function(text){
 		
 		(o.unit || o).font = font;
 		(o.unit || o).isBold = !! isBold;
+		(o.unit || o).isItalic = !! isItalic;
 		(o.unit || o).color = color;
 		o.pos = pos;
 

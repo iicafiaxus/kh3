@@ -15,6 +15,7 @@ kh3.Unit = function(text, parentunit){
 	this.font = parentunit ? parentunit.font : "";
 	this.pos = parentunit ? parentunit.pos : "";
 	this.isBold = parentunit ? parentunit.isBold : "";
+	this.isItalic = parentunit ? parentunit.isItalic : "";
 	this.color = parentunit ? parentunit.color : "";
 	
 	this.rubyHang = 0;
@@ -43,6 +44,7 @@ kh3.Unit.prototype.recalc = function(){
 
 // フォントの調整
 kh3.Unit.prototype.recalcFont = function(){
+	if(this.isItalic) this.font = "italic";
 	if(this.font == "main" || this.font == ""){
 		if(this.char.match(/^[!-~α-ωΑ-Ω]+$/)){
 			if(this.char.match(/[0-9]+/)){
@@ -52,7 +54,7 @@ kh3.Unit.prototype.recalcFont = function(){
 		}
 		else this.font = this.isBold ? "bold" : "main";
 	}
-	else if(this.font == "italic"){
+	else if(this.font == "italic" || this.isItalic){
 		if(this.isBold) this.font = "bolditalic";
 	}
 	else if(this.font == "italiccaps"){
