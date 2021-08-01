@@ -85,11 +85,12 @@ kh3.preprocess = function(text){
 	text = text.replace(/^([「（‘“［【『〈《〔])/g, "{<}$1");
 
 	// 明示的なスペース
-	text = text.replace(/？　/, "？");
-	text = text.replace(/！　/, "！");
+	text = text.replace(/？　/g, "？");
+	text = text.replace(/！　/g, "！");
 
 	// ダッシュ類を単語から切り離す
-	text = text.replace(/([A-Za-z0-9])([–—])([A-Za-z0-9])/, "$1 $2 $3");
+	text = text.replace(/([A-Za-z0-9])([–—])/g, "$1 $2 ");
+	text = text.replace(/([–—])([A-Za-z0-9])/g, " $1 $2");
 	
 	// 縦書き用の約物
 	if(this.setting.isVertical){
