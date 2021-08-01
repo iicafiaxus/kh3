@@ -50,11 +50,33 @@
 						<label><input type=checkbox id=chkInfinite><span>縦サイズを自動で延長</span></label>
 					</fieldset>
 				
-				<fieldset>
+				<!--fieldset>
 					<legend>級数</legend>
 					<label>本文<input type=number class=shortnumber id=txtFontSize value=12 size=5>Q</label>
 					<label><input type=number class=shortnumber id=txtLineHeight value=20 size=5>H</label>
 					<label>ルビ<input type=number class=shortnumber id=txtRubySize value=6 size=5>Q</label>
+				</fieldset-->
+				
+				
+				<fieldset>
+					<legend>フォント</legend>
+					<!--
+					<label>本文<input type=text id=txtFontName value="Noto Serif JP" disabled></label>
+					<label>ウェイト<input type=number class=shortnumber id=txtFontWeight value= 3 min=1 max=9 disabled></label>
+					<br>
+					<label>ルビ<input type=text id=txtRubyName value="Noto Serif JP" disabled></label>
+					<label>ウェイト<input type=number class=shortnumber id=txtRubyWeight value= 6 min=1 max=9 disabled></label>
+					<br>
+					-->
+					<label>級数<input type=number class=shortnumber id=txtFontSize value=12 size=5>Q</label>
+					<label>行送り<input type=number class=shortnumber id=txtLineHeight value=20 size=5>H</label>
+					<label>ルビ級数<input type=number class=shortnumber id=txtRubySize value=6 size=5>Q</label>
+					<label>フォントセット<select id=selFontset>
+						<option value="default">デフォルト</option>
+						<option value="standard1">標準1</option>
+						<option value="standard2">標準2</option>
+						<option value="mplus">M+ 1P</option>
+					</select>
 				</fieldset>
 				
 				<fieldset>
@@ -77,6 +99,7 @@
 					<br>
 					<label>地<input type=number class=shortnumber id=txtMarginBottom value=20 size=5>mm</label>
 					<br>
+					<!--
 					<label><input type=checkbox id=chkIsMirroredWhenEven disabled><span>偶数ページでは余白の左右を読み替える</span></label>
 					<br>
 					<label><input type=checkbox id=chkIsMirroredWhenVertical disabled><span>縦書きの場合は余白の左右を読み替える</span></label>
@@ -98,8 +121,8 @@
 						<option value=right class=unimp disabled>左を優先し、右で調整する</option>
 						<option value=justify class=unimp disabled>字送り/行送りで調整する</option>
 					</select></label>
+					-->
 				</fieldset>
-				
 				
 				<fieldset>
 					<legend>自動修正</legend>
@@ -114,22 +137,6 @@
 					<label><input type=checkbox id=chkCorrectQuotes checked><span>半角引用符 &quot;...&quot; を “...” に修正</span></label>
 				</fieldset>
 				
-				
-				<fieldset>
-					<legend>フォント</legend>
-					<label>本文<input type=text id=txtFontName value="Noto Serif JP" disabled></label>
-					<label>ウェイト<input type=number class=shortnumber id=txtFontWeight value= 3 min=1 max=9 disabled></label>
-					<br>
-					<label>ルビ<input type=text id=txtRubyName value="Noto Serif JP" disabled></label>
-					<label>ウェイト<input type=number class=shortnumber id=txtRubyWeight value= 6 min=1 max=9 disabled></label>
-					<br>
-					<label>フォントセット<select id=selFontset>
-						<option value="default">デフォルト</option>
-						<option value="standard1">標準1</option>
-						<option value="standard2">標準2</option>
-						<option value="mplus">M+ 1P</option>
-					</select>
-				</fieldset>
 				
 			</form>
 		</div>
