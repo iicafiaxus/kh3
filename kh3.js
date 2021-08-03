@@ -111,15 +111,9 @@ kh3.rendermain = function(){
 	// フォント設定を反映
 	this.resetFont();
 	
-	// テスト用DOMを作成
-	this._render.testspan = document.createElement("span");
-	this._render.testspan.className = "char testspan";
-	this._render.divFace.appendChild(this._render.testspan);
-	this._render.rubytestspan = document.createElement("span");
-	this._render.rubytestspan.className = "char ruby testspan";
-	this._render.testspan.appendChild(this._render.rubytestspan);
-	
 	// ピクセルとミクロンの換算単位を取得する
+	// kh3unitから参照しているがいらない気がするので要検討
+	kh3.makeTestspan();
 	this._render.testspan.textContent = "花";
 	this._render.unit = this._render.testspan.getBoundingClientRect()[this.setting.isVertical? "height": "width"];
 	this._render.rubytestspan.textContent = "は";
@@ -156,6 +150,18 @@ kh3.rendermain = function(){
 	this._render.timer = window.setTimeout(this.parrender.bind(this), 10);
 	
 };
+
+// テスト用DOMを作成
+kh3.makeTestspan = function(){
+	this._render.testspan = document.createElement("span");
+	this._render.testspan.className = "char testspan";
+	this._render.divFace.appendChild(this._render.testspan);
+	this._render.rubytestspan = document.createElement("span");
+	this._render.rubytestspan.className = "char ruby testspan";
+	this._render.testspan.appendChild(this._render.rubytestspan);
+	return this._render.testspan;
+}
+
 
 // 用紙の作成
 kh3.clearPages = function(divTarget, lineNo){
@@ -623,7 +629,7 @@ kh3.getWidth = function(text, unit, zw, prefix){
 	let displaytext = kh3.toDisplayText(text);
 	var key = prefix + "|" + displaytext;
 	if(this._memoWidth[key] === void 0){
-		var span = this._render.testspan;
+		var span = this._render.testspan || kh3.makeTestspan();
 		if(prefix == "ruby"){
 			span = this._render.rubytestspan;
 			this._render.testspan.appendChild(this._render.rubytestspan);
@@ -807,6 +813,7 @@ kh3.newcolumn = function(){
 
 // 改ページ
 kh3.newpage = function(){
+
 	this._render.divPaper = document.createElement("div");
 	this._render.divPaper.className = "paper";
 	this._render.divTarget.appendChild(this._render.divPaper);
@@ -821,6 +828,7 @@ kh3.newpage = function(){
 	this._render.divFace.className = "face";
 	this._render.divPaper.appendChild(this._render.divFace);
 	this._render.pageWidth = this.setting.pageWidth;
+	this._render.pageHeight = this.setting.pageHeight;
 	this.setPosition(this._render.divFace, 
 			this.setting.offsetLeft, this.setting.offsetTop, 
 			this.setting.lineWidth, this.setting.pageHeight
@@ -830,7 +838,31 @@ kh3.newpage = function(){
 	this._render.left = 0;
 	this._render.heightUnder = 0;
 	this._render.nobreak = 1;
+
+	if(kh3.setting.useNombre) kh3.makeNombre();
+
 }
+
+// ノンブル
+kh3.makeNombre = function(){
+	if( ! kh3._render.divPaper) return;
+
+	let nombre = new kh3.Nombre(document.getElementsByClassName("paper").length);
+
+	nombre.makeDom();
+
+	if( ! kh3.setting.isVertical){
+		nombre.left = this._render.paperWidth * 0.5 - nombre.width * 0.5;
+		nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.lineHeight;
+	}
+	else{
+		nombre.left = this._render.paperHeight * 0.5 - nombre.width * 0.5;
+		nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.lineHeight;
+	}
+	nombre.setPosition();
+	this._render.divPaper.appendChild(nombre.span);
+}
+
 
 //  段延長
 kh3.extendColumn = function(lineHeight = this.setting.lineHeight){

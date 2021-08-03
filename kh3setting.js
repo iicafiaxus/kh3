@@ -123,6 +123,9 @@ kh3.setSetting = function(val){
 	// ハイフネーション
 	kh3.setValue("hyphenate", val("chkHyphenate"));
 
+	// ノンブルを使用
+	kh3.setValue("useNombre", val("chkUseNombre"));
+
 	// アポストロフィの修正
 	kh3.setValue("correctApostrophe", val("chkCorrectApostrophe"));
 
