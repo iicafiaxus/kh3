@@ -77,7 +77,7 @@ kh3.setSetting = function(val){
 			var l = kh3.setting.paperWidth - marginLeft - marginRight;
 			kh3.setValue("lineWidth", Math.floor((l - (columnCount - 1) * marginInside) / columnCount / kh3.setting.zw) * kh3.setting.zw);
 			kh3.setValue("offsetLeft", marginLeft);
-			kh3.setValue("pageWidth", l);
+			kh3.setValue("pageWidth", kh3.setting.lineWidth * columnCount + marginInside * (columnCount - 1));
 			kh3.setValue("columnOffset", kh3.setting.lineWidth + marginInside);
 			
 			var marginTop =  val("txtMarginRight") * 1000;
@@ -91,9 +91,9 @@ kh3.setSetting = function(val){
 			var marginRight = val("txtMarginRight") * 1000;
 			var l = kh3.setting.paperWidth - marginLeft - marginRight;
 			kh3.setValue("lineWidth", Math.floor((l - (columnCount - 1) * marginInside) / columnCount / kh3.setting.zw) * kh3.setting.zw);
-			kh3.setValue("pageWidth", l);
+			kh3.setValue("pageWidth", kh3.setting.lineWidth * columnCount + marginInside * (columnCount - 1));
 			kh3.setValue("columnOffset", kh3.setting.lineWidth + marginInside); // 余白重視の場合は (l + marginInside) / columnCount;
-			kh3.setValue("offsetLeft", marginLeft + (l - kh3.setting.columnOffset * columnCount + marginInside) / 2); // 余白重視の場合は marginLeft;
+			kh3.setValue("offsetLeft", marginLeft + (kh3.setting.paperWidth - kh3.setting.pageWidth - marginLeft - marginRight) / 2); // 余白重視の場合は marginLeft;
 			
 			var marginTop =  val("txtMarginTop") * 1000;
 			var marginBottom =  val("txtMarginBottom") * 1000;
@@ -117,6 +117,9 @@ kh3.setSetting = function(val){
 	// 字下げ
 	kh3.setValue("parIndent", val("chkParIndent")? 1: 0);
 	
+	// 偶数ページで左右入れ替え
+	kh3.setValue("isMirroredWhenEven", val("chkIsMirroredWhenEven"));
+
 	// カンマ・読点修正
 	kh3.setValue("correctPunct", val("chkCorrectPunct"));
 
@@ -128,6 +131,9 @@ kh3.setSetting = function(val){
 
 	// ノンブルの距離
 	kh3.setValue("nombreDistance", val("txtNombreDistance") * 1000);
+
+	// ノンブルの位置
+	kh3.setValue("nombrePosition", val("selNombrePosition"));
 
 	// アポストロフィの修正
 	kh3.setValue("correctApostrophe", val("chkCorrectApostrophe"));

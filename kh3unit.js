@@ -106,6 +106,8 @@ kh3.Unit.prototype.makeDom = function(){
 	if(kh3.setting.isVertical && this.isAlphanumeric) this.offset += -0.05;
 		// フォント依存だとは思うがとりあえず
 	
+	console.log(this.char, this.width);
+
 	// 文字の天から中心線まで
 	this.middle = kh3.setting.zh / 2;
 };

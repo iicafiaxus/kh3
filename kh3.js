@@ -111,14 +111,7 @@ kh3.rendermain = function(){
 	// フォント設定を反映
 	this.resetFont();
 	
-	// ピクセルとミクロンの換算単位を取得する
-	// kh3unitから参照しているがいらない気がするので要検討
 	kh3.makeTestspan();
-	this._render.testspan.textContent = "花";
-	this._render.unit = this._render.testspan.getBoundingClientRect()[this.setting.isVertical? "height": "width"];
-	this._render.rubytestspan.textContent = "は";
-	this._render.testspan.appendChild(this._render.rubytestspan);
-	this._render.rubyunit = this._render.rubytestspan.getBoundingClientRect()[this.setting.isVertical? "height": "width"];
 	
 	// ToDo: いつの間にかルビの換算単位が取得できなくなっているので修正する
 
@@ -159,6 +152,15 @@ kh3.makeTestspan = function(){
 	this._render.rubytestspan = document.createElement("span");
 	this._render.rubytestspan.className = "char ruby testspan";
 	this._render.testspan.appendChild(this._render.rubytestspan);
+
+	// ピクセルとミクロンの換算単位を取得する
+	// kh3unitから参照しているがいらないかも？
+	this._render.testspan.textContent = "花";
+	this._render.unit = this._render.testspan.getBoundingClientRect()[this.setting.isVertical? "height": "width"];
+	this._render.rubytestspan.textContent = "は";
+	this._render.testspan.appendChild(this._render.rubytestspan);
+	this._render.rubyunit = this._render.rubytestspan.getBoundingClientRect()[this.setting.isVertical? "height": "width"];
+
 	return this._render.testspan;
 }
 
@@ -630,6 +632,7 @@ kh3.getWidth = function(text, unit, zw, prefix){
 	var key = prefix + "|" + displaytext;
 	if(this._memoWidth[key] === void 0){
 		var span = this._render.testspan || kh3.makeTestspan();
+		if( ! unit) unit = kh3._render.unit;
 		if(prefix == "ruby"){
 			span = this._render.rubytestspan;
 			this._render.testspan.appendChild(this._render.rubytestspan);
@@ -651,6 +654,7 @@ kh3.getWidth = function(text, unit, zw, prefix){
 	}
 	var res = this._memoWidth[key];
 	if(! (res > 0)) this._memoWidth[key] = void 0;
+	console.log(text, unit, zw, prefix, res);
 	return res;
 };
 
@@ -823,14 +827,24 @@ kh3.newpage = function(){
 			void 0, void 0, 
 			this._render.paperWidth, this._render.paperHeight
 	);
+
+	let pageCount = document.getElementsByClassName("paper").length;
+	this._render.isMirrored = this.setting.isMirroredWhenEven && pageCount % 2 == 0;
 	
 	this._render.divFace = document.createElement("div");
 	this._render.divFace.className = "face";
 	this._render.divPaper.appendChild(this._render.divFace);
 	this._render.pageWidth = this.setting.pageWidth;
 	this._render.pageHeight = this.setting.pageHeight;
+
+	this._render.pageLeft = this.setting.offsetLeft;
+	this._render.pageTop = this.setting.offsetTop;
+	if(this._render.isMirrored){
+		if(this.setting.isVertical) this._render.pageTop = this.setting.paperHeight - this.setting.offsetTop - this.setting.pageHeight;
+		else this._render.pageLeft = this.setting.paperWidth - this.setting.offsetLeft - this.setting.pageWidth;
+	}
 	this.setPosition(this._render.divFace, 
-			this.setting.offsetLeft, this.setting.offsetTop, 
+			this._render.pageLeft, this._render.pageTop,
 			this.setting.lineWidth, this.setting.pageHeight
 	);
 	
@@ -839,26 +853,54 @@ kh3.newpage = function(){
 	this._render.heightUnder = 0;
 	this._render.nobreak = 1;
 
-	if(kh3.setting.useNombre) kh3.makeNombre();
+	if(kh3.setting.useNombre) kh3.makeNombre(pageCount);
 
 }
 
 // ノンブル
-kh3.makeNombre = function(){
+kh3.makeNombre = function(number = 0){
 	if( ! kh3._render.divPaper) return;
 
-	let nombre = new kh3.Nombre(document.getElementsByClassName("paper").length);
+	let nombre = new kh3.Nombre("" + number);
 
 	nombre.makeDom();
+	nombre.setPosition();
+	
+	console.log(this._render.pageLeft, this._render.pageWidth * 0.5, nombre.width * 0.5);
 
-	if( ! kh3.setting.isVertical){
-		nombre.left = this._render.paperWidth * 0.5 - nombre.width * 0.5;
-		nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5
+	if(kh3.setting.nombrePosition == "bottomleft" && ! kh3._render.isMirrored || 
+			kh3.setting.nombrePosition == "bottomright" && kh3._render.isMirrored){
+		if( ! kh3.setting.isVertical){
+			nombre.left = this._render.pageLeft + this.setting.zw - nombre.width * 0.5;
+			nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5;
+		}
+		else{
+			nombre.left = this._render.paperHeight - this._render.pageTop - this._render.pageHeight + this.setting.zw - nombre.height * 0.5;
+			nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5
+		}
+	}
+	else if(kh3.setting.nombrePosition == "bottomleft" && kh3._render.isMirrored || 
+			kh3.setting.nombrePosition == "bottomright" && ! kh3._render.isMirrored){
+		if( ! kh3.setting.isVertical){
+			nombre.left = this._render.pageLeft + this._render.pageWidth - this.setting.zw - nombre.width * 0.5;
+			nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5
+		}
+		else{
+			nombre.left = this._render.paperHeight - this._render.pageTop - this.setting.zw - nombre.height * 0.5;
+			nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5
+		}
 	}
 	else{
-		nombre.left = this._render.paperHeight * 0.5 - nombre.width * 0.5;
-		nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5
+		if( ! kh3.setting.isVertical){
+			nombre.left = this._render.pageLeft + this._render.pageWidth * 0.5 - nombre.width * 0.5;
+			nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5
+		}
+		else{
+			nombre.left = this._render.paperHeight - this._render.pageTop - this._render.pageHeight * 0.5 - nombre.height * 0.5;
+			nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5
+		}
 	}
+
 	nombre.setPosition();
 	this._render.divPaper.appendChild(nombre.span);
 }

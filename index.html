@@ -99,8 +99,8 @@
 					<br>
 					<label>地<input type=number class=shortnumber id=txtMarginBottom value=20 size=5>mm</label>
 					<br>
+					<label><input type=checkbox id=chkIsMirroredWhenEven><span>偶数ページでは余白の左右を読み替える</span></label>
 					<!--
-					<label><input type=checkbox id=chkIsMirroredWhenEven disabled><span>偶数ページでは余白の左右を読み替える</span></label>
 					<br>
 					<label><input type=checkbox id=chkIsMirroredWhenVertical disabled><span>縦書きの場合は余白の左右を読み替える</span></label>
 					<br>
@@ -129,7 +129,9 @@
 					<label><input type=checkbox id=chkUseNombre><span>ノンブルを使用</span></label>
 					<label>ノンブル位置
 						<select id=selNombrePosition>
+						<option value=bottomleft>底部左端</option>
 						<option selected value=bottomcenter>底部中央</option>
+						<option value=bottomright>底部右端</option>
 						</select>
 					</label>
 					<label>版面からノンブル中心までの距離<input type=number class=shortnumber id=txtNombreDistance value=10 size=5>mm</label>
