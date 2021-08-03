@@ -853,11 +853,11 @@ kh3.makeNombre = function(){
 
 	if( ! kh3.setting.isVertical){
 		nombre.left = this._render.paperWidth * 0.5 - nombre.width * 0.5;
-		nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.lineHeight;
+		nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5
 	}
 	else{
 		nombre.left = this._render.paperHeight * 0.5 - nombre.width * 0.5;
-		nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.lineHeight;
+		nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5
 	}
 	nombre.setPosition();
 	this._render.divPaper.appendChild(nombre.span);

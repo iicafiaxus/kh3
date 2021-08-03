@@ -126,6 +126,9 @@ kh3.setSetting = function(val){
 	// ノンブルを使用
 	kh3.setValue("useNombre", val("chkUseNombre"));
 
+	// ノンブルの距離
+	kh3.setValue("nombreDistance", val("txtNombreDistance") * 1000);
+
 	// アポストロフィの修正
 	kh3.setValue("correctApostrophe", val("chkCorrectApostrophe"));
 
