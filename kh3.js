@@ -853,7 +853,7 @@ kh3.newpage = function(){
 	this._render.heightUnder = 0;
 	this._render.nobreak = 1;
 
-	if(kh3.setting.useNombre) kh3.makeNombre(pageCount);
+	if(kh3.setting.useNombre) kh3.makeNombre(pageCount + kh3.setting.nombreInitial - 1);
 
 }
 
