@@ -868,36 +868,48 @@ kh3.makeNombre = function(number = 0){
 	
 	console.log(this._render.pageLeft, this._render.pageWidth * 0.5, nombre.width * 0.5);
 
-	if(kh3.setting.nombrePosition == "bottomleft" && ! kh3._render.isMirrored || 
-			kh3.setting.nombrePosition == "bottomright" && kh3._render.isMirrored){
+	if(kh3.setting.nombrePosition == "topleft" || 
+			kh3.setting.nombrePosition == "topcenter" || 
+			kh3.setting.nombrePosition == "topright"
+	){
+		if( ! kh3.setting.isVertical) nombre.top = this.setting.offsetTop - this.setting.nombreDistance - this.setting.zh * 0.5;
+		else nombre.top = this.setting.offsetLeft - this.setting.nombreDistance - this.setting.zh * 0.5;
+	}
+	else{
+		if( ! kh3.setting.isVertical) nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5;
+		else nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5;
+	}
+
+	if(kh3.setting.nombrePosition == "topleft" && ! kh3._render.isMirrored || 
+			kh3.setting.nombrePosition == "topright" && kh3._render.isMirrored || 
+			kh3.setting.nombrePosition == "bottomleft" && ! kh3._render.isMirrored || 
+			kh3.setting.nombrePosition == "bottomright" && kh3._render.isMirrored
+	){
 		if( ! kh3.setting.isVertical){
 			nombre.left = this._render.pageLeft + this.setting.zw - nombre.width * 0.5;
-			nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5;
 		}
 		else{
 			nombre.left = this._render.paperHeight - this._render.pageTop - this._render.pageHeight + this.setting.zw - nombre.height * 0.5;
-			nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5
 		}
 	}
-	else if(kh3.setting.nombrePosition == "bottomleft" && kh3._render.isMirrored || 
-			kh3.setting.nombrePosition == "bottomright" && ! kh3._render.isMirrored){
+	else if(kh3.setting.nombrePosition == "topleft" && kh3._render.isMirrored || 
+			kh3.setting.nombrePosition == "topright" && ! kh3._render.isMirrored || 
+			kh3.setting.nombrePosition == "bottomleft" && kh3._render.isMirrored || 
+			kh3.setting.nombrePosition == "bottomright" && ! kh3._render.isMirrored
+	){
 		if( ! kh3.setting.isVertical){
 			nombre.left = this._render.pageLeft + this._render.pageWidth - this.setting.zw - nombre.width * 0.5;
-			nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5
 		}
 		else{
 			nombre.left = this._render.paperHeight - this._render.pageTop - this.setting.zw - nombre.height * 0.5;
-			nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5
 		}
 	}
 	else{
 		if( ! kh3.setting.isVertical){
 			nombre.left = this._render.pageLeft + this._render.pageWidth * 0.5 - nombre.width * 0.5;
-			nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5
 		}
 		else{
 			nombre.left = this._render.paperHeight - this._render.pageTop - this._render.pageHeight * 0.5 - nombre.height * 0.5;
-			nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5
 		}
 	}
 
