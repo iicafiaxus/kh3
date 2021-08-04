@@ -654,7 +654,6 @@ kh3.getWidth = function(text, unit, zw, prefix){
 	}
 	var res = this._memoWidth[key];
 	if(! (res > 0)) this._memoWidth[key] = void 0;
-	console.log(text, unit, zw, prefix, res);
 	return res;
 };
 
@@ -866,8 +865,6 @@ kh3.makeNombre = function(number = 0){
 	nombre.makeDom();
 	nombre.setPosition();
 	
-	console.log(this._render.pageLeft, this._render.pageWidth * 0.5, nombre.width * 0.5);
-
 	if(kh3.setting.nombrePosition == "topleft" || 
 			kh3.setting.nombrePosition == "topcenter" || 
 			kh3.setting.nombrePosition == "topright"
@@ -915,6 +912,11 @@ kh3.makeNombre = function(number = 0){
 
 	nombre.setPosition();
 	this._render.divPaper.appendChild(nombre.span);
+}
+
+// 柱
+kh3.makeHead = function(position, align, text){
+
 }
 
 
