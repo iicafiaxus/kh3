@@ -19,6 +19,7 @@ kh3.Unit = function(text, parentunit){
 	this.isBold = parentunit ? parentunit.isBold : "";
 	this.isItalic = parentunit ? parentunit.isItalic : "";
 	this.color = parentunit ? parentunit.color : "";
+	this.size = parentunit ? parentunit.size : "";
 	
 	this.rubyHang = 0;
 	
@@ -108,6 +109,9 @@ kh3.Unit.prototype.makeDom = function(){
 	
 	// 文字の天から中心線まで
 	this.middle = kh3.setting.zh / 2;
+
+	if(this.size == "small") this.setSmall();
+	if(this.size == "large") this.setLarge();
 };
 
 kh3.Unit.prototype.rotate = function(){
@@ -134,6 +138,23 @@ kh3.Unit.prototype.forceHorizontal = function(){
 	//this.middle = this.height / 2;
 	//this.lastchar = "漢", this.firstchar = "漢"; // 本当はこれではないがアキの処理ができていないのでとりあえず
 }
+
+kh3.Unit.prototype.setSmall = function(){
+	this.span.classList.add("small");
+	this.width *= 0.8;
+	this.top += this.mid * 0.2;
+	this.mid *= 0.8;
+	this.height *= 0.8;
+}
+
+kh3.Unit.prototype.setLarge = function(){
+	this.span.classList.add("large");
+	this.width *= 1.2;
+	this.top -= this.mid * 0.2;
+	this.mid *= 1.2;
+	this.height *= 1.2;
+}
+
 
 // DOMを配置
 kh3.Unit.prototype.setPosition = function(){

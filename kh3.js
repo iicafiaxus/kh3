@@ -828,7 +828,7 @@ kh3.newpage = function(){
 	for(position in this._render.heads) kh3.makeHead(this._render.heads[position], {
 		position,
 		distance: this.setting.nombreDistance,
-		offset: 0,
+		offset: this.setting.zw * 0.8,
 		align: ""
 	});
 
@@ -925,20 +925,8 @@ kh3.makeHead = function(text, param){
 
 	nombre.top = top - nombre.height / 2;
 	if(param.align == "left") nombre.left = left;
-	else if(param.align == "right"){
-		/*
-		if( ! kh3.setting.isVertical) nombre.left = left - nombre.width;
-		else nombre.left = left - nombre.height;
-		*/
-		nombre.left = left - nombre.width;
-	}
-	else{
-		/*
-		if( ! kh3.setting.isVertical) nombre.left = left - nombre.width / 2;
-		else nombre.left = left - nombre.height / 2;
-		*/
-		nombre.left = left - nombre.width / 2;
-	}
+	else if(param.align == "right") nombre.left = left - nombre.width;
+	else nombre.left = left - nombre.width / 2;
 
 	nombre.setPosition();
 	this._render.divPaper.appendChild(nombre.span);

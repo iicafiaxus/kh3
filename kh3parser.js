@@ -153,6 +153,7 @@ kh3.parse = function(text){
 		"#000000", "#0077dd", "#dd3300", "#9900cc", "#229900"
 	]; // 将来的には設定項目とする
 	var isBold = 0, isItalic = 0;
+	var size = "";
 	for(var i = 0; i < text.length; i ++){
 		var o = new kh3.Unit(text.charAt(i), metastack[metastack.length - 1]);
 		while(o.char.match(/ /)) o.char = text.charAt(++i);
@@ -298,6 +299,16 @@ kh3.parse = function(text){
 							case "rotated":
 								o.command = "rotate", o.char = (operands.length > 1? operands[1]: "");
 								break;
+							case "large":
+								o.value = (isNumeric(operands[1])? +operands[1]: 1);
+								if(o.value) size = "large"; else size = "";
+								o.isMetacommand = 1;
+								break;
+							case "small":
+								o.value = (isNumeric(operands[1])? +operands[1]: 1);
+								if(o.value) size = "small"; else size = "";
+								o.isMetacommand = 1;
+								break;
 							case "bold":
 							case "b":
 								o.value = (isNumeric(operands[1])? +operands[1]: 1);
@@ -398,6 +409,7 @@ kh3.parse = function(text){
 		(o.unit || o).isBold = !! isBold;
 		(o.unit || o).isItalic = !! isItalic;
 		(o.unit || o).color = color;
+		if(size != "") (o.unit || o).size = size;
 		o.pos = pos;
 
 		if(o.isMetacommand) continue;

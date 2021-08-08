@@ -303,6 +303,14 @@ kh3.font.reset = function(size, index){
 		s += "\t" + "font-size: " + (size * 0.6 * font.magnitude) + "mm;";
 		s += "}";
 		
+		s += "span." + name + ".small{";
+		s += "\t" + "font-size: " + (size * 0.8 * font.magnitude) + "mm;";
+		s += "}";
+		
+		s += "span." + name + ".large{";
+		s += "\t" + "font-size: " + (size * 1.2 * font.magnitude) + "mm;";
+		s += "}";
+		
 		
 		style.innerHTML = s;
 	}

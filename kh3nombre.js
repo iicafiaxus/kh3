@@ -1,6 +1,7 @@
 // RootunitやFractorからコピーしてきた…
 kh3.Nombre = function(char = "0"){
 	kh3.Unit.call(this, "" + char);
+	this.size = "small";
 }
 kh3.Nombre.prototype = Object.create(kh3.Unit.prototype);
 kh3.Nombre.prototype.constractor = kh3.Nombre;
