@@ -460,8 +460,12 @@ kh3.parrender = function(){
 
 		// 改行の必要がある場合...
 		if(rightroom < 0){
-			let originalWidth = unit.width;
 			
+			// ぶら下げが可能であればそのようにする
+			if(kh3.setting.allowDrop && unit.lastchar.match(kh3.letters.droppable)){
+				rightroom += kh3.setting.zw * 0.5;
+			}
+
 			// ハイフネーションで対処可能であればそのようにする
 			unit.hyphenate( -rightroom );
 
@@ -486,7 +490,7 @@ kh3.parrender = function(){
 			
 			// 1つのunitだけでオーバーしている場合はあきらめる
 			// 追い出しができる場合、
-			if(isp > 0){
+			if(rightroom < 0 && isp > 0){
 
 				// 改行直前直後のユニット
 				var unitbefore = tab.units[isp - 1];
@@ -511,16 +515,22 @@ kh3.parrender = function(){
 
 				// 改行位置が句読点などだった場合の調整
 				if(unitbefore) left += unitbefore.marginTo(kh3.linesep);
+
+				// ぶら下げが可能であればそのようにする
+				if(kh3.setting.allowDrop &&
+						left > this.setting.lineWidth - rightindent &&
+						unitbefore.lastchar.match(kh3.letters.droppable)){
+					left -= kh3.setting.zw * 0.5;
+				}
 				
 				// 追い出しに伴う均等割り
 				var sepcount = 0;
-				for(u of tab.units) sepcount += u.sepratio;
+				for(u of tab.units.slice(1)) sepcount += u.sepratio;
 				if(sepcount == 0) sepcount = 1;
 				var k = (this.setting.lineWidth - left - rightindent) / sepcount;
-				//if(unit.hyphenatedUnit) k -= (originalWidth - unit.width) / sepcount;
 				if(unit.hyphenatedUnit) k -= unit.hyphenatedUnit.width / sepcount;
 				var ksum = 0;
-				for(u of tab.units){
+				for(u of tab.units.slice(1)){
 					ksum += k * u.sepratio;
 					u.left += ksum;
 				}

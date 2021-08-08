@@ -13,6 +13,7 @@ kh3.letters = {
 	dash: /[–—]/,
 	parstart: /[\(\{\[“]/,
 	parend: /[\)\}\]”]/,
+	droppable: /[、。，．]/,
 	latinfollower: /[,\.;:\?!\)\}\]\|”]/,
 	cjkfollower: /[、。，．？！：；）’］】」』〉》〕〟]/,
 	cjkdrop: /[？！]/,
