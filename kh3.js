@@ -145,6 +145,8 @@ kh3.rendermain = function(){
 	// 段落の組版を起動
 	this._render.timer = window.setTimeout(this.parrender.bind(this), 10);
 	
+	// 終了処理を複数回実施しないためのフラグ
+	this._render.finished = 0;
 };
 
 // テスト用DOMを作成
@@ -596,12 +598,19 @@ kh3.parrender = function(){
 		// ※途中経過を見せるために一旦処理を返している
 		kh3._render.timer = window.setTimeout(this.parrender.bind(this), 0);
 	}
-	else{
+	else if( ! this._render.finished){
 		// 段落がなくなったので終了処理
+		this._render.finished = 1;
 		
 		// 白紙のページができてしまっていたらそれは削除
-		if(this._render.divPaper.textContent == "") this._render.divPaper.parentNode.removeChild(this._render.divPaper);
-		
+		if(this._render.divPaper.textContent == ""){
+			this._render.divPaper.parentNode.removeChild(this._render.divPaper);
+		}
+
+		// ノンブル、柱
+		this.makeNombre();
+		this.makeHeads();
+
 		// テスト用(採寸用)のspanを削除
 		if(this._render.testspan.parentNode) this._render.testspan.parentNode.removeChild(this._render.testspan);
 		
@@ -825,12 +834,9 @@ kh3.newcolumn = function(){
 kh3.newpage = function(){
 
 	// 柱を配置
-	for(position in this._render.heads) kh3.makeHead(this._render.heads[position], {
-		position,
-		distance: this.setting.nombreDistance,
-		offset: this.setting.zw * 0.8,
-		align: ""
-	});
+	kh3.makeHeads();
+	this.makeNombre();
+
 
 	this._render.divPaper = document.createElement("div");
 	this._render.divPaper.className = "paper";
@@ -867,19 +873,32 @@ kh3.newpage = function(){
 	this._render.heightUnder = 0;
 	this._render.nobreak = 1;
 
-	if(kh3.setting.useNombre) kh3.makeNombre(pageCount + kh3.setting.nombreInitial - 1);
-
 }
 
 // ノンブル
-kh3.makeNombre = function(number = 0){
+kh3.makeNombre = function(){
+	if( ! kh3.setting.useNombre) return;
 	if( ! kh3._render.divPaper) return;
 
-	kh3.makeHead("" + number, {
+	let pageCount = document.getElementsByClassName("paper").length;
+	let text = "" + (pageCount + kh3.setting.nombreInitial - 1);
+
+	kh3.makeHead(text, {
 		position: kh3.setting.nombrePosition,
 		distance: this.setting.nombreDistance,
 		offset: this.setting.zw,
 		align: "center"
+	});
+}
+
+// 柱
+kh3.makeHeads = function(){
+	for(position in this._render.heads) kh3.makeHead(this._render.heads[position], {
+		position,
+		distance: this.setting.nombreDistance,
+		offset: position == this.setting.nombrePosition ?
+				this.setting.zw * 2.8 : this.setting.zw * 0.8,
+		align: ""
 	});
 }
 
