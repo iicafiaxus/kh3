@@ -139,6 +139,9 @@ kh3.rendermain = function(){
 	// 名前づけられたインデント位置
 	this._render.indentmap = {};
 
+	// 柱
+	this._render.heads = {};
+
 	// 段落の組版を起動
 	this._render.timer = window.setTimeout(this.parrender.bind(this), 10);
 	
@@ -364,6 +367,10 @@ kh3.parrender = function(){
 		if(unit.command == "underline"){
 			this._render.underline = unit.value;
 			this._render.underlinepos = unit.value && unit.value2;
+			continue;
+		}
+		if(unit.command == "head"){
+			this._render.heads[unit.value] = unit.value2;
 			continue;
 		}
 		if(unit.command == "nolf"){
@@ -817,6 +824,14 @@ kh3.newcolumn = function(){
 // 改ページ
 kh3.newpage = function(){
 
+	// 柱を配置
+	for(position in this._render.heads) kh3.makeHead(this._render.heads[position], {
+		position,
+		distance: this.setting.nombreDistance,
+		offset: 0,
+		align: ""
+	});
+
 	this._render.divPaper = document.createElement("div");
 	this._render.divPaper.className = "paper";
 	this._render.divTarget.appendChild(this._render.divPaper);
@@ -860,63 +875,73 @@ kh3.newpage = function(){
 kh3.makeNombre = function(number = 0){
 	if( ! kh3._render.divPaper) return;
 
-	let nombre = new kh3.Nombre("" + number);
+	kh3.makeHead("" + number, {
+		position: kh3.setting.nombrePosition,
+		distance: this.setting.nombreDistance,
+		offset: this.setting.zw,
+		align: "center"
+	});
+}
 
+// 柱
+kh3.makeHead = function(text, param){
+
+	param.distance ||= 0; // 版面からの距離
+	param.offset ||= 0; // 端からの距離
+
+	let nombre = new kh3.Nombre(text);
 	nombre.makeDom();
 	nombre.setPosition();
-	
-	if(kh3.setting.nombrePosition == "topleft" || 
-			kh3.setting.nombrePosition == "topcenter" || 
-			kh3.setting.nombrePosition == "topright"
-	){
-		if( ! kh3.setting.isVertical) nombre.top = this.setting.offsetTop - this.setting.nombreDistance - this.setting.zh * 0.5;
-		else nombre.top = this.setting.offsetLeft - this.setting.nombreDistance - this.setting.zh * 0.5;
+
+	var position = param.position || "bottomcenter";
+	if(kh3._render.isMirrored) position = position.replace("left", "(**)").replace("right", "left").replace("(**)", "right");
+
+	var left, top;
+
+	if(position.match("top")){
+		if( ! kh3.setting.isVertical) top = this.setting.offsetTop - param.distance;
+		else top = this.setting.offsetLeft - param.distance;
 	}
 	else{
-		if( ! kh3.setting.isVertical) nombre.top = this.setting.offsetTop + this._render.pageHeight + this.setting.nombreDistance - this.setting.zh * 0.5;
-		else nombre.top = this.setting.offsetLeft + this._render.pageWidth + this.setting.nombreDistance - this.setting.zh * 0.5;
+		if( ! kh3.setting.isVertical) top = this.setting.offsetTop + this._render.pageHeight + param.distance;
+		else top = this.setting.offsetLeft + this._render.pageWidth + param.distance;
 	}
 
-	if(kh3.setting.nombrePosition == "topleft" && ! kh3._render.isMirrored || 
-			kh3.setting.nombrePosition == "topright" && kh3._render.isMirrored || 
-			kh3.setting.nombrePosition == "bottomleft" && ! kh3._render.isMirrored || 
-			kh3.setting.nombrePosition == "bottomright" && kh3._render.isMirrored
-	){
-		if( ! kh3.setting.isVertical){
-			nombre.left = this._render.pageLeft + this.setting.zw - nombre.width * 0.5;
-		}
-		else{
-			nombre.left = this._render.paperHeight - this._render.pageTop - this._render.pageHeight + this.setting.zw - nombre.height * 0.5;
-		}
+	if(position.match("left")){
+		if(param.align == "") param.align = "left";
+		if( ! kh3.setting.isVertical) left = this._render.pageLeft + param.offset;
+		else left = this._render.paperHeight - this._render.pageTop - this._render.pageHeight + param.offset;
 	}
-	else if(kh3.setting.nombrePosition == "topleft" && kh3._render.isMirrored || 
-			kh3.setting.nombrePosition == "topright" && ! kh3._render.isMirrored || 
-			kh3.setting.nombrePosition == "bottomleft" && kh3._render.isMirrored || 
-			kh3.setting.nombrePosition == "bottomright" && ! kh3._render.isMirrored
-	){
-		if( ! kh3.setting.isVertical){
-			nombre.left = this._render.pageLeft + this._render.pageWidth - this.setting.zw - nombre.width * 0.5;
-		}
-		else{
-			nombre.left = this._render.paperHeight - this._render.pageTop - this.setting.zw - nombre.height * 0.5;
-		}
+	else if(position.match("right")){
+		if(param.align == "") param.align = "right";
+		if( ! kh3.setting.isVertical) left = this._render.pageLeft + this._render.pageWidth - param.offset;
+		else left = this._render.paperHeight - this._render.pageTop - param.offset;
 	}
 	else{
-		if( ! kh3.setting.isVertical){
-			nombre.left = this._render.pageLeft + this._render.pageWidth * 0.5 - nombre.width * 0.5;
-		}
-		else{
-			nombre.left = this._render.paperHeight - this._render.pageTop - this._render.pageHeight * 0.5 - nombre.height * 0.5;
-		}
+		if(param.align == "") param.align = "center";
+		if( ! kh3.setting.isVertical) left = this._render.pageLeft + this._render.pageWidth * 0.5;
+		else left = this._render.paperHeight - this._render.pageTop - this._render.pageHeight * 0.5;
+	}
+
+	nombre.top = top - nombre.height / 2;
+	if(param.align == "left") nombre.left = left;
+	else if(param.align == "right"){
+		/*
+		if( ! kh3.setting.isVertical) nombre.left = left - nombre.width;
+		else nombre.left = left - nombre.height;
+		*/
+		nombre.left = left - nombre.width;
+	}
+	else{
+		/*
+		if( ! kh3.setting.isVertical) nombre.left = left - nombre.width / 2;
+		else nombre.left = left - nombre.height / 2;
+		*/
+		nombre.left = left - nombre.width / 2;
 	}
 
 	nombre.setPosition();
 	this._render.divPaper.appendChild(nombre.span);
-}
-
-// 柱
-kh3.makeHead = function(position, align, text){
-
 }
 
 

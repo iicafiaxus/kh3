@@ -123,6 +123,18 @@ kh3.Unit.prototype.rotate = function(){
 	this.span.className += " rotated";
 }
 
+kh3.Unit.prototype.forceHorizontal = function(){
+	if( ! kh3.setting.isVertical) return;
+	this.span.classList.add("horizontal");
+	var h = this.height, w = this.width;
+	//this.height = w;
+	//this.width = h;
+	//this.offset += 0;
+	//this.offset += kh3.setting.zh * 0.025 / this.height; // フォント依存だがとりあえず
+	//this.middle = this.height / 2;
+	//this.lastchar = "漢", this.firstchar = "漢"; // 本当はこれではないがアキの処理ができていないのでとりあえず
+}
+
 // DOMを配置
 kh3.Unit.prototype.setPosition = function(){
 	//if(this.width == 0) console.log("Width = 0 である Unit (char = \"" + this.char + "\") を配置しようとしています。");

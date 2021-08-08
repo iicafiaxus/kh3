@@ -31,7 +31,7 @@ div.face{
 #allV div.paper{
 	writing-mode: tb-rl;
 }
-#allV div.paper .rotated{
+#allV div.paper .rotated, #allV div.paper .horizontal{
 	writing-mode: lr-tb;
 }
 span.char{
