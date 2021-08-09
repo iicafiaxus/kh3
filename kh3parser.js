@@ -271,8 +271,16 @@ kh3.parse = function(text){
 								break;
 							case "head":
 								o.command = "head";
-								o.value = operands[1];
-								o.value2 = operands[2];
+								if(isNumeric(operands[2]) && operands[3] != ""){
+									o.value = +operands[2];
+									o.value2 = operands[1];
+									o.value3 = operands[3];
+								}
+								else{
+									o.value = 3;
+									o.value2 = operands[1];
+									o.value3 = operands[2];
+								}
 								break;
 							case "ruled":
 								o.command = "ruled";

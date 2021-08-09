@@ -372,7 +372,9 @@ kh3.parrender = function(){
 			continue;
 		}
 		if(unit.command == "head"){
-			this._render.heads[unit.value] = unit.value2;
+			this._render.heads[unit.value2] ||= ["", ""];
+			if(unit.value & 2) this._render.heads[unit.value2][0] = unit.value3;
+			if(unit.value & 1) this._render.heads[unit.value2][1] = unit.value3;
 			continue;
 		}
 		if(unit.command == "nolf"){
@@ -938,13 +940,17 @@ kh3.makeNombre = function(){
 
 // 柱
 kh3.makeHeads = function(){
-	for(position in this._render.heads) kh3.makeHead(this._render.heads[position], {
-		position,
-		distance: this.setting.nombreDistance,
-		offset: position == this.setting.nombrePosition ?
-				this.setting.zw * 2.8 : this.setting.zw * 0.8,
-		align: ""
-	});
+	let pageCount = document.getElementsByClassName("paper").length;
+	for(position in this._render.heads) kh3.makeHead(
+		this._render.heads[position][pageCount % 2],
+		{
+			position,
+			distance: this.setting.nombreDistance,
+			offset: position == this.setting.nombrePosition ?
+					this.setting.zw * 2.8 : this.setting.zw * 0.8,
+			align: ""
+		}
+	);
 }
 
 // 柱
