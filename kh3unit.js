@@ -273,6 +273,18 @@ kh3.Unit.prototype.sepTo = function(unit){
 	return 1;
 }
 
+// 次のunitとの間での詰めの許容量 (0=詰め不可、0.25=四分)
+kh3.Unit.prototype.reductionTo = function(unit){
+	var char1 = this.lastchar, char2 = unit.firstchar;
+	if(unit.isAttached) return 0;
+	for(var r of kh3.reductionRules){
+		if(char1.match(kh3.letters[r[0]]) && char2.match(kh3.letters[r[1]])){
+			return r[2];
+		}
+	}
+	return 0;
+}
+
 // ハイフネーションにより幅を excess 以上削減することが可能なら
 // ハイフネーションをする
 kh3.Unit.prototype.hyphenate = function(excess){

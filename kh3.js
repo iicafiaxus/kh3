@@ -454,17 +454,37 @@ kh3.parrender = function(){
 		line.units.push(unit);
 		tab.units.push(unit);
 		
+		// 位置を反映
+		if(left > 0 && unit.margin) left += unit.margin;
+		unit.left = this._render.left + left;
+		unit.top = this._render.top;
+
 		// 右側の余裕
 		let rightroom = this.setting.lineWidth - 
 				(left + unit.margin + unit.width + unit.marginTo(kh3.linesep) + rightindent);
 
 		// 改行の必要がある場合...
 		if(rightroom < 0){
-			
+
+			var hasNewUnit = 0;
+			var hasReduction = 0;
+			var canDrop = 0;
+
 			// ぶら下げが可能であればそのようにする
 			if(kh3.setting.allowDrop && unit.lastchar.match(kh3.letters.droppable)){
 				rightroom += kh3.setting.zw * 0.5;
+				if(rightroom >= 0) canDrop = 1;
 			}
+
+			// 追い込みが可能な場合の可能追い込み量
+			var reduction = 0;
+			if(kh3.setting.allowReduction){
+				for(var j = 0; j < tab.units.length - 1; j ++){
+					reduction += tab.units[j].reductionTo(tab.units[j + 1]);
+				}
+			}
+			let reductionBadness = -rightroom / reduction;
+
 
 			// ハイフネーションで対処可能であればそのようにする
 			unit.hyphenate( -rightroom );
@@ -484,13 +504,28 @@ kh3.parrender = function(){
 
 			// 直近で改行可能な位置を探す(＝追い出し処理)
 			var isp;
+			var breakposition = this.setting.lineWidth - rightindent;
 			for(isp = tab.units.length - 1; isp >= 2; isp --){
-				if(tab.units[isp - 1].canBreakBetween(tab.units[isp])) break;
+				if(tab.units[isp - 1].canBreakBetween(tab.units[isp])){
+					if(tab.units[isp].left !== void 0) breakposition = tab.units[isp].left;
+					break;
+				}
 			}
 			
-			// 1つのunitだけでオーバーしている場合はあきらめる
-			// 追い出しができる場合、
-			if(rightroom < 0 && isp > 0){
+			// 追い込みのほうがよければ追い込み
+			if(canDrop || reduction > 0 && reductionBadness <= 1.0 && isp < tab.units.length - 1){
+				var k = 0;
+				reduction ||= 1;
+				for(var j = 0; j < tab.units.length - 1; j ++){
+					k += tab.units[j].reductionTo(tab.units[j + 1]) * -rightroom / reduction;
+					tab.units[j + 1].left -= k;
+				}
+				isp = tab.units.length;
+				rightroom = 0;
+				hasReduction = 1;
+			}
+			
+			if(isp > 0){
 
 				// 改行直前直後のユニット
 				var unitbefore = tab.units[isp - 1];
@@ -499,7 +534,7 @@ kh3.parrender = function(){
 
 				// 行頭行末を設定
 				if(unitbefore) unitbefore.isTerminal = 1;
-				unitafter.isInitial = 1;
+				if(unitafter) unitafter.isInitial = 1;
 
 				// 改行することになった位置以降を次行に送る
 				while(tab.units.length > isp){
@@ -523,49 +558,48 @@ kh3.parrender = function(){
 					left -= kh3.setting.zw * 0.5;
 				}
 				
-				// 追い出しに伴う均等割り
-				var sepcount = 0;
-				for(u of tab.units.slice(1)) sepcount += u.sepratio;
-				if(sepcount == 0) sepcount = 1;
-				var k = (this.setting.lineWidth - left - rightindent) / sepcount;
-				if(unit.hyphenatedUnit) k -= unit.hyphenatedUnit.width / sepcount;
-				var ksum = 0;
-				for(u of tab.units.slice(1)){
-					ksum += k * u.sepratio;
-					u.left += ksum;
-				}
-
-				// 復帰と改行
-				left = leftindent + kh3.linesep.marginTo(unitafter);
-				this.newline(line.units);
-				lastunit = kh3.linesep;
-				
-				// 行内容・タブ内容のリセット
-				line.units = [];
-				line.prevHeightUnder = line.heightUnder;
-				tab.units = [];
-
-				// 右ボックスインデントがあったときはカウントを減らす
-				if(this._render.rightboxcount > 0){
-					this._render.rightboxcount -= 1;
-					this._render.isRightboxing = 0;
-					if(this._render.rightboxcount <= 0){
-						rightindent -= this._render.rightboxindent;
-						this._render.rightboxindent = 0;
-					}
-				}
-
-				// このときはDOMを作成しない(iを戻したので)
-				continue;
-
+				if( ! hasReduction) rightroom = this.setting.lineWidth - rightindent - left;
+				hasNewUnit = 1;
 			}
+
+			// 均等割り
+			var sepcount = 0;
+			for(u of tab.units.slice(1)) sepcount += u.sepratio;
+			if(sepcount == 0) sepcount = 1;
+			var k = rightroom / sepcount;
+			if(unit.hyphenatedUnit) k -= unit.hyphenatedUnit.width / sepcount;
+			var ksum = 0;
+			for(u of tab.units.slice(1)){
+				ksum += k * u.sepratio;
+				u.left += ksum;
+			}
+
+			// 復帰と改行
+			left = leftindent;
+			if(unitafter) left += kh3.linesep.marginTo(unitafter);
+			this.newline(line.units);
+			lastunit = kh3.linesep;
+			
+			// 行内容・タブ内容のリセット
+			line.units = [];
+			line.prevHeightUnder = line.heightUnder;
+			tab.units = [];
+
+			// 右ボックスインデントがあったときはカウントを減らす
+			if(this._render.rightboxcount > 0){
+				this._render.rightboxcount -= 1;
+				this._render.isRightboxing = 0;
+				if(this._render.rightboxcount <= 0){
+					rightindent -= this._render.rightboxindent;
+					this._render.rightboxindent = 0;
+				}
+			}
+
+			// iを戻したときはDOMを作成しない
+			if(hasNewUnit) continue;
+
 		}
 		
-		// 位置を反映
-		if(left > 0 && unit.margin) left += unit.margin;
-		unit.left = this._render.left + left;
-		unit.top = this._render.top;
-
 		// インデント位置を記憶
 		if(waitingIndentName){
 			this._render.indentmap[waitingIndentName] = (left - leftindent) / this.setting.zw;
@@ -708,6 +742,7 @@ kh3.setPositionVertical = function(dom, left, top, width, height, spacing){
 	if(height !== void 0) dom.style.width = (height * r) + "mm";
 	if(spacing !== void 0) dom.style.letterSpacing = (spacing * r) + "mm";
 }
+
 
 // 改行
 kh3.newline = function(units = []){

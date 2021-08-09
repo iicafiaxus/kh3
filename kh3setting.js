@@ -129,6 +129,9 @@ kh3.setSetting = function(val){
 	// 句読点のぶら下げ
 	kh3.setValue("allowDrop", val("chkAllowDrop"));
 
+	// 句読点のぶら下げ
+	kh3.setValue("allowReduction", val("chkAllowReduction"));
+
 	// ノンブルを使用
 	kh3.setValue("useNombre", val("chkUseNombre"));
 

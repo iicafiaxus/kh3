@@ -95,6 +95,17 @@ kh3.sepratioRules = [
 	["any", "any", 1],
 ];
 
+// 詰めの許容量のルール
+kh3.reductionRules = [
+	["empty", "any", 0],
+	["any", "empty", 0],
+	["linesep", "any", 0],
+	["any", "linesep", 0],
+	["cjkfollower", "any", kh3.setting.zw * 0.25],
+	["any", "cjkleader", kh3.setting.zw * 0.25],
+	["any", "any", 0],
+];
+
 
 // 実際に表示する文字に変換
 kh3.toDisplayText = function(text){
