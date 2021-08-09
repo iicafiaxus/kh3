@@ -496,7 +496,7 @@ kh3.parrender = function(){
 				line.units.push(unit.hyphenatedUnit);
 				tab.units.push(unit.hyphenatedUnit);
 
-				unit.left = this._render.left + left + unit.margin;
+				unit.left = this._render.left + left;// + unit.margin;
 				unit.top = this._render.top;
 				unit.makeDom();
 				this._render.parTarget.appendChild(unit.span);
@@ -558,7 +558,7 @@ kh3.parrender = function(){
 					left -= kh3.setting.zw * 0.5;
 				}
 				
-				if( ! hasReduction) rightroom = this.setting.lineWidth - rightindent - left;
+				if( ! hasReduction) rightroom = this.setting.lineWidth - rightindent - left + unit.margin;
 				hasNewUnit = 1;
 			}
 
