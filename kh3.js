@@ -203,6 +203,9 @@ kh3.parrender = function(){
 		kh3._render.timer = window.setTimeout(this.parrender.bind(this), 200);
 		return;
 	}
+
+	// 進捗表示
+	if(kh3.progressView) kh3.progressView(this._render.index, this._render.textLines.length);
 	
 	this._render.parTarget = document.createElement("p");
 	this._render.divFace.appendChild(this._render.parTarget);

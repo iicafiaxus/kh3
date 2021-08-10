@@ -18,13 +18,32 @@ kh3ui.viewSetting = {};
 kh3ui.redraw = function(canSaveText = 1){
 	//kh3ui.readConfig();
 	document.getElementById("drawing").style.display = "block";
-	kh3.afterRenderWorks.push(function(){ document.getElementById("drawing").style.display = "none"; });
+	kh3ui.setProgressRatio(0.0);
+	kh3.afterRenderWorks.push(function(){
+		kh3ui.setProgressRatio(1.0);
+		setTimeout(function(){
+			document.getElementById("drawing").style.display = "none";
+		kh3ui.setProgressRatio(0.0);
+		}, 100);
+	});
 	window.setTimeout(function(){
 		var divTarget = document.getElementById(kh3.setting.isVertical? "allV": "allH");
 		var textAll = document.getElementById("areaSource").value;
 		kh3.render(divTarget, textAll, this.canSaveText);
 	}.bind({canSaveText: canSaveText}), 10);
 }
+
+// ------------------------------
+// プレビュー画面の進捗表示
+// ------------------------------
+kh3.progressView = function(count, total){
+	kh3ui.setProgressRatio(count / total);
+} 
+kh3ui.setProgressRatio = function(ratio){
+	if( ! (ratio >= 0 && ratio <= 1)) ratio = 0;
+	document.getElementById("drawingProgress").style.gridTemplateColumns = (ratio * 100) + "% 1fr";
+}
+
 
 // ------------------------------
 // プレビュー画面をクリアする
