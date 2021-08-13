@@ -166,7 +166,6 @@ kh3.scroll = function(anyway){
 	let main = document.getElementById("main");
 	if(anyway || x <= main.scrollWidth - document.body.clientWidth + 8.01 &&
 		 y <= main.scrollHeight - document.body.clientHeight + 8.01){ // 8はどこからきたのかわかってない 0.01は浮動小数点対応
-				main.scrollWidth - document.body.clientWidth, main.scrollHeight - document.body.clientHeight);
 		window.scroll(x, y);
 	}
 }
