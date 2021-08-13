@@ -84,8 +84,8 @@ kh3.Unit.prototype.makeDom = function(){
 	
 	// グリフの置き換え(とりあえず)
 	if(this.font == "italic"){
-		this.char = this.char.replace("f", "ƒ");
-		this.char = this.char.replace("'", "′");
+		this.char = this.char.replace(/f/g, "ƒ");
+		this.char = this.char.replace(/'/g, "′");
 	}
 	
 	// 実際に表示する文字に変換
