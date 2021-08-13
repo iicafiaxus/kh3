@@ -143,9 +143,34 @@ kh3ui.showPreview = function(isBack = 0){
 	kh3ui.hide = function(){
 		document.getElementById("btnShowEditor").style.display = "none";
 		document.getElementById("btnShowConfig").style.display = "none";
-		kh3.scrollX = window.scrollX, kh3.scrollY = window.scrollY;
 	};
 }
+
+// ------------------------------
+// プレビュー画面のスクロール位置の復元
+// ------------------------------
+window.addEventListener("scroll", function(){
+	if(kh3ui.mode != "preview") return;
+	if(kh3ui.isDrawing) return;
+	if(kh3ui.ignoreScrollOnce){
+		kh3ui.ignoreScrollOnce = 0;
+	//	return;
+	}
+	kh3ui.scrollX = window.scrollX / kh3.setting.magnitude;
+	kh3ui.scrollY = window.scrollY / kh3.setting.magnitude;
+});
+kh3.scroll = function(anyway){
+	if(kh3ui.mode != "preview") return;
+	let x = kh3ui.scrollX * kh3.setting.magnitude;
+	let y = kh3ui.scrollY * kh3.setting.magnitude;
+	let main = document.getElementById("main");
+	if(anyway || x <= main.scrollWidth - document.body.clientWidth + 8.01 &&
+		 y <= main.scrollHeight - document.body.clientHeight + 8.01){ // 8はどこからきたのかわかってない 0.01は浮動小数点対応
+				main.scrollWidth - document.body.clientWidth, main.scrollHeight - document.body.clientHeight);
+		window.scroll(x, y);
+	}
+}
+
 
 // ------------------------------
 // プレビュー画面の再描画
@@ -156,7 +181,10 @@ kh3ui.refreshPreview = function(){
 	kh3ui.clearPages();
 	window.setTimeout(kh3ui.redraw, 30);
 	window.setTimeout(kh3ui.resizePreview, 10);
-	
+	kh3.afterRenderWorks.push(function(){ kh3ui.isDrawing = 0; kh3.scroll(1); });
+
+	kh3ui.isDrawing = 1;
+	kh3ui.ignoreScrollOnce = 1;
 	kh3ui.redrawTitle();
 };
 	

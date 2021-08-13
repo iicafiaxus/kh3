@@ -640,8 +640,8 @@ kh3.parrender = function(){
 	// 後処理
 	if(++this._render.index < this._render.textLines.length){
 		
-		// スクロール位置の復元(ここでやるべきではない気もするが…)
-		window.scroll(this.scrollX, this.scrollY);
+		// スクロール位置の復元
+		if(this.scroll) this.scroll();
 		
 		// まだ残っている段落があるので組版を起動しておく
 		// ※途中経過を見せるために一旦処理を返している
