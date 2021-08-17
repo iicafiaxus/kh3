@@ -131,9 +131,9 @@ kh3.font.mplus1p = {
 }
 
 kh3.font.mplus1pbold = {
-	url: "https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@700",
+	url: "https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@500",
 	name: "M PLUS 1p",
-	weight: 700,
+	weight: 500,
 	style: "normal",
 	magnitude: 1.00,
 	offset: 0.00,
@@ -149,9 +149,9 @@ kh3.font.mplus1pitalic = {
 }
 
 kh3.font.mplus1pbolditalic = {
-	url: "https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@700",
+	url: "https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@500",
 	name: "M PLUS 1p",
-	weight: 700,
+	weight: 500,
 	style: "italic",
 	magnitude: 1.00,
 	offset: 0.00,

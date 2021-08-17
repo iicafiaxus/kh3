@@ -10,11 +10,12 @@ kh3.loadCheck = function(){ alert("このブラウザは動作対象外です。
 window.addEventListener("load", function(){ kh3.loadCheck(); });
 kh3.loadScript("kh3loadchecker.js");
 
+kh3.loadScript("kh3font.js");
 kh3.loadScript("kh3unit.js");
 kh3.loadScript("kh3rules.js");
 kh3.loadScript("kh3setting.js");
-
 kh3.loadScript("kh3hyphen.js");
+kh3.loadScript("kh3parser.js");
 
 // 設定項目 ※長さの単位はミクロン
 kh3.setting = {
