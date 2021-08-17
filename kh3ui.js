@@ -64,6 +64,15 @@ kh3ui.init = function(){
 	window.addEventListener("resize", kh3ui.resizeFileList);
 	window.addEventListener("keydown", kh3ui.handleKeys);
 	
+	// style要素を用意
+	for(name of ["kh3-screenmode", "kh3-scaling"]){
+		if( ! document.getElementById(name)){
+			let style = document.createElement("style");
+			style.id = name;
+			document.head.appendChild(style);
+		}
+	}
+
 	// ページ遷移制御 (戻るボタン)
 	kh3ui.hide = null;
 	kh3ui.pageStack = [];
@@ -130,7 +139,7 @@ kh3ui.showPreview = function(isBack = 0){
 	
 	document.getElementById("btnShowEditor").style.display = "inline";
 	document.getElementById("btnShowConfig").style.display = "inline";
-	document.getElementById("screenmode").innerHTML =
+	document.getElementById("kh3-screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #main{ display: block } }";
 	
 	kh3ui.refreshPreview();
@@ -193,7 +202,7 @@ kh3ui.showEditor = function(isBack = 0){
 	kh3ui.mode = "editor";
 	if(! isBack) history.pushState({}, "", "?editor");
 	
-	document.getElementById("screenmode").innerHTML =
+	document.getElementById("kh3-screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #src{ display: block } }";
 	
 	kh3ui.resizeEditor();
@@ -214,7 +223,7 @@ kh3ui.showConfig = function(isBack = 0){
 	kh3ui.mode = "config";
 	if(! isBack) history.pushState({}, "", "?config");
 	
-	document.getElementById("screenmode").innerHTML =
+	document.getElementById("kh3-screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #console{ display: block } }";
 	
 	kh3ui.redrawTitle();
@@ -234,7 +243,7 @@ kh3ui.showFile = function(isBack = 0){
 	kh3ui.mode = "file";
 	if(! isBack) history.pushState({}, "", "?file");
 	
-	document.getElementById("screenmode").innerHTML =
+	document.getElementById("kh3-screenmode").innerHTML =
 			"@media screen{ #src, #main, #console, #file { display: none } #file{ display: block } }";
 	
 	kh3ui.fileListReload();
@@ -684,7 +693,7 @@ kh3ui.redrawEditor = function(){
 // ------------------------------
 kh3ui.setScaling = function(){
 	kh3.setting.magnitude = kh3ui.scale;
-	document.getElementById("scaling").innerHTML = "@media print { div.all { transform: scale(" + (1 / kh3ui.scale) + "); transform-origin: left top } }";
+	document.getElementById("kh3-scaling").innerHTML = "@media print { div.all { transform: scale(" + (1 / kh3ui.scale) + "); transform-origin: left top } }";
 }
 
 // ------------------------------

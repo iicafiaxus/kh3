@@ -687,12 +687,12 @@ kh3.parrender = function(){
 kh3.resetFont = function(){
 	var size = this.setting.zh * this.setting.magnitude / 1000;
 	
-	if(! document.getElementById("fontfamily")){
+	if(! document.getElementById("kh3-fontfamily")){
 		var style = document.createElement("style");
-		style.id = "fontfamily";
+		style.id = "kh3-fontfamily";
 		document.head.appendChild(style);
 	}
-	document.getElementById("fontfamily").innerHTML = ".all{ font-family:" + '"' + this.setting.fontName + '"' + " }" + 
+	document.getElementById("kh3-fontfamily").innerHTML = ".all{ font-family:" + '"' + this.setting.fontName + '"' + " }" + 
 			"\n" + "span.char { font-weight: " + this.setting.fontWeight + " }" + 
 			"\n" + "span.ruby { font-weight: " + this.setting.rubyfontWeight + " }" + 
 			"\n" + "span.char { font-size: " + size + "mm; line-height: " + size + "mm }" +
