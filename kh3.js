@@ -17,6 +17,15 @@ kh3.loadScript("kh3setting.js");
 kh3.loadScript("kh3hyphen.js");
 kh3.loadScript("kh3parser.js");
 
+kh3.loadStyle = function(name){
+		var link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.href = name;
+		document.head.appendChild(link);
+};
+
+kh3.loadStyle("kh3.css");
+
 // 設定項目 ※長さの単位はミクロン
 kh3.setting = {
 	zh: 12 * 250,

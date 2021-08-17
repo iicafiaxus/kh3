@@ -1,14 +1,10 @@
 kh3ui = {};
 //alert("Loading kh3ui");
 
-kh3ui.loadScript = function(name){
-	var o = document.createElement("script");
-	o.src = name;
-	document.head.appendChild(o);
-};
+kh3.loadScript("kh3uifile.js");
+kh3.loadScript("kh3uiconfig.js");
 
-kh3ui.loadScript("kh3uifile.js");
-kh3ui.loadScript("kh3uiconfig.js");
+kh3.loadStyle("kh3ui.css");
 
 kh3ui.viewSetting = {};
 
