@@ -28,7 +28,7 @@ kh3.font.crimsontext = {
 }
 
 kh3.font.notoserif = {
-	url: "https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400",
+	url: "https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600",
 	name: "Noto Serif JP",
 	weight: 400,
 	style: "normal",
