@@ -247,6 +247,9 @@ kh3.font.load = function(fontName, index){
 	s += "\t" + "font-weight: " + font.weight + ";";
 	s += "\t" + "font-style: " + font.style + ";";
 	s += "}";
+	s += "span." + fontName + " .ruby {";
+	s += "\t" + "font-weight: " + (font.rubyweight || font.weight * 1.5) + ";";
+	s += "}";
 	style.innerHTML = s;
 	this.waitcount += 1;
 
@@ -287,6 +290,9 @@ kh3.font.reset = function(size, index){
 		s += "\t" + "font-weight: " + font.weight + ";";
 		s += "\t" + "font-style: " + font.style + ";";
 		s += "\t" + "font-size: " + (size * font.magnitude) + "mm;";
+		s += "}";
+		s += "span." + name + " .ruby {";
+		s += "\t" + "font-weight: " + (font.rubyweight || font.weight * 1.5) + ";";
 		s += "}";
 
 		s += "#allH ." + name + "{";
