@@ -25,6 +25,7 @@ kh3.loadStyle = function(name){
 };
 
 kh3.loadStyle("kh3.css");
+kh3.loadStyle("kh3font.css");
 
 // 設定項目 ※長さの単位はミクロン
 kh3.setting = {
