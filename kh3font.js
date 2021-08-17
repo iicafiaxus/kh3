@@ -233,10 +233,10 @@ kh3.font.load = function(fontName, index){
 	}
 	
 	var head = document.getElementsByTagName("head")[0];
-	var style = document.getElementById("font-" + fontName);
+	var style = document.getElementById("kh3-font-" + fontName);
 	if( ! style){
 		style = document.createElement("style");
-		style.id = "font-" + fontName;
+		style.id = "kh3-font-" + fontName;
 		head.appendChild(style);
 	}
 
@@ -276,7 +276,7 @@ kh3.font.reset = function(size, index){
 	for(var i = 0; i < this.names.length; i ++){
 		var name = this.names[i];
 		var font = this.sets[index][name];
-		var style = document.getElementById("font-" + name);
+		var style = document.getElementById("kh3-font-" + name);
 		if(! style) continue;
 		var s = "";
 		

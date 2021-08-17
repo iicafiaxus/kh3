@@ -692,12 +692,12 @@ kh3.resetFont = function(){
 		style.id = "kh3-fontfamily";
 		document.head.appendChild(style);
 	}
-	document.getElementById("kh3-fontfamily").innerHTML = ".all{ font-family:" + '"' + this.setting.fontName + '"' + " }" + 
-			"\n" + "span.char { font-weight: " + this.setting.fontWeight + " }" + 
-			"\n" + "span.ruby { font-weight: " + this.setting.rubyfontWeight + " }" + 
+	
+	document.getElementById("kh3-fontfamily").innerHTML =
+			".all{ font-family:" + '"' + this.setting.fontName + '"' + " }" + 
 			"\n" + "span.char { font-size: " + size + "mm; line-height: " + size + "mm }" +
 			"\n" + "span.ruby { font-size: " + (size / 2) + "mm; line-height: " + (size / 2) + "mm }";
-	// MEMO: この部分↑おそらく機能してないのでトルでよさそう
+	
 	
 	if(this.font && this.font.reset) this.font.reset(size, this.setting.fontsetIndex);
 }
