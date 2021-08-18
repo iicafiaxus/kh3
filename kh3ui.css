@@ -1,3 +1,26 @@
+html{
+	font-size: 2.5vmin;
+}
+html, body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+body{
+	background: #ccc;
+	overflow-y: scroll;
+}
+.allH{
+	left: 0;
+}
+.allV{
+	top: 0;
+	right: 0;
+}
+p{
+	margin: 0;
+}
+
 @media print{
 	.screen{
 		display: none!important;
