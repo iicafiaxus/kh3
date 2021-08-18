@@ -693,7 +693,7 @@ kh3ui.redrawEditor = function(){
 // ------------------------------
 kh3ui.setScaling = function(){
 	kh3.setting.magnitude = kh3ui.scale;
-	document.getElementById("kh3-scaling").innerHTML = "@media print { div.all { transform: scale(" + (1 / kh3ui.scale) + "); transform-origin: left top } }";
+	document.getElementById("kh3-scaling").innerHTML = "@media print { div.kh3-all { transform: scale(" + (1 / kh3ui.scale) + "); transform-origin: left top } }";
 }
 
 // ------------------------------

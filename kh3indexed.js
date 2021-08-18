@@ -111,10 +111,10 @@ kh3.Indexed.prototype.rotate = function(){
 		this.firstchar = this.mainunits[0].firstchar; 
 	}
 	for(u of this.mainunits){
-		u.span.className += " rotated";
+		u.span.className += " kh3-rotated";
 	}
 	for(u of this.indexunits){
-		u.span.className += " rotated";
+		u.span.className += " kh3-rotated";
 	}
 
 }

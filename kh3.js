@@ -88,10 +88,10 @@ kh3.render = function(divTarget, textAll, canSaveText){
 	this.clearPages(divTarget, diffLineNo);
 	
 	// 縦組み横組みを設定
-	divTarget.classList.remove("allH");
-	divTarget.classList.remove("allV");
-	if( kh3.setting.isVertical ) divTarget.classList.add("allV");
-	else divTarget.classList.add("allH");
+	divTarget.classList.remove("kh3-allH");
+	divTarget.classList.remove("kh3-allV");
+	if( kh3.setting.isVertical ) divTarget.classList.add("kh3-allV");
+	else divTarget.classList.add("kh3-allH");
 
 	// 進行中の組版があれば中止
 	if(this._render.timer){
@@ -176,10 +176,10 @@ kh3.rendermain = function(){
 // テスト用DOMを作成
 kh3.makeTestspan = function(){
 	this._render.testspan = document.createElement("span");
-	this._render.testspan.className = "char testspan";
+	this._render.testspan.className = "kh3-char kh3-testspan";
 	this._render.divFace.appendChild(this._render.testspan);
 	this._render.rubytestspan = document.createElement("span");
-	this._render.rubytestspan.className = "char ruby testspan";
+	this._render.rubytestspan.className = "kh3-char kh3-ruby kh3-testspan";
 	this._render.testspan.appendChild(this._render.rubytestspan);
 
 	// ピクセルとミクロンの換算単位を取得する
@@ -708,8 +708,8 @@ kh3.resetFont = function(){
 	
 	document.getElementById("kh3-fontfamily").innerHTML =
 			".all{ font-family:" + '"' + this.setting.fontName + '"' + " }" + 
-			"\n" + "span.char { font-size: " + size + "mm; line-height: " + size + "mm }" +
-			"\n" + "span.ruby { font-size: " + (size / 2) + "mm; line-height: " + (size / 2) + "mm }";
+			"\n" + "span.kh3-char { font-size: " + size + "mm; line-height: " + size + "mm }" +
+			"\n" + "span.kh3-ruby { font-size: " + (size / 2) + "mm; line-height: " + (size / 2) + "mm }";
 	
 	
 	if(this.font && this.font.reset) this.font.reset(size, this.setting.fontsetIndex);
@@ -726,7 +726,7 @@ kh3.getWidth = function(text, unit, zw, prefix){
 			span = this._render.rubytestspan;
 			this._render.testspan.appendChild(this._render.rubytestspan);
 		}
-		span.className += " " + prefix;
+		span.className += " kh3-" + prefix;
 		if(text.match(/[^\u3000-\u30ff\u4e00-\u9fcf\uff00-\uffef ]/)){
 			span.textContent = "|||" + displaytext + "|||";
 			var width;
@@ -739,7 +739,7 @@ kh3.getWidth = function(text, unit, zw, prefix){
 			var f = (/sub|sup/.test(prefix)? 0.7: 1.0); // とりあえず…
 			this._memoWidth[key] = text.length * zw * f;
 		}
-		span.className = span.className.replace(" " + prefix, "");
+		span.className = span.className.replace(" kh3-" + prefix, "");
 	}
 	var res = this._memoWidth[key];
 	if(! (res > 0)) this._memoWidth[key] = void 0;
@@ -913,7 +913,7 @@ kh3.newpage = function(){
 
 
 	this._render.divPaper = document.createElement("div");
-	this._render.divPaper.className = "paper";
+	this._render.divPaper.className = "kh3-paper";
 	this._render.divTarget.appendChild(this._render.divPaper);
 	this._render.paperWidth = this.setting.paperWidth;
 	this._render.paperHeight = this.setting.paperHeight;
@@ -922,11 +922,11 @@ kh3.newpage = function(){
 			this._render.paperWidth, this._render.paperHeight
 	);
 
-	let pageCount = document.getElementsByClassName("paper").length;
+	let pageCount = document.getElementsByClassName("kh3-paper").length;
 	this._render.isMirrored = this.setting.isMirroredWhenEven && pageCount % 2 == 0;
 	
 	this._render.divFace = document.createElement("div");
-	this._render.divFace.className = "face";
+	this._render.divFace.className = "kh3-face";
 	this._render.divPaper.appendChild(this._render.divFace);
 	this._render.pageWidth = this.setting.pageWidth;
 	this._render.pageHeight = this.setting.pageHeight;
@@ -954,7 +954,7 @@ kh3.makeNombre = function(){
 	if( ! kh3.setting.useNombre) return;
 	if( ! kh3._render.divPaper) return;
 
-	let pageCount = document.getElementsByClassName("paper").length;
+	let pageCount = document.getElementsByClassName("kh3-paper").length;
 	let text = "" + (pageCount + kh3.setting.nombreInitial - 1);
 
 	kh3.makeHead(text, {
@@ -967,7 +967,7 @@ kh3.makeNombre = function(){
 
 // 柱
 kh3.makeHeads = function(){
-	let pageCount = document.getElementsByClassName("paper").length;
+	let pageCount = document.getElementsByClassName("kh3-paper").length;
 	for(position in this._render.heads) kh3.makeHead(
 		this._render.heads[position][pageCount % 2],
 		{

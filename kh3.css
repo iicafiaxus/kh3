@@ -1,28 +1,28 @@
-.all p{
+.kh3-all p{
 	margin: 0;
 }
-div.paper{
+.kh3-paper{
 	position: relative;
 	background-color: #fff;
 	margin: 4mm auto;
 }
-div.face{
+.kh3-face{
 	position: absolute;
 }
-.allV div.paper{
+.kh3-allV .kh3-paper{
 	writing-mode: tb-rl;
 }
-.allV div.paper .rotated, .allV div.paper .horizontal{
+.kh3-allV .kh3-paper .kh3-rotated, .kh3-allV .kh3-paper .kh3-horizontal{
 	writing-mode: lr-tb;
 }
-span.char{
+span.kh3-char{
 	position: absolute;
 	width: auto;
 }
-span.ruby{
+span.kh3-ruby{
 	width: auto;
 }
-span.testspan{
+span.kh3-testspan{
 	background: #fff;
 	color: #eee;
 }

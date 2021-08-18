@@ -10,10 +10,10 @@ body{
 	background: #ccc;
 	overflow-y: scroll;
 }
-.allH{
+.kh3-allH{
 	left: 0;
 }
-.allV{
+.kh3-allV{
 	top: 0;
 	right: 0;
 }
@@ -28,7 +28,7 @@ p{
 	.print{
 		display: block!important;
 	}
-	div.paper{
+	.kh3-paper{
 		margin: 0mm;
 		page-break-inside: avoid;
 		page-break-after: always;
@@ -182,27 +182,27 @@ input.shortnumber{
 	#main{
 		top: 2em;
 	}
-	#main.flex .allH{
+	#main.flex .kh3-allH{
 		display: flex;
 		flex-flow: wrap;
 		flex-direction: row;
 	}
-	#main.flex .allV{
+	#main.flex .kh3-allV{
 		display: flex;
 		flex-flow: wrap;
 		flex-direction: row-reverse;
 	}
-	div.all{
+	div.kh3-all{
 		width: 100%;
 		margin: 8px 0;
 	}
-	#main.flex div.paper{
+	#main.flex div.kh3-paper{
 		margin: 4mm;
 	}
-	div.paper{
+	div.kh3-paper{
 		counter-increment: paper;
 	}
-	div.paper::after{
+	div.kh3-paper::after{
 		content: counter(paper);
 		font-size: 50%;
 		width: 2em;
@@ -300,11 +300,11 @@ input.shortnumber{
 	#main{
 		top: 2em;
 	}
-	div.all{
+	div.kh3-all{
 		width: 100%;
 		margin: 8px 0;
 	}
-	div.paper{
+	div.kh3-paper{
 		margin: 4mm auto;
 	}
 	footer{

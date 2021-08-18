@@ -242,12 +242,12 @@ kh3.font.load = function(fontName, index){
 
 	var s = "";
 	for(url of font.url.split(" ")) s += "@import url('" + url + "');";
-	s += "span." + fontName + "{";
+	s += "span.kh3-" + fontName + "{";
 	s += "\t" + "font-family: " + '"' + font.name + '"' + ", serif;";
 	s += "\t" + "font-weight: " + font.weight + ";";
 	s += "\t" + "font-style: " + font.style + ";";
 	s += "}";
-	s += "span." + fontName + " .ruby {";
+	s += "span.kh3-" + fontName + " .kh3-ruby {";
 	s += "\t" + "font-weight: " + (font.rubyweight || font.weight * 1.5) + ";";
 	s += "}";
 	style.innerHTML = s;
@@ -285,35 +285,35 @@ kh3.font.reset = function(size, index){
 		
 		for(url of font.url.split(" ")) s += "@import url('" + url + "');";
 		
-		s += "span." + name + "{";
+		s += "span.kh3-" + name + "{";
 		s += "\t" + "font-family: " + '"' + font.name + '"' + ", serif;";
 		s += "\t" + "font-weight: " + font.weight + ";";
 		s += "\t" + "font-style: " + font.style + ";";
 		s += "\t" + "font-size: " + (size * font.magnitude) + "mm;";
 		s += "}";
-		s += "span." + name + " .ruby {";
+		s += "span.kh3-" + name + " .kh3-ruby {";
 		s += "\t" + "font-weight: " + (font.rubyweight || font.weight * 1.5) + ";";
 		s += "}";
 
-		s += ".allH ." + name + "{";
+		s += ".kh3-allH .kh3-" + name + "{";
 		s += "\t" + "padding-top: " + (size * font.offset) + "mm;";
 		s += "}";
-		s += ".allV ." + name + ":not(.rotated){";
+		s += ".kh3-allV .kh3-" + name + ":not(.kh3-rotated){";
 		s += "\t" + "padding-right: " + (size * font.offset / 2) + "mm;";
 		s += "}";
-		s += ".allV ." + name + ".rotated{";
+		s += ".kh3-allV .kh3-" + name + ".kh3-rotated{";
 		s += "\t" + "padding-top: " + (size * font.offset / 2) + "mm;";
 		s += "}";
 		
-		s += "span." + name + ".sub, span." + name + ".sup{";
+		s += "span.kh3-" + name + ".kh3-sub, span.kh3-" + name + ".kh3-sup{";
 		s += "\t" + "font-size: " + (size * 0.6 * font.magnitude) + "mm;";
 		s += "}";
 		
-		s += "span." + name + ".small{";
+		s += "span.kh3-" + name + ".kh3-small{";
 		s += "\t" + "font-size: " + (size * 0.8 * font.magnitude) + "mm;";
 		s += "}";
 		
-		s += "span." + name + ".large{";
+		s += "span.kh3-" + name + ".kh3-large{";
 		s += "\t" + "font-size: " + (size * 1.2 * font.magnitude) + "mm;";
 		s += "}";
 		

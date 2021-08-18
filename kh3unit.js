@@ -75,11 +75,11 @@ kh3.Unit.prototype.makeDom = function(){
 	}
 	
 	var span = document.createElement("span");
-	span.className = "char";
+	span.className = "kh3-char";
 	
-	//if(this.fontset != "") span.className += " " + this.fontset;
-	if(this.font != "") span.className += " " + this.font;
-	if(this.pos != "") span.className += " " + this.pos;
+	//if(this.fontset != "") span.className += " kh3-" + this.fontset;
+	if(this.font != "") span.className += " kh3-" + this.font;
+	if(this.pos != "") span.className += " kh3-" + this.pos;
 	if(this.color != "") span.style.color = this.color;
 	
 	// グリフの置き換え(とりあえず)
@@ -94,7 +94,7 @@ kh3.Unit.prototype.makeDom = function(){
 	this.span = span;
 	if(this.ruby){
 		var rubyspan = document.createElement("span");
-		rubyspan.className = "char ruby";
+		rubyspan.className = "kh3-char kh3-ruby";
 		span.appendChild(rubyspan);
 		rubyspan.textContent = kh3.toDisplayText(this.ruby);
 		this.rubyspan = rubyspan;
@@ -124,12 +124,12 @@ kh3.Unit.prototype.rotate = function(){
 	this.offset += kh3.setting.zh * 0.025 / this.height; // フォント依存だがとりあえず
 	this.middle = this.height / 2;
 	this.lastchar = "漢", this.firstchar = "漢"; // 本当はこれではないがアキの処理ができていないのでとりあえず
-	this.span.className += " rotated";
+	this.span.className += " kh3-rotated";
 }
 
 kh3.Unit.prototype.forceHorizontal = function(){
 	if( ! kh3.setting.isVertical) return;
-	this.span.classList.add("horizontal");
+	this.span.classList.add("kh3-horizontal");
 	var h = this.height, w = this.width;
 	//this.height = w;
 	//this.width = h;
@@ -140,7 +140,7 @@ kh3.Unit.prototype.forceHorizontal = function(){
 }
 
 kh3.Unit.prototype.setSmall = function(){
-	this.span.classList.add("small");
+	this.span.classList.add("kh3-small");
 	this.width *= 0.8;
 	this.top += this.mid * 0.2;
 	this.mid *= 0.8;
@@ -148,7 +148,7 @@ kh3.Unit.prototype.setSmall = function(){
 }
 
 kh3.Unit.prototype.setLarge = function(){
-	this.span.classList.add("large");
+	this.span.classList.add("kh3-large");
 	this.width *= 1.2;
 	this.top -= this.mid * 0.2;
 	this.mid *= 1.2;
