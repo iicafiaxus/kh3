@@ -604,7 +604,7 @@ kh3ui.resizePreview = function(){
 
 	// 紙面の大きさ
 	// 自動延長されている可能性があるので高さは信用しない
-	var divs = document.getElementsByClassName("paper");
+	var divs = document.getElementsByClassName("kh3-paper");
 	if(! divs.length) return;
 	var pw = divs[0].getBoundingClientRect().width;
 	//var ph = divs[0].getBoundingClientRect().height;
