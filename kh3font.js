@@ -295,13 +295,13 @@ kh3.font.reset = function(size, index){
 		s += "\t" + "font-weight: " + (font.rubyweight || font.weight * 1.5) + ";";
 		s += "}";
 
-		s += "#allH ." + name + "{";
+		s += ".allH ." + name + "{";
 		s += "\t" + "padding-top: " + (size * font.offset) + "mm;";
 		s += "}";
-		s += "#allV ." + name + ":not(.rotated){";
+		s += ".allV ." + name + ":not(.rotated){";
 		s += "\t" + "padding-right: " + (size * font.offset / 2) + "mm;";
 		s += "}";
-		s += "#allV ." + name + ".rotated{";
+		s += ".allV ." + name + ".rotated{";
 		s += "\t" + "padding-top: " + (size * font.offset / 2) + "mm;";
 		s += "}";
 		

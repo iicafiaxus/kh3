@@ -13,10 +13,10 @@ body{
 p{
 	margin: 0;
 }
-#allH{
+.allH{
 	left: 0;
 }
-#allV{
+.allV{
 	top: 0;
 	right: 0;
 }
@@ -28,10 +28,10 @@ div.paper{
 div.face{
 	position: absolute;
 }
-#allV div.paper{
+.allV div.paper{
 	writing-mode: tb-rl;
 }
-#allV div.paper .rotated, #allV div.paper .horizontal{
+.allV div.paper .rotated, .allV div.paper .horizontal{
 	writing-mode: lr-tb;
 }
 span.char{

@@ -23,7 +23,7 @@ kh3ui.redraw = function(canSaveText = 1){
 		}, 100);
 	});
 	window.setTimeout(function(){
-		var divTarget = document.getElementById(kh3.setting.isVertical? "allV": "allH");
+		var divTarget = document.getElementById("all");
 		var textAll = document.getElementById("areaSource").value;
 		kh3.render(divTarget, textAll, this.canSaveText);
 	}.bind({canSaveText: canSaveText}), 10);
@@ -47,7 +47,7 @@ kh3ui.setProgressRatio = function(ratio){
 kh3ui.clearPages = function(){
 	kh3ui.readConfig();
 	window.setTimeout(function(){
-		var divTarget = document.getElementById(kh3.setting.isVertical? "allV": "allH");
+		var divTarget = document.getElementById("all");
 		kh3.clearPages(divTarget);
 	}, 10);
 }

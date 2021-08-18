@@ -80,6 +80,12 @@ kh3.render = function(divTarget, textAll, canSaveText){
 	// 既存のページを削除
 	this.clearPages(divTarget, diffLineNo);
 	
+	// 縦組み横組みを設定
+	divTarget.classList.remove("allH");
+	divTarget.classList.remove("allV");
+	if( kh3.setting.isVertical ) divTarget.classList.add("allV");
+	else divTarget.classList.add("allH");
+
 	// 進行中の組版があれば中止
 	if(this._render.timer){
 		window.clearTimeout(this._render.timer);

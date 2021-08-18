@@ -159,12 +159,12 @@ input.shortnumber{
 	#main{
 		top: 2em;
 	}
-	#main.flex #allH{
+	#main.flex .allH{
 		display: flex;
 		flex-flow: wrap;
 		flex-direction: row;
 	}
-	#main.flex #allV{
+	#main.flex .allV{
 		display: flex;
 		flex-flow: wrap;
 		flex-direction: row-reverse;
