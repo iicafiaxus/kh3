@@ -154,4 +154,7 @@ kh3.setSetting = function(val){
 	// 引用符の修正
 	kh3.setValue("correctQuotes", val("chkCorrectQuotes"));
 
+	// 表示倍率　※kh3uiの設定画面からは設定されない
+	kh3.setValue("magnitude", val("txtMagnitude"));
+
 }

@@ -173,9 +173,6 @@ input.shortnumber{
 		width: 100%;
 		margin: 8px 0;
 	}
-	div.paper{
-		margin: 4mm auto;
-	}
 	#main.flex div.paper{
 		margin: 4mm;
 	}
