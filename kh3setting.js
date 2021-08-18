@@ -6,6 +6,10 @@ kh3.setValue = function(name, value){
 }
 
 kh3.setSetting = function(val){
+	if(typeof val === "object") val = function(name){
+		return this[name];
+	}.bind(val);
+
 	// 書字方向
 	kh3.setValue("isVertical", val("chkIsVertical"));
 	
