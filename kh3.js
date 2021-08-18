@@ -1,8 +1,15 @@
 kh3 = {};
 
+kh3.path = document.currentScript.src;
+
+if(kh3.path.slice(kh3.path.length - 6) == "kh3.js"){
+	kh3.dirpath = kh3.path.slice(0, kh3.path.length - 6);
+}
+else kh3.dirpath = "./";
+
 kh3.loadScript = function(name){
 		var o = document.createElement("script");
-		o.src = name;
+		o.src = kh3.dirpath + name;
 		document.head.appendChild(o);
 };
 
@@ -20,7 +27,7 @@ kh3.loadScript("kh3parser.js");
 kh3.loadStyle = function(name){
 		var link = document.createElement("link");
 		link.rel = "stylesheet";
-		link.href = name;
+		link.href = kh3.dirpath + name;
 		document.head.appendChild(link);
 };
 
