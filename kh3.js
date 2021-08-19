@@ -34,6 +34,22 @@ kh3.loadStyle = function(name){
 kh3.loadStyle("kh3.css");
 kh3.loadStyle("kh3font.css");
 
+// パラメータが与えられている場合適用する
+window.addEventListener("load", function(){
+	if(kh3.param) kh3.setSetting(kh3.param);
+});
+
+// 置き換えがある場合その予約をする
+window.addEventListener("load", function(){
+	window.setTimeout(function(){
+		for(o of document.getElementsByClassName("kh3-autoreplace")){
+			let text = o.innerHTML;
+			o.innerHTML = "";
+			kh3.render(o, text);
+		}
+	}, 0);
+});
+
 // 設定項目 ※長さの単位はミクロン
 kh3.setting = {
 	zh: 12 * 250,
@@ -84,7 +100,23 @@ kh3.render = function(divTarget, textAll, canSaveText){
 	// 本当はdiffLineNo以降のみの更新にするのだがまだ作成中なので殺してる
 	diffLineNo = 0;
 
+	// 倍率の自動設定
+	if(kh3.setting.magnification == "fitwidth"){
+		let o = document.createElement("div");
+		divTarget.appendChild(o);
+		o.style.width = "100mm";
+		let micronInPixel = o.getBoundingClientRect().width / 100_000;
+		o.style.width = "100%";
+		let widthInPixel = o.getBoundingClientRect().width;
+		divTarget.removeChild(o);
+		let width = widthInPixel / micronInPixel;
+		kh3.setting.magnitude =  (width - 8000) / 
+			(kh3.setting.isVertical ? kh3.setting.paperHeight : kh3.setting.paperWidth);
+		console.log(o, micronInPixel, widthInPixel, width, kh3.setting.magnitude);
+	}
+
 	// 既存のページを削除
+	divTarget.innerHTML = "";
 	this.clearPages(divTarget, diffLineNo);
 	
 	// 縦組み横組みを設定
