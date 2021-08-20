@@ -112,7 +112,6 @@ kh3.render = function(divTarget, textAll, canSaveText){
 		let width = widthInPixel / micronInPixel;
 		kh3.setting.magnitude =  (width - 8000) / 
 			(kh3.setting.isVertical ? kh3.setting.paperHeight : kh3.setting.paperWidth);
-		console.log(o, micronInPixel, widthInPixel, width, kh3.setting.magnitude);
 	}
 
 	// 既存のページを削除
