@@ -102,7 +102,7 @@ kh3.Unit.prototype.makeDom = function(){
 	}
 	
 	// 採寸
-	this.width = kh3.getWidth(this.char, kh3._render.unit, kh3.setting.zw, this.font + " " + this.pos);
+	this.width = kh3.getWidth(this.char, kh3._render.unit, kh3.setting.zw, " kh3-" + this.font + " kh3-" + this.pos);
 	this.height = kh3.setting.zh;
 	this.offset = 0.0;
 	if(kh3.setting.isVertical && this.isAlphanumeric) this.offset += -0.05;
