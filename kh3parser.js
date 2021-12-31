@@ -210,6 +210,13 @@ kh3.parse = function(text){
 									o.unit.turnover();
 								}
 								break;
+							case "vector":
+							case "v":
+								o.command = "vector";
+								o.dim = (operands.length > 1? +operands[1]: 2);
+								o.unit = new kh3.VectorUnit(o.dim);
+								o.turn = 1;
+								break;
 							case "root":
 							case "rt":
 								o.command = "root";
@@ -221,6 +228,11 @@ kh3.parse = function(text){
 								o.command = "parens";
 								if(operands[0] == "(+") o.unit = new kh3.Parens("{", "}");
 								else o.unit = new kh3.Parens();
+								break;
+							case "space":
+								o.command = "space";
+								o.length = (isNumeric(operands[1])? +operands[i]: 1);
+								o.unit = new kh3.Spaceunit(o.length);
 								break;
 							default:
 								console.log("Unknown metacommand " + commandtext);
