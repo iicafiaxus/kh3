@@ -35,10 +35,10 @@ kh3.VectorUnit.prototype.close = function(){
 }
 
 kh3.VectorUnit.prototype.add = function(unit){
-	this.rows[this.rows.length - 1].push(unit);
+	this.rows[this.turn - 1].push(unit);
 }
 kh3.VectorUnit.prototype.remove = function(){
-	this.rows[this.rows.length - 1].pop();
+	return this.rows[this.turn - 1].pop();
 }
 
 kh3.VectorUnit.prototype.barspacing = kh3.setting.zh / 4;
