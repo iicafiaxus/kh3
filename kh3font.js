@@ -184,7 +184,7 @@ kh3.font.sets = {
 		numeric: kh3.font.notoserif,
 		italic: kh3.font.oldstandard,
 		italiccaps: kh3.font.oldstandard,
-		bold: kh3.font.notosandbold,
+		bold: kh3.font.notosansbold,
 		boldroman: kh3.font.tienne,
 		boldnumeric: kh3.font.tienne,
 		bolditalic: kh3.font.vollkornbolditalic,
