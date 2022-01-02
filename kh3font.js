@@ -49,6 +49,14 @@ kh3.font.geneikoburi = {
 	offset: 0.0,
 }
 
+kh3.font.shipporimincho = {
+	url: "https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600",
+	name: "Shippori Mincho",
+	weight: 400,
+	style: "normal",
+	magnitude: 1,
+	offset: 0.0,
+}
 
 kh3.font.oldstandard = {
 	url: [
@@ -180,8 +188,8 @@ kh3.font.sets = {
 	},
 	"standard1": {
 		main: kh3.font.notoserif,
-		roman: kh3.font.notoserif,
-		numeric: kh3.font.notoserif,
+		roman: kh3.font.shipporimincho,
+		numeric: kh3.font.shipporimincho,
 		italic: kh3.font.oldstandard,
 		italiccaps: kh3.font.oldstandard,
 		bold: kh3.font.notosansbold,
@@ -194,6 +202,18 @@ kh3.font.sets = {
 		main: kh3.font.geneikoburi,
 		roman: kh3.font.geneikoburi,
 		numeric: kh3.font.geneikoburi,
+		italic: kh3.font.oldstandard,
+		italiccaps: kh3.font.oldstandard,
+		bold: kh3.font.notosansbold,
+		boldroman: kh3.font.tienne,
+		boldnumeric: kh3.font.tienne,
+		bolditalic: kh3.font.vollkornbolditalic,
+		bolditaliccaps: kh3.font.vollkornbolditalic
+	},
+	"standard3": {
+		main: kh3.font.shipporimincho,
+		roman: kh3.font.shipporimincho,
+		numeric: kh3.font.shipporimincho,
 		italic: kh3.font.oldstandard,
 		italiccaps: kh3.font.oldstandard,
 		bold: kh3.font.notosansbold,
