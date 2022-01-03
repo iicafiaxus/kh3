@@ -58,6 +58,15 @@ kh3.font.shipporimincho = {
 	offset: 0.0,
 }
 
+kh3.font.shipporiantique = {
+	url: "https://fonts.googleapis.com/css2?family=Shippori+Antique:wght@400;600",
+	name: "Shippori Antique",
+	weight: 400,
+	style: "normal",
+	magnitude: 1,
+	offset: 0.0,
+}
+
 kh3.font.oldstandard = {
 	url: [
 		"https://fonts.googleapis.com/css?family=Old+Standard+TT:400i",
@@ -216,7 +225,7 @@ kh3.font.sets = {
 		numeric: kh3.font.shipporimincho,
 		italic: kh3.font.oldstandard,
 		italiccaps: kh3.font.oldstandard,
-		bold: kh3.font.notosansbold,
+		bold: kh3.font.shipporiantique,
 		boldroman: kh3.font.tienne,
 		boldnumeric: kh3.font.tienne,
 		bolditalic: kh3.font.vollkornbolditalic,
