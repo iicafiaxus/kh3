@@ -55,10 +55,12 @@ p{
 	top: 0;
 	left: 4px;
 	width: 20px;
-/*	font-size: 2vmin;*/
+	font-size: 2vmin;
+/*	font-size: 16px; */
 }
 #src textarea{
 /*	font-size: max(100%, 2vmin);*/
+	font-size: 16px;
 	width: 40em;
 	height: 20em;
 	position: fixed;
@@ -71,7 +73,7 @@ p{
 	text-align: center;
 }
 input, select, button{
-	font-size: 2.5vmin;
+	font-size: 16px;
 }
 #console form{
 	margin: 0 4em;
