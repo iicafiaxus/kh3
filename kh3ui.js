@@ -124,7 +124,7 @@ kh3ui.restoreTitle = function(){
 	else{
 		kh3ui.title = "無題のテキスト";
 	}
-	document.getElementById("txtTitle").value = kh3ui.title;
+	document.getElementById("title").textContent = kh3ui.title;
 	kh3ui.redrawTitle();
 }
 
@@ -573,16 +573,16 @@ kh3ui.resizeEditor = function(){
 	var header = document.getElementById("srcheader");
 
 	var pTitle = document.getElementById("pTitle");
-	var txtTitle = pTitle.getElementsByTagName("input")[0];
-	txtTitle.style.margin = "0";
-	txtTitle.style.top = (header.clientHeight) + 'px';
-	txtTitle.style.left = "0px";
-	txtTitle.style.width = "100%";
-	txtTitle.style.boxSizing = "border-box";
+	pTitle.style.margin = "0";
+	pTitle.style.top = (header.clientHeight + 2) + 'px';
+	pTitle.style.left = "2px";
+	pTitle.style.width = "auto";
+	pTitle.style.maxWidth = "calc(100% - 4px)";
+	pTitle.style.boxSizing = "border-box";
 
 	var areaSource = document.getElementById('areaSource');
-	areaSource.style.top = (header.clientHeight + txtTitle.clientHeight) + "px";
-	areaSource.style.height = (document.body.clientHeight - header.clientHeight - txtTitle.clientHeight) + "px";
+	areaSource.style.top = (header.clientHeight + 2 + pTitle.clientHeight + 2) + "px";
+	areaSource.style.height = (document.body.clientHeight - header.clientHeight - 2 - pTitle.clientHeight - 2) + "px";
 	areaSource.style.left = "0px";
 	areaSource.style.width = "100%";
 	areaSource.style.boxSizing = "border-box";
@@ -641,10 +641,24 @@ kh3ui.resizePreview = function(){
 
 
 // ------------------------------
+// タイトルを入力させる
+// ------------------------------
+kh3ui.inputTitle = function(){
+	let newTitle = prompt("タイトル：", kh3ui.title);
+	if(newTitle){
+		kh3ui.title = newTitle;
+		kh3ui.file.write(kh3ui.title, "title");
+		kh3ui.file.metawrite(kh3ui.title, "title", kh3ui.file.name);
+		kh3ui.redrawTitle();
+		kh3ui.resizeEditor();
+	}
+}
+
+// ------------------------------
 // 編集画面でタイトルの更新
 // ------------------------------
 kh3ui.saveTitle = function(){
-	kh3ui.title = document.getElementById("txtTitle").value;
+	kh3ui.title = document.getElementById("title").textContent;
 	kh3ui.file.write(kh3ui.title, "title");
 	kh3ui.file.metawrite(kh3ui.title, "title", kh3ui.file.name);
 	kh3ui.redrawTitle();
@@ -655,7 +669,7 @@ kh3ui.saveTitle = function(){
 // ------------------------------
 kh3ui.redrawTitle = function(){
 //	document.title = kh3ui.title;
-	document.getElementById("txtTitle").value = kh3ui.title;
+	document.getElementById("title").textContent = kh3ui.title;
 	
 	// title クラスの要素を書き換え
 	var os = document.getElementsByClassName("title");
