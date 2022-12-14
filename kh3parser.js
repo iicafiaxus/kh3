@@ -224,9 +224,11 @@ kh3.parse = function(text){
 								o.unit = new kh3.Rootunit(o.index);
 								break;
 							case "(+":
+							case "([":
 							case "(":
 								o.command = "parens";
 								if(operands[0] == "(+") o.unit = new kh3.Parens("{", "}");
+								else if(operands[0] == "([") o.unit = new kh3.Parens("[", "]");
 								else o.unit = new kh3.Parens();
 								break;
 							case "space":
