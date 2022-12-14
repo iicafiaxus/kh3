@@ -39,7 +39,7 @@ kh3.Bigunit.prototype.setSubpositions = function(){
 	this.unit.left = kh3.setting.zw * 0.25;
 	this.unit.top = 0;
 
-	this.width = this.unit.width;
+	this.width = this.unit.width + kh3.setting.zw * 0.25;
 	this.height = kh3.setting.zh * 2;
 	this.middle = kh3.setting.zh;
 }
@@ -54,7 +54,7 @@ kh3.Bigunit.prototype.setPosition = function(){
 	var widthscale = 1.0;
 
 	// 位置調整 (フォントに依存するのだが仮で)
-	var offset = kh3.setting.zh * 0.15;
+	var offset = kh3.setting.zh * 0.0;
 
 	// 配置
 	if(kh3.setting.isVertical){
