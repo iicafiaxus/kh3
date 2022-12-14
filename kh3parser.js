@@ -231,6 +231,10 @@ kh3.parse = function(text){
 								else if(operands[0] == "([") o.unit = new kh3.Parens("[", "]");
 								else o.unit = new kh3.Parens();
 								break;
+							case "big":
+								o.command = "big";
+								o.unit = new kh3.Bigunit(operands.length > 1? operands[1]: "");
+								break;
 							case "space":
 								o.command = "space";
 								o.length = (isNumeric(operands[1])? +operands[i]: 1);
