@@ -1,7 +1,7 @@
 // 大きい記号
 // kh3parensからコピーして作った
 kh3.Bigunit = function(char = ""){
-	kh3.Unit.call(this, char);
+	kh3.Unit.call(this, "");
 	this.unit = new kh3.Unit(char);
 }
 kh3.Bigunit.prototype = Object.create(kh3.Unit.prototype);
