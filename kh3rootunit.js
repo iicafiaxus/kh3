@@ -25,10 +25,14 @@ kh3.Rootunit.prototype.makeDom = function(){
 	this.span.appendChild(this.indexunit.span);
 
 	this.rootmark.color = this.color;
+	this.rootmark.pos = this.pos;
 	this.rootmark.makeDom();
 	this.span.appendChild(this.rootmark.span);
 
-	for(unit of this.units) unit.makeDom();
+	for(unit of this.units){
+		unit.pos = this.pos;
+		unit.makeDom();
+	}
 	for(unit of this.units) this.span.appendChild(unit.span);
 
 	this.setSubpositions();
@@ -55,11 +59,11 @@ kh3.Rootunit.prototype.barspacing = kh3.setting.zh / 8;
 
 kh3.Rootunit.prototype.setSubpositions = function(){
 	// 位置を反映
-	let rootmarkwidth = kh3.setting.zw * 3 / 4;
+	let rootmarkwidth = kh3.setting.zw * 3 / 4 * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
 	let rootpadding = kh3.setting.zw / 8;
 	this.innerwidth = 0;
-	this.innerheight = kh3.setting.zh;
-	this.innermiddle = kh3.setting.zh / 2;
+	this.innerheight = kh3.setting.zh * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
+	this.innermiddle = kh3.setting.zh / 2 * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
 
 	var left = kh3.setting.zw * -1 / 8;
 
@@ -143,7 +147,8 @@ kh3.Rootunit.prototype.setPosition = function(){
 	this.rule.width = kh3.setting.zw;
 	this.rule.height = kh3.setting.zh;
 	this.rule.left = this.rootmark.left + this.rootmark.width - kh3.setting.zw / 4;
-	this.rule.top = this.top - kh3.setting.zh / 2; // this.top - this.innermiddle - this.barspacing;
+	this.rule.top = this.top - kh3.setting.zh / 2 * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
+		// this.top - this.innermiddle - this.barspacing;
 	this.rule.height = kh3.setting.zh;
 	this.rule.setPosition();
 }
