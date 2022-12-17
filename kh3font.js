@@ -17,6 +17,55 @@ kh3.font.munsonroman = {
 	offset: 0.15,
 }
 
+kh3.font.cmuconcrete = {
+	url: "./fonts/CMU_Concrete.css",
+	name: "CMU Concrete",
+		/*
+		This font is licensed under the SIL Open Font License, Version 1.1
+		by 	http://pjmiller.deviantart.com/art/Munson-693769015
+		*/
+	weight: 400,
+	style: "normal",
+	magnitude: 2.4,
+	offset: 0.1,
+}
+kh3.font.cmuconcreteitalic = {
+	url: "./fonts/CMU_Concrete.css",
+	name: "CMU Concrete",
+		/*
+		This font is licensed under the SIL Open Font License, Version 1.1
+		by 	http://pjmiller.deviantart.com/art/Munson-693769015
+		*/
+	weight: 400,
+	style: "italic",
+	magnitude: 2.4,
+	offset: 0.1,
+}
+kh3.font.cmuconcretebold = {
+	url: "./fonts/CMU_Concrete.css",
+	name: "CMU Concrete",
+		/*
+		This font is licensed under the SIL Open Font License, Version 1.1
+		by 	http://pjmiller.deviantart.com/art/Munson-693769015
+		*/
+	weight: 700,
+	style: "normal",
+	magnitude: 2.4,
+	offset: 0.1,
+}
+kh3.font.cmuconcretebolditalic = {
+	url: "./fonts/CMU_Concrete.css",
+	name: "CMU Concrete",
+		/*
+		This font is licensed under the SIL Open Font License, Version 1.1
+		by 	http://pjmiller.deviantart.com/art/Munson-693769015
+		*/
+	weight: 700,
+	style: "italic",
+	magnitude: 2.4,
+	offset: 0.1,
+}
+
 
 kh3.font.crimsontext = {
 	url: "https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap",
@@ -195,6 +244,18 @@ kh3.font.sets = {
 		bolditalic: kh3.font.bolditalic,
 		bolditaliccaps: kh3.font.bolditalic
 	},
+	"cmu-concrete": {
+		main: kh3.font.main,
+		roman: kh3.font.cmuconcrete,
+		numeric: kh3.font.cmuconcrete,
+		italic: kh3.font.cmuconcreteitalic,
+		italiccaps: kh3.font.cmuconcreteitalic,
+		bold: kh3.font.bold,
+		boldroman: kh3.font.cmuconcretebold,
+		boldnumeric: kh3.font.cmuconcretebold,
+		bolditalic: kh3.font.cmuconcretebolditalic,
+		bolditaliccaps: kh3.font.cmuconcretebolditalic
+	},
 	"standard1": {
 		main: kh3.font.notoserif,
 		roman: kh3.font.shipporimincho,
@@ -335,15 +396,15 @@ kh3.font.reset = function(size, index){
 		s += "}";
 		
 		s += "span.kh3-" + name + ".kh3-sub, span.kh3-" + name + ".kh3-sup{";
-		s += "\t" + "font-size: " + (size * 0.6 * font.magnitude) + "mm;";
+		s += "\t" + "font-size: " + (size * 0.6/* * font.magnitude*/) + "mm;";
 		s += "}";
 		
 		s += "span.kh3-" + name + ".kh3-small{";
-		s += "\t" + "font-size: " + (size * 0.8 * font.magnitude) + "mm;";
+		s += "\t" + "font-size: " + (size * 0.8 /* * font.magnitude*/) + "mm;";
 		s += "}";
 		
 		s += "span.kh3-" + name + ".kh3-large{";
-		s += "\t" + "font-size: " + (size * 1.2 * font.magnitude) + "mm;";
+		s += "\t" + "font-size: " + (size * 1.2 /* * font.magnitude*/) + "mm;";
 		s += "}";
 		
 		
