@@ -55,12 +55,12 @@ kh3.Rootunit.prototype.remove = function(){
 	return this.units.pop();
 }
 
-kh3.Rootunit.prototype.barspacing = kh3.setting.zh / 8;
+kh3.Rootunit.prototype.barspacing = kh3.setting.zh / 8 * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
 
 kh3.Rootunit.prototype.setSubpositions = function(){
 	// 位置を反映
-	let rootmarkwidth = kh3.setting.zw * 3 / 4 * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
-	let rootpadding = kh3.setting.zw / 8;
+	let rootmarkwidth = this.rootmark.width; // フォント依存
+	let rootpadding = kh3.setting.zw / 8 * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
 	this.innerwidth = 0;
 	this.innerheight = kh3.setting.zh * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
 	this.innermiddle = kh3.setting.zh / 2 * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
@@ -77,7 +77,7 @@ kh3.Rootunit.prototype.setSubpositions = function(){
 	this.rootmark.top = 0;
 	left += rootmarkwidth;
 	
-	left += rootpadding;
+	left += rootpadding + kh3.setting.zw * 3 / 8 * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
 	let innerleft = left;
 	var lastunit;
 	for(unit of this.units){
@@ -134,7 +134,7 @@ kh3.Rootunit.prototype.setPosition = function(){
 	this.rootmark.setPosition();
 	
 	// 根号線を配置
-	var rulescale = (this.width - (this.rootmark.left - this.left) - this.rootmark.width + kh3.setting.zw / 4) / kh3.setting.zw;
+	var rulescale = (this.width - (this.rootmark.left - this.left) - this.rootmark.width + 0 * kh3.setting.zw / 4) / (kh3.setting.zw * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1));
 	rulescale /= kh3.font.sets[kh3.setting.fontsetIndex || "default"][this.font || "main"].magnitude;
 	if(kh3.setting.isVertical){
 		this.rule.span.style.transform = "scale(1.0, " + rulescale + ")";
@@ -146,7 +146,7 @@ kh3.Rootunit.prototype.setPosition = function(){
 	}
 	this.rule.width = kh3.setting.zw;
 	this.rule.height = kh3.setting.zh;
-	this.rule.left = this.rootmark.left + this.rootmark.width - kh3.setting.zw / 4;
+	this.rule.left = this.rootmark.left + this.rootmark.width + kh3.setting.zw / 8;
 	this.rule.top = this.top - kh3.setting.zh / 2 * ((this.pos == "sub" || this.pos == "sup")? 0.6: 1);
 		// this.top - this.innermiddle - this.barspacing;
 	this.rule.height = kh3.setting.zh;
