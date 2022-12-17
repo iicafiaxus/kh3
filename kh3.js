@@ -747,6 +747,7 @@ kh3.resetFont = function(){
 }
 // 幅(micron)を取得
 kh3._memoWidth = {};
+kh3._memoWidthZero = {};
 kh3.getWidth = function(text, unit, zw, prefix){
 	let displaytext = kh3.toDisplayText(text);
 	var key = prefix + "|" + displaytext;
@@ -757,29 +758,39 @@ kh3.getWidth = function(text, unit, zw, prefix){
 			span = this._render.rubytestspan;
 			this._render.testspan.appendChild(this._render.rubytestspan);
 		}
-		span.className += " kh3-" + prefix;
+		var className = "kh3-" + prefix;
+		if( ! kh3._memoWidthZero[prefix]){
+			var width = kh3.getWidthRaw("M M M", span, className) - 
+				kh3.getWidthRaw("M", span, className);
+			this._memoWidthZero[prefix] = width / unit * zw;
+		}
 		if(text.match(/[^\u3000-\u30ff\u4e00-\u9fcf\uff00-\uffef ]/)){
-			span.textContent = "|||" + displaytext + "|||";
-			var width;
-			if(this.setting.isVertical) width = span.getBoundingClientRect().height / unit * zw;
-			else width = span.getBoundingClientRect().width / unit * zw;
-			if(text == "|||") this._memoWidth[key] = width / 3;
-			else this._memoWidth[key] = width - 2 * this.getWidth("|||", unit, zw, prefix)
+			this._memoWidth[key] = kh3.getWidthRaw(text, span, className) / unit * zw - 
+				kh3._memoWidthZero[prefix];
 		}
 		else{
 			var f = (/sub|sup/.test(prefix)? 0.7: 1.0); // とりあえず…
 			this._memoWidth[key] = text.length * zw * f;
 		}
-		span.className = span.className.replace(" kh3-" + prefix, "");
 	}
 	var res = this._memoWidth[key];
 	if(! (res > 0)) this._memoWidth[key] = void 0;
 	return res;
 };
+kh3.getWidthRaw = function(text, span, classNames){
+	for(var name of classNames.split(" ")) if(name) span.classList.add(name);
+	span.textContent = "M " + text + " M";
+	var width;
+	if(this.setting.isVertical) width = span.getBoundingClientRect().height;
+	else width = span.getBoundingClientRect().width;
+	for(var name of classNames.split(" ")) if(name) span.classList.remove(name);
+	return width;
+}
 
 // 幅のメモを消去
 kh3.clearMemoWidth = function(){
 	this._memoWidth = {};
+	this._memoWidthZero = {};
 }
 
 // オブジェクトの位置を設定（横書き用）
