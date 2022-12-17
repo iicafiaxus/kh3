@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'CMU Concrete';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(cmunorm.woff) format('woff');
+}
+@font-face {
+  font-family: 'CMU Concrete';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url(cmunobx.woff) format('woff');
+}
+@font-face {
+  font-family: 'CMU Concrete';
+  font-style: italic;
+  font-weight: 400;
+  font-display: block;
+  src: url(cmunoti.woff) format('woff');
+}
+@font-face {
+  font-family: 'CMU Concrete';
+  font-style: italic;
+  font-weight: 700;
+  font-display: block;
+  src: url(cmunobi.woff) format('woff');
+}
+/*
+This font is licensed under the SIL Open Font License, Version 1.1
+by 	http://pjmiller.deviantart.com/art/Munson-693769015
+*/
